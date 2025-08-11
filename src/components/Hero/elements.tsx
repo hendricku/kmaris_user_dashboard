@@ -3,7 +3,6 @@
 import styled from "@emotion/styled";
 import { breakpoints } from "@/theme/breakpoints";
 import { palette } from "@/theme/palette";
-import { typography } from "@/theme/typography";
 
 export const HeroSection = styled("section")({
   width: "100%",

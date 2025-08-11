@@ -12,7 +12,7 @@ export default function EmotionRegistry({ children }: { children: React.ReactNod
 
     const prevInsert = cache.insert;
     let insertedNames: string[] = [];
-    cache.insert = (...args: any[]) => {
+    cache.insert = (...args: [string, { name: string }, boolean?, string?]) => {
       const serialized = args[1];
       if (cache.inserted[serialized.name] === undefined) {
         insertedNames.push(serialized.name);

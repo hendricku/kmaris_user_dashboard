@@ -23,7 +23,7 @@ export const HeadingRoot = styled("h1")<{
     maxWidth: $maxWidth ?? "none",
   } as const;
 
-  const variants: Record<string, any> = {
+  const variants: Record<string, object> = {
     hero: {
       fontWeight: typography.weight.extrabold,
       lineHeight: 1.1,
@@ -57,9 +57,9 @@ export const HeadingRoot = styled("h1")<{
   };
 
   // Ensure the explicit color prop always wins over variant defaults
-  const style = { ...base, ...(variants[$variant] || {}) } as any;
+  const style = { ...base, ...(variants[$variant] || {}) } as object;
   if ($color) {
-    style.color = $color;
+    (style as any).color = $color;
   }
   return style;
 });

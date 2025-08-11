@@ -36,7 +36,7 @@ export const Page: React.FC = () => {
         <ul>
           <li>
             Use a higher-level connected component. Storybook helps you compose such data from the
-            "args" of child component stories
+            &ldquo;args&rdquo; of child component stories
           </li>
           <li>
             Assemble data in the page component from your services. You can mock these services out
@@ -53,6 +53,12 @@ export const Page: React.FC = () => {
             docs
           </a>
           .
+        </p>
+        <p>
+          Check out the <a href="https://storybook.js.org/docs">docs</a> to learn more about the tools and technologies that make this project possible.
+        </p>
+        <p>
+          Have a question? Join the <a href="https://discord.gg/storybook">Discord</a> to chat with the maintainers and other developers.
         </p>
         <div className="tip-wrapper">
           <span className="tip">Tip</span> Adjust the width of the canvas with the{' '}

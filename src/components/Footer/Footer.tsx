@@ -17,10 +17,10 @@ export function Footer({
     "Texas 78731, United States",
   ],
   socials = [
-    { icon: <FacebookIcon />, href: "#" },
-    { icon: <InstagramIcon />, href: "#" },
-    { icon: <TwitterIcon />, href: "#" },
-    { icon: <LinkedInIcon />, href: "#" },
+    { icon: <FacebookIcon />, href: "#", name: "Facebook" },
+    { icon: <InstagramIcon />, href: "#", name: "Instagram" },
+    { icon: <TwitterIcon />, href: "#", name: "Twitter" },
+    { icon: <LinkedInIcon />, href: "#", name: "LinkedIn" },
   ],
   groups = [
     {

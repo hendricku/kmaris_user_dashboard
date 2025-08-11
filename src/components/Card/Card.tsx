@@ -7,7 +7,7 @@ import { CardRoot } from "./elements";
 export function Card({ as = "a", href, children, padding = 16, elevation = "md", clickable = true, className }: CardProps) {
   return (
     <CardRoot
-      as={as as any}
+      as={as as "a" | "div"}
       href={as === "a" ? href : undefined}
       $padding={padding}
       $elevation={elevation}

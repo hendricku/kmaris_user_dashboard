@@ -6,6 +6,7 @@ export type FooterLink = {
   export type SocialLink = {
     icon: React.ReactNode;
     href: string;
+    name: string;
   };
   
   export type FooterGroup = {

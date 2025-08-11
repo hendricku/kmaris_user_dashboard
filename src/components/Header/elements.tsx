@@ -19,11 +19,11 @@ export const HeaderRoot = styled("header")({
   flexDirection: "column",
   alignItems: "center",
   gap: 8,
-  ["--header-total-height" as any]: "116px",
+  ["--header-total-height" as string]: "116px",
   [`@media (min-width:${breakpoints.md}px)`]: {
     paddingLeft: 0,
     paddingRight: 0,
-    ["--header-total-height" as any]: "116px",
+    ["--header-total-height" as string]: "116px",
   },
 });
 

@@ -9,13 +9,11 @@ import {
   CardInner,
   Avatar,
   Text,
-  MetaRow,
   NameRole,
   Name,
   Role,
-
+  Rating,
   Subheading,
- 
   StarsRow,
   MetaCol,
 } from "./elements";
