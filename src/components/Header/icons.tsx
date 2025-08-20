@@ -21,35 +21,7 @@ export const StyledAccountIcon = styled(AccountCircleOutlinedIcon)({
   fontSize: 24,
 });
 
-// Reusable style mixins
-const flexCenter = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const iconButtonBase = css`
-  position: relative;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  transition: all 200ms ease;
-  color: ${palette.textDark};
-
-  &:hover {
-    color: ${palette.primary};
-    background-color: rgba(221, 28, 35, 0.08);
-  }
-
-  &:active {
-    transform: translateY(1px);
-  }
-
-  &:focus-visible {
-    outline: 2px solid ${palette.primary};
-    outline-offset: 2px;
-  }
-`;
+// Common styles will be applied to specific components
 
 // Icon Container Components
 export const IconRow = styled("div")({
@@ -58,7 +30,7 @@ export const IconRow = styled("div")({
   gap: 12,
   marginLeft: 'auto',
   
-  "@media (max-width: ${breakpoints.md}px)": {
+  [`@media (max-width: ${breakpoints.md}px)`]: {
     gap: 8,
   }
 });
@@ -93,12 +65,12 @@ export const IconButton = styled("button")({
     outlineOffset: 2,
   },
 
-  "@media (max-width: ${breakpoints.md}px)": {
+  [`@media (max-width: ${breakpoints.md}px)`]: {
     width: 36,
     height: 36,
   },
 
-  "@media (max-width: ${breakpoints.sm}px)": {
+  [`@media (max-width: ${breakpoints.sm}px)`]: {
     width: 32,
     height: 32,
   }

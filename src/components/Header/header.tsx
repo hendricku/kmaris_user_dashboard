@@ -22,7 +22,9 @@ import {
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useRouter } from 'next/navigation';
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { styled } from '@mui/system';
 
 const defaultLeft = [
@@ -165,9 +167,15 @@ export function Header({
 
  
         <LogoWrap>
-          <a href="/" aria-label="KMARIS Home">
-            <LogoImg src={logoSrc} alt="KMARIS" />
-          </a>
+                    <Link href="/" aria-label="KMARIS Home">
+            <Image
+              src="/Logo.png"
+              alt="KMARIS Logo"
+              width={100}
+              height={50}
+              priority
+            />
+          </Link>
         </LogoWrap>
 
         <RightContent>
