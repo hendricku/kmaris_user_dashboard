@@ -1,11 +1,14 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
-const nextConfig: NextConfig = {
+const config: NextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
   output: 'standalone',
   typescript: {
-    // Set this to false if you want to ensure stricter type checking
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: false
   }
 };
+
+export default config;
 
 export default nextConfig;
