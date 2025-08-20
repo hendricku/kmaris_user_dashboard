@@ -6,11 +6,16 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
 import Image from "next/image";
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 
-export default function AdminHeader() {
+interface AdminHeaderProps {
+  onMenuToggle: () => void;
+}
+
+export default function AdminHeader({ onMenuToggle }: AdminHeaderProps) {
   const router = useRouter();
 
   const handleLogout = () => {
@@ -38,6 +43,9 @@ export default function AdminHeader() {
   return (
     <S.Header>
       <S.HeaderLeft>
+        <S.MenuButton onClick={onMenuToggle}>
+          <MenuIcon />
+        </S.MenuButton>
         <Image 
           src="/whitelogo.png" 
           alt="Logo" 

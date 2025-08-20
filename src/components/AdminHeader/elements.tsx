@@ -3,6 +3,24 @@
 import styled from "@emotion/styled";
 import { palette } from "@/theme/palette";
 
+export const MenuButton = styled.button`
+  background: none;
+  border: none;
+  color: ${palette.textDark};
+  padding: 8px;
+  cursor: pointer;
+  margin-right: 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+`;
+
 export const Header = styled.header`
   display: flex;
   justify-content: space-between;
@@ -54,7 +72,7 @@ export const Badge = styled.span`
   position: absolute;
   top: 0;
   right: 0;
-  background: ${palette.danger};
+  background: ${palette.primary};
   color: white;
   font-size: 12px;
   font-weight: 600;
@@ -98,7 +116,7 @@ export const LogoutButton = styled.button`
   &:hover {
     background: #f8f9fa;
     border-color: #dee2e6;
-    color: ${palette.danger};
+    color: ${palette.primary};
   }
 
   svg {
