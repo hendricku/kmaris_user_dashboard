@@ -2,10 +2,7 @@
 
 import React from "react";
 import { HeadingRoot } from "./elements";
-import { HeadingProps } from "./interface";
-
-// Define HeadingTag type for h1-h6 tags
-type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+import { HeadingProps, HeadingTag } from "./interface";
 
 export function Heading({
   level = 2,
@@ -23,7 +20,7 @@ export function Heading({
 
   return (
     <HeadingRoot
-      as={Tag} // FIX: Changed 'asTag' to 'Tag' to match the variable name
+      as={Tag}
       $variant={variant}
       $color={color}
       $uppercase={uppercase}

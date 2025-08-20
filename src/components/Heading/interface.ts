@@ -7,7 +7,6 @@ export type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 export type HeadingVariant = "hero" | "section" | "card" | "group";
 
 // Defines the allowed text alignment options
-// FIX: This type is now created and exported.
 export type HeadingAlign = "left" | "center" | "right";
 
 // Defines all the props the Heading component can accept
@@ -23,7 +22,7 @@ export interface HeadingProps {
   /** If true, transforms the text to uppercase */
   uppercase?: boolean;
   /** Text alignment */
-  align?: HeadingAlign; // Use the exported type here
+  align?: HeadingAlign;
   /** Maximum width of the heading element */
   maxWidth?: number | string;
   /** Bottom margin in pixels */
