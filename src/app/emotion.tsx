@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { CacheProvider } from "@emotion/react";
+import { CacheProvider, SerializedStyles } from "@emotion/react";
 import createCache from "@emotion/cache";
 import { useServerInsertedHTML } from "next/navigation";
 
@@ -12,12 +12,11 @@ export default function EmotionRegistry({ children }: { children: React.ReactNod
 
     const prevInsert = cache.insert;
     let insertedNames: string[] = [];
-    cache.insert = (...args: [string, { name: string }, boolean?, string?]) => {
-      const serialized = args[1];
+    cache.insert = (selector: string, serialized: SerializedStyles, sheet: any, shouldCache: boolean) => {
       if (cache.inserted[serialized.name] === undefined) {
         insertedNames.push(serialized.name);
       }
-      return prevInsert(...args);
+      return prevInsert(selector, serialized, sheet, shouldCache);
     };
     // @ts-expect-error attach a flush method for server insertion
     cache.flush = () => {
