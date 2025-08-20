@@ -4,64 +4,98 @@ import styled from "@emotion/styled";
 import { breakpoints } from "@/theme/breakpoints";
 import { palette } from "@/theme/palette";
 import { typography } from "@/theme/typography";
+import { HeadingVariant, HeadingAlign } from "./interface"; // Assuming these types are correctly defined in interface.ts
 
-export const HeadingRoot = styled("h1")<{
-  $variant: "hero" | "section" | "card" | "group";
+// Interface for the props that style the component
+interface StyledHeadingProps {
+  $variant: HeadingVariant;
   $color?: string;
   $uppercase?: boolean;
-  $align?: "left" | "center" | "right";
+  $align?: HeadingAlign;
   $maxWidth?: number | string;
   $marginBottom?: number;
-}>({
-  margin: 0,
-  fontFamily: typography.fontFamily,
-}, props => {
-  const base = {
-    color: props.$color || palette.textDark,
-    textTransform: props.$uppercase ? "uppercase" : "none",
-    textAlign: props.$align || "left",
-    marginBottom: props.$marginBottom ?? 0,
-    maxWidth: props.$maxWidth ?? "none",
-  };
+}
 
-  const variants = {
-    hero: {
-      fontWeight: typography.weight.extrabold,
-      lineHeight: 1.1,
-      fontSize: 28,
-      [`@media (min-width:${breakpoints.sm}px)`]: { fontSize: 36 },
-      [`@media (min-width:${breakpoints.md}px)`]: { fontSize: 48 },
-      [`@media (min-width:${breakpoints.lg}px)`]: { fontSize: 56 },
-    },
-    section: {
-      color: palette.navy,
-      fontWeight: typography.weight.extrabold,
-      lineHeight: 1.15,
-      fontSize: 36,
-      [`@media (min-width:${breakpoints.md}px)`]: { fontSize: 40 },
-    },
-    card: {
-      fontWeight: typography.weight.extrabold,
-      lineHeight: 1.25,
-      letterSpacing: 0.4,
-      fontSize: 18,
-      [`@media (min-width:${breakpoints.md}px)`]: { fontSize: 24 },
-      textTransform: "uppercase",
-    },
-    group: {
-      fontWeight: 600,
-      letterSpacing: 0.8,
-      textTransform: "uppercase",
-      fontSize: 16,
-      opacity: 0.95,
-    },
-  };
+// A single, clean definition for the HeadingRoot styled component
+export const HeadingRoot = styled.div<StyledHeadingProps>`
+  /* --- BASE STYLES --- */
+  margin: 0;
+  font-family: ${typography.fontFamily};
+  color: ${({ $color }) => $color || palette.textDark};
+  text-align: ${({ $align }) => $align || 'left'};
+  text-transform: ${({ $uppercase }) => ($uppercase ? 'uppercase' : 'none')};
 
-  return {
-    ...base,
-    ...variants[props.$variant],
-    ...(props.$color ? { color: props.$color } : {}),
-  };
-});
+  /* --- DYNAMIC STYLES BASED ON PROPS --- */
+  max-width: ${({ $maxWidth }) => {
+    if (typeof $maxWidth === 'number') {
+      return `${$maxWidth}px`;
+    }
+    return $maxWidth || 'none';
+  }};
 
+  margin-bottom: ${({ $marginBottom }) =>
+    $marginBottom ? `${$marginBottom}px` : '0'};
 
+  /* --- VARIANT-SPECIFIC STYLES --- */
+  ${({ $variant }) => {
+    // Base styles for each variant on mobile
+    const baseVariantStyles = {
+      hero: `
+        font-size: 28px;
+        font-weight: ${typography.weight.extrabold};
+        line-height: 1.1;
+      `,
+      section: `
+        font-size: 36px;
+        font-weight: ${typography.weight.extrabold};
+        line-height: 1.15;
+        color: ${palette.navy};
+      `,
+      card: `
+        font-size: 18px;
+        font-weight: ${typography.weight.extrabold};
+        line-height: 1.25;
+        letter-spacing: 0.4px;
+      `,
+      group: `
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.5;
+        letter-spacing: 0.8px;
+        opacity: 0.95;
+      `,
+    };
+
+    // Responsive styles that apply on larger screens
+    const responsiveStyles = {
+      hero: `
+        @media (min-width: ${breakpoints.sm}px) {
+          font-size: 36px;
+        }
+        @media (min-width: ${breakpoints.md}px) {
+          font-size: 48px;
+        }
+        @media (min-width: ${breakpoints.lg}px) {
+          font-size: 56px;
+        }
+      `,
+      section: `
+        @media (min-width: ${breakpoints.md}px) {
+          font-size: 40px;
+        }
+      `,
+      card: `
+        @media (min-width: ${breakpoints.md}px) {
+          font-size: 24px;
+        }
+      `,
+      group: '', // No responsive overrides for group
+    };
+
+    // Combine and return the CSS string for the selected variant
+    return `
+      ${baseVariantStyles[$variant] || ''}
+      ${responsiveStyles[$variant] || ''}
+    `;
+  }}
+`;

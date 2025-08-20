@@ -1,41 +1,29 @@
 "use client";
 
 import React from "react";
-import { HeadingProps } from "./interface";
 import { HeadingRoot } from "./elements";
+import { HeadingProps } from "./interface";
+
+// Define HeadingTag type for h1-h6 tags
+type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 export function Heading({
   level = 2,
   variant = "section",
   color,
-  uppercase,
+  uppercase = false,
   align = "left",
   maxWidth,
   marginBottom,
   children,
 }: HeadingProps) {
-  const asTag = ((): keyof JSX.IntrinsicElements => {
-    switch (level) {
-      case 1:
-        return "h1";
-      case 2:
-        return "h2";
-      case 3:
-        return "h3";
-      case 4:
-        return "h4";
-      case 5:
-        return "h5";
-      case 6:
-        return "h6";
-      default:
-        return "h2";
-    }
-  })();
+  // Ensure the level is within the valid range of 1-6 for h1-h6 tags.
+  const sanitizedLevel = Math.min(Math.max(level, 1), 6);
+  const Tag = `h${sanitizedLevel}` as HeadingTag;
 
   return (
     <HeadingRoot
-      as={asTag}
+      as={Tag} // FIX: Changed 'asTag' to 'Tag' to match the variable name
       $variant={variant}
       $color={color}
       $uppercase={uppercase}
@@ -49,5 +37,3 @@ export function Heading({
 }
 
 export default Heading;
-
-
