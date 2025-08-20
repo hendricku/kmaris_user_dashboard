@@ -6,6 +6,7 @@ import { palette } from "@/theme/palette";
 import { typography } from "@/theme/typography";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 // Icons
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -170,7 +171,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => 
       
       {isOpen && (
         <Logo>
-          <img src="/whitelogo.png" alt="KMARIS" width={120} />
+          <Image src="/whitelogo.png" alt="KMARIS" width={120} height={40} />
         </Logo>
       )}
       

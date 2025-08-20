@@ -34,7 +34,7 @@ export function Services({
           </HeaderRow>
         )}
         <Grid>
-          {(hideHeader ? items : items.slice(0, 4)).map((item, index) => (
+          {(hideHeader ? items : items.slice(0, 4)).map((item) => (
             <Card key={item.id} href={item.href || "#"} padding={0} className="stagger-item card-hover">
               <ThumbWrap>
                 <Thumb src={item.imageSrc} alt={item.title} className="hover-scale" />
