@@ -1,6 +1,6 @@
 import type React from "react";
 
-export type CardElevation = "sm" | "md" | "lg";
+export type CardElevation = "none" | "sm" | "md";
 
 export interface CardProps {
   as?: "div" | "a";
