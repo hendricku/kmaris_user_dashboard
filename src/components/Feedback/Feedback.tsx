@@ -12,7 +12,6 @@ import {
   NameRole,
   Name,
   Role,
-  Rating,
   Subheading,
   StarsRow,
   MetaCol,
