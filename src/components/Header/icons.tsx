@@ -1,7 +1,6 @@
 "use client";
 
 import styled from "@emotion/styled";
-import { css } from "@emotion/react";
 import { palette } from "@/theme/palette";
 import { breakpoints } from "@/theme/breakpoints";
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';

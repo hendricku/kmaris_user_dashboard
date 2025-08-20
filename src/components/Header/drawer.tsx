@@ -3,7 +3,6 @@
 import styled from "@emotion/styled";
 import CloseIcon from '@mui/icons-material/Close';
 import { palette } from "@/theme/palette";
-import { breakpoints } from "@/theme/breakpoints";
 import { typography } from "@/theme/typography";
 
 

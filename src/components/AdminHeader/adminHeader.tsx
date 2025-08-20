@@ -10,8 +10,6 @@ import Image from "next/image";
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 
-interface AdminHeaderProps {}
-
 export default function AdminHeader() {
   const router = useRouter();
 

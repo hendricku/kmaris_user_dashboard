@@ -1,7 +1,6 @@
 "use client";
 
 import styled from "@emotion/styled";
-import { breakpoints } from "@/theme/breakpoints";
 import { palette } from "@/theme/palette"; 
 
 export const Brand = styled("div")({

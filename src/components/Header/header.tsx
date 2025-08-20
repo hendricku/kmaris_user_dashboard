@@ -4,7 +4,7 @@ import React from "react";
 import { HeaderProps } from "./interface";
 import { usePathname } from 'next/navigation';
 
-import { HeaderRoot, Bar, Nav, LogoWrap, LogoImg, LinkItem, AddressBar, RightContent } from "./base";
+import { HeaderRoot, Bar, Nav, LogoWrap, LinkItem, AddressBar, RightContent } from "./base";
 import { MobileOnly, DesktopOnly } from "./responsive";
 import { IconRow, IconButton, StyledSearchIcon, StyledCartIcon, StyledAccountIcon, CartBadge } from './icons';
 import { 
@@ -80,22 +80,18 @@ const MenuItem = styled("a")({
 export function Header({
   leftLinks = defaultLeft,
   rightLinks = defaultRight,
-  logoSrc = "/logo.png",
   cartCount = 2,
   onSearchClick,
   onCartClick,
-  onProfileClick,
   onMenuClick,
 }: HeaderProps) {
   const pathname = usePathname();
-  
-
-  if (pathname === '/Login' || pathname === '/signup' || pathname ==='/admin') return null;
-
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  if (pathname === '/Login' || pathname === '/signup' || pathname ==='/admin') return null;
   
   const toggleDrawer = () => {
     setDrawerOpen((v) => !v);
