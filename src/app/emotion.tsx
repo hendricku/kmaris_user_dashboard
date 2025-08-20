@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { CacheProvider, SerializedStyles } from "@emotion/react";
 import createCache from "@emotion/cache";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type StyleSheet = any;
 import { useServerInsertedHTML } from "next/navigation";
 
 export default function EmotionRegistry({ children }: { children: React.ReactNode }) {
@@ -12,7 +14,7 @@ export default function EmotionRegistry({ children }: { children: React.ReactNod
 
     const prevInsert = cache.insert;
     let insertedNames: string[] = [];
-    cache.insert = (selector: string, serialized: SerializedStyles, sheet: any, shouldCache: boolean) => {
+    cache.insert = (selector: string, serialized: SerializedStyles, sheet: StyleSheet, shouldCache: boolean) => {
       if (cache.inserted[serialized.name] === undefined) {
         insertedNames.push(serialized.name);
       }
