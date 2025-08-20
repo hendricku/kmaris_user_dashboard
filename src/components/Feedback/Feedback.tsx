@@ -25,7 +25,7 @@ export function Feedback({ items }: FeedbackProps) {
     <Section>
       <Container>
         <Subheading>CUSTOMER FEEDBACKS</Subheading>
-        <Heading level={2} variant="section" color="#ffffff" align="center" marginBottom={56}>
+        <Heading level={3} variant="section" color="#ffffff" align="center" marginBottom={56}>
           SEE WHAT OUR CLIENTS HAVE TO SAY
         </Heading>
         <Grid>
@@ -59,7 +59,7 @@ const defaultItems = [
     id: 1,
     name: "KUMAN TUNMAN",
     role: "LOREM IPSUM",
-    avatarSrc: "/blackk.png",
+    avatarSrc: "/blackk.webp",
     rating: 5,
     text:
       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.",
@@ -68,7 +68,7 @@ const defaultItems = [
     id: 2,
     name: "MADISON OLIVIA",
     role: "LOREM IPSUM",
-    avatarSrc: "/red.png",
+    avatarSrc: "/red.webp",
     rating: 4,
     text:
       "sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",

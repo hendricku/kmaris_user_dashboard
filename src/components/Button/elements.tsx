@@ -30,8 +30,8 @@ export const ButtonRoot = styled("a")<{
     textDecoration: "none",
     fontWeight: 600,
     letterSpacing: 0.2,
-    transition: "background 120ms ease",
-    boxShadow: "none !important",
+    transition: "all 200ms cubic-bezier(0.4, 0, 0.2, 1)",
+    boxShadow: "0 2px 8px rgba(221,28,35,0.2)",
     filter: "none",
     textShadow: "none",
     cursor: "pointer",
@@ -40,7 +40,19 @@ export const ButtonRoot = styled("a")<{
     padding,
     fontSize: t.fontSize,
     minHeight: t.minHeight,
-    // Responsive min-width for long buttons
+    position: "relative",
+    overflow: "hidden",
+    "&::before": {
+      content: '""',
+      position: "absolute",
+      top: 0,
+      left: -100,
+      width: "100%",
+      height: "100%",
+      background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+      transition: "left 0.5s ease",
+    },
+
     ...(long && {
       minWidth: size === 'small' ? 140 : size === 'medium' ? 160 : 180,
       [`@media (min-width:${breakpoints.sm}px)`]: {
@@ -50,8 +62,31 @@ export const ButtonRoot = styled("a")<{
         minWidth: size === 'small' ? 160 : size === 'medium' ? 180 : 200,
       },
     }),
-    ":hover": { background: "#c5181e" },
-    ":focus-visible": { outline: `2px solid ${palette.white}`, outlineOffset: 2 },
+    ":hover": { 
+      background: "#c5181e",
+      transform: "translateY(-2px)",
+      boxShadow: "0 4px 16px rgba(221,28,35,0.3)",
+    },
+    ":hover::before": {
+      left: "100%",
+    },
+    ":active": {
+      transform: "translateY(0)",
+      boxShadow: "0 2px 8px rgba(221,28,35,0.2)",
+    },
+    ":focus-visible": { 
+      outline: `2px solid ${palette.white}`, 
+      outlineOffset: 2,
+      boxShadow: "0 0 0 4px rgba(221,28,35,0.2)",
+    },
+ 
+    [`@media (max-width:${breakpoints.sm - 1}px)`]: {
+      fontSize: size === 'small' ? 12 : size === 'medium' ? 13 : 14,
+      minHeight: size === 'small' ? 32 : size === 'medium' ? 38 : 44,
+      padding: variant === 'compact' 
+        ? `${Math.max(compactPad - 2, 6)}px ${Math.max(compactPad - 2, 6)}px`
+        : `${Math.max(t.padY - 2, 8)}px ${Math.max(t.padX - 4, 12)}px`,
+    },
   };
 });
 
@@ -61,6 +96,10 @@ export const Arrow = styled("span")({
   fontSize: "inherit",
   fontWeight: "inherit",
   lineHeight: 1,
+  transition: "transform 200ms cubic-bezier(0.4, 0, 0.2, 1)",
+  "&:hover": {
+    transform: "translateX(2px)",
+  },
 });
 
 

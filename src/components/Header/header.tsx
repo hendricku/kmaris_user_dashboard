@@ -2,20 +2,33 @@
 
 import React from "react";
 import { HeaderProps } from "./interface";
-import { HeaderRoot, Bar, Nav, LogoWrap, LogoImg, LinkItem, IconRow, IconButton, CartBadge, AddressBar, RightContent, MobileOnly, DesktopOnly, MobileDrawerOverlay, MobileDrawerPanel, DrawerHeader, DrawerHeaderBrand, DrawerHeaderLogo, DrawerNav, DrawerLink, DrawerDivider, DrawerCloseButton } from "./elements";
+import { usePathname } from 'next/navigation';
+
+import { HeaderRoot, Bar, Nav, LogoWrap, LogoImg, LinkItem, AddressBar, RightContent } from "./base";
+import { MobileOnly, DesktopOnly } from "./responsive";
+import { IconRow, IconButton, StyledSearchIcon, StyledCartIcon, StyledAccountIcon, CartBadge } from './icons';
+import { 
+  MobileDrawerOverlay, 
+  MobileDrawerPanel, 
+  DrawerClose, 
+  DrawerCloseButton,
+  MobileDrawerHeader,
+  DrawerLogo,
+  DrawerNav,
+  DrawerLink,
+  DrawerDivider
+} from './drawer';
 
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
-import SearchIcon from "@mui/icons-material/Search";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useRouter } from 'next/navigation';
+import { styled } from '@mui/system';
 
 const defaultLeft = [
-  { label: "Home", href: "#" },
+  { label: "Home", href: "/" },
   { label: "About Us", href: "#" },
-  { label: "All Forms", href: "#" },
-
+  { label: "All Forms", href: "/All_forms" },
 ];
 
 const defaultRight = [
@@ -23,6 +36,44 @@ const defaultRight = [
   { label: "Immigration News", href: "#" },
   { label: "Videos", href: "#" },
 ];
+
+const ProfileMenu = styled("div")({
+  position: "relative",
+  display: "inline-block",
+});
+
+const DropdownContent = styled("div", {
+  shouldForwardProp: (prop) => prop !== 'isOpen'
+})<{ isOpen: boolean }>(({ isOpen }) => ({
+  position: "absolute",
+  right: 0,
+  top: "calc(100% + 8px)",
+  background: "white",
+  minWidth: "180px",
+  boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+  borderRadius: "4px",
+  padding: "8px 0",
+  opacity: isOpen ? 1 : 0,
+  visibility: isOpen ? "visible" : "hidden",
+  transform: isOpen ? "translateY(0)" : "translateY(-8px)",
+  transition: "all 200ms ease",
+  zIndex: 1000,
+}));
+
+const MenuItem = styled("a")({
+  display: "flex",
+  alignItems: "center",
+  padding: "12px 16px",
+  color: "#333",
+  fontSize: "14px",
+  textDecoration: "none",
+  transition: "background 200ms ease",
+  cursor: "pointer",
+
+  "&:hover": {
+    background: "#f5f5f5",
+  },
+});
 
 export function Header({
   leftLinks = defaultLeft,
@@ -34,14 +85,65 @@ export function Header({
   onProfileClick,
   onMenuClick,
 }: HeaderProps) {
+  const pathname = usePathname();
+  
+
+  if (pathname === '/Login' || pathname === '/signup' || pathname ==='/admin') return null;
+
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const toggleDrawer = () => setDrawerOpen((v) => !v);
-  const closeDrawer = () => setDrawerOpen(false);
+  const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  
+  const toggleDrawer = () => {
+    setDrawerOpen((v) => !v);
+  };
+  
+  const closeDrawer = () => {
+    setDrawerOpen(false);
+  };
+
+  React.useEffect(() => {
+    if (drawerOpen) {
+      document.body.classList.add('mobile-menu-open');
+    } else {
+      document.body.classList.remove('mobile-menu-open');
+    }
+
+    return () => {
+      document.body.classList.remove('mobile-menu-open');
+    };
+  }, [drawerOpen]);
+
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleProfileClick = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const navigateToLogin = () => {
+    router.push('/Login'); 
+    setDropdownOpen(false);
+  };
+
   return (
     <HeaderRoot>
       <AddressBar>
-        <LocationOnRoundedIcon fontSize="small" />
-        5900 Balcones Dr, Austin Texas 78731, United States
+        <LocationOnRoundedIcon />
+        <span style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "4px" }}>
+          5900 Balcones Dr, Austin,
+          <span style={{ whiteSpace: "nowrap" }}>Texas 78731,</span>
+          <span style={{ whiteSpace: "nowrap" }}>United States</span>
+        </span>
       </AddressBar>
 
       <Bar>
@@ -63,7 +165,7 @@ export function Header({
 
  
         <LogoWrap>
-          <a href="#" aria-label="KMARIS Home">
+          <a href="/" aria-label="KMARIS Home">
             <LogoImg src={logoSrc} alt="KMARIS" />
           </a>
         </LogoWrap>
@@ -79,16 +181,22 @@ export function Header({
             </Nav>
           </DesktopOnly>
           <IconRow>
-            <IconButton aria-label="Search" onClick={onSearchClick}>
-              <SearchIcon />
+            <IconButton onClick={onSearchClick}>
+              <StyledSearchIcon />
             </IconButton>
-            <IconButton aria-label="Cart" onClick={onCartClick}>
-              <ShoppingCartOutlinedIcon />
+            <IconButton onClick={onCartClick}>
+              <StyledCartIcon />
               {cartCount > 0 && <CartBadge>{cartCount}</CartBadge>}
             </IconButton>
-            <IconButton aria-label="Profile" onClick={onProfileClick}>
-              <AccountCircleOutlinedIcon />
-            </IconButton>
+            <ProfileMenu ref={dropdownRef}>
+              <IconButton onClick={handleProfileClick}>
+                <StyledAccountIcon />
+              </IconButton>
+              <DropdownContent isOpen={dropdownOpen}>
+                <MenuItem onClick={navigateToLogin}>Sign In</MenuItem>
+                <MenuItem onClick={() => router.push('/signup')}>Create Account</MenuItem>
+              </DropdownContent>
+            </ProfileMenu>
           </IconRow>
         </RightContent>
       </Bar>
@@ -96,15 +204,13 @@ export function Header({
 
       <MobileDrawerOverlay open={drawerOpen} onClick={closeDrawer} />
       <MobileDrawerPanel open={drawerOpen}>
-        <DrawerHeader>
-          <DrawerHeaderBrand>
-            <DrawerHeaderLogo src={"/whitelogo.png"} alt="KMARIS" />
-          </DrawerHeaderBrand>
-          <DrawerCloseButton aria-label="Close" onClick={closeDrawer}>
-            <CloseRoundedIcon />
+        <MobileDrawerHeader>
+          <DrawerLogo src="/whitelogo.png" alt="Logo" />
+          <DrawerCloseButton onClick={closeDrawer}>
+            <DrawerClose />
           </DrawerCloseButton>
-        </DrawerHeader>
-
+        </MobileDrawerHeader>
+        
         <DrawerNav>
           {leftLinks.map((item) => (
             <DrawerLink key={`m-left-${item.label}`} href={item.href} onClick={closeDrawer}>

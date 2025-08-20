@@ -19,7 +19,7 @@ export const Default: Story = {
       {
         id: 1,
         title: "PETITION FOR MARRIED SON/DAUGHTER",
-        imageSrc: "/petition.png",
+        imageSrc: "/petition.webp",
       },
     ],
   },

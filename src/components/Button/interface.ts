@@ -6,6 +6,7 @@ export interface AppButtonProps {
   variant?: 'default' | 'compact';
   withArrow?: boolean;
   long?: boolean;
+  className?: string;
 }
 
 

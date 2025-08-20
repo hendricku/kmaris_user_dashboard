@@ -9,8 +9,7 @@ export const Section = styled("section")({
   width: "100%",
   background: palette.white,
   padding: "48px 16px",
-  [`@media (min-width:${breakpoints.sm}px)`]: { padding: "56px 24px" },
-  [`@media (min-width:${breakpoints.lg}px)`]: { padding: "64px 64px" },
+  position: "relative",
 });
 
 export const Container = styled("div")({
@@ -23,13 +22,17 @@ export const HeaderRow = styled("div")({
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-start",
-  gap: 16,
-  marginBottom: 24,
+  gap: 20,
+  marginBottom: 32,
   [`@media (min-width:${breakpoints.md}px)`]: { 
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 28 
+    marginBottom: 40,
+    gap: 24,
+  },
+  [`@media (min-width:${breakpoints.lg}px)`]: { 
+    marginBottom: 48,
   },
 });
 
@@ -37,94 +40,164 @@ export const HeaderRow = styled("div")({
 export const Title = styled("h2")({
   fontFamily: typography.fontFamily,
   color: palette.navy,
-  fontSize: 36,
+  fontSize: "clamp(28px, 4vw, 40px)",
   lineHeight: 1.15,
   fontWeight: typography.weight.extrabold,
   maxWidth: 560,
-  [`@media (min-width:${breakpoints.md}px)`]: { fontSize: 40 },
+  letterSpacing: "-0.02em",
+  [`@media (min-width:${breakpoints.md}px)`]: { 
+    fontSize: "clamp(32px, 3.5vw, 44px)",
+  },
 });
 
-// export const CTA = styled("a")({
-//   display: "inline-flex",
-//   alignItems: "center",
-//   justifyContent: "center",
-//   background: palette.primary,
-//   color: palette.white,
-//   textDecoration: "none",
-//   height: 40,
-//   padding: "0 16px",
-//   borderRadius: 8,
-//   fontWeight: typography.weight.medium,
-//   letterSpacing: 0.2,
-//   transition: "background 120ms ease",
-//   ":hover": { background: "#595959ff" },
-// });
 
 export const Grid = styled("div")({
   display: "grid",
   gridTemplateColumns: "1fr",
-  gap: 18,
+  gap: 20,
   alignItems: "stretch",
   [`@media (min-width:${breakpoints.sm}px)`]: {
-    gridTemplateColumns: "1fr 1fr",
-    gap: 20,
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gap: 24,
+  },
+  [`@media (min-width:${breakpoints.md}px)`]: {
+    gap: 28,
   },
   [`@media (min-width:${breakpoints.lg}px)`]: {
     gridTemplateColumns: "repeat(4, 1fr)",
-    gap: 24,
+    gap: 32,
+  },
+  [`@media (min-width:${breakpoints.xl}px)`]: {
+    gap: 36,
   },
 });
 
-// Deprecated: use shared Card component instead
+
 export const Card = styled("a")({
   display: "flex",
   flexDirection: "column",
   height: "100%",
   textDecoration: "none",
   background: palette.white,
-  borderRadius: 12,
-  boxShadow: "0 12px 28px rgba(16,24,40,0.10), 0 2px 6px rgba(16,24,40,0.06)",
+  borderRadius: 16,
+  boxShadow: "0 4px 12px rgba(16,24,40,0.08), 0 2px 4px rgba(16,24,40,0.04)",
+  transition: "all 300ms cubic-bezier(0.4, 0, 0.2, 1)",
+  overflow: "hidden",
+  position: "relative",
+  "&:hover": {
+    transform: "translateY(-4px)",
+    boxShadow: "0 12px 32px rgba(16,24,40,0.12), 0 4px 8px rgba(16,24,40,0.08)",
+  },
+  "&:focus-visible": {
+    outline: `2px solid ${palette.primary}`,
+    outlineOffset: 2,
+  },
 });
 
 export const ThumbWrap = styled("div")({
-  padding: "18px 18px 0 18px",
+  padding: "20px 20px 0 20px",
+  position: "relative",
+  overflow: "hidden",
+  // [`@media (min-width:${breakpoints.md}px)`]: {
+  //   padding: "24px 24px 0 24px",
+  // },
+  // [`@media (min-width:${breakpoints.lg}px)`]: {
+  //   padding: "28px 28px 0 28px",
+  // },
 });
 
 export const Thumb = styled("img")({
   width: "100%",
-  height: 250,
+  height: 220,
   objectFit: "cover",
   objectPosition: "center",
-  borderRadius: 0,
-  [`@media (min-width:${breakpoints.md}px)`]: { height: 276 },
+  borderRadius: 12,
+  transition: "transform 300ms cubic-bezier(0.4, 0, 0.2, 1)",
+  // [`@media (min-width:${breakpoints.sm}px)`]: { 
+  //   height: 240,
+  // },
+  // [`@media (min-width:${breakpoints.md}px)`]: { 
+  //   height: 260,
+  // },
+  // [`@media (min-width:${breakpoints.lg}px)`]: { 
+  //   height: 280,
+  // },
+  "&:hover": {
+    transform: "scale(1.05)",
+  },
 });
 
 export const CardBody = styled("div")({
-  padding: "16px 18px 18px 18px",
+  padding: "20px 20px 24px 20px",
   display: "flex",
   flexDirection: "column",
-  gap: 12,
+  gap: 16,
   flex: 1,
+  [`@media (min-width:${breakpoints.md}px)`]: {
+    padding: "24px 24px 28px 24px",
+    gap: 18,
+  },
+  [`@media (min-width:${breakpoints.lg}px)`]: {
+    padding: "28px 28px 32px 28px",
+    gap: 20,
+  },
 });
 
-// Deprecated: use shared Heading component instead
+
 export const CardTitle = styled("h3")({
   fontFamily: typography.fontFamily,
   color: palette.textDark,
-  fontSize: 18,
-  lineHeight: 1.25,
+  fontSize: "clamp(16px, 2.5vw, 20px)",
+  lineHeight: 1.3,
   fontWeight: typography.weight.extrabold,
   textTransform: "uppercase",
   letterSpacing: 0.4,
-  [`@media (min-width:${breakpoints.md}px)`]: { fontSize: 24 },
+  margin: 0,
+  [`@media (min-width:${breakpoints.md}px)`]: { 
+    fontSize: "clamp(18px, 2vw, 22px)",
+  },
+  [`@media (min-width:${breakpoints.lg}px)`]: { 
+    fontSize: "clamp(20px, 1.8vw, 24px)",
+  },
 });
 
 export const ButtonRow = styled("div")({
   marginTop: "auto",
   display: "flex",
   justifyContent: "flex-start",
+  width: "100%", 
   [`@media (min-width:${breakpoints.md}px)`]: {
     justifyContent: "flex-start",
+  },
+});
+
+
+export const ServiceButton = styled("div")({
+  width: "100%",
+  "& .app-button": {
+    width: "100%",
+    padding: "16px",
+    fontSize: "15px",
+    fontWeight: 600,
+    borderRadius: "4px",
+    backgroundColor: palette.primary,
+    color: palette.white,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    transition: "all 200ms ease",
+    textTransform: "uppercase", 
+    letterSpacing: "0.5px", 
+
+    "&:hover": {
+      backgroundColor: "#c5181e",
+      transform: "translateY(-1px)",
+    },
+
+    "& .arrow": {
+      marginLeft: "8px",
+      fontSize: "18px", 
+    },
   },
 });
 
@@ -141,6 +214,11 @@ export const ReadMore = styled("span")({
   padding: "0 16px",
   fontSize: 13,
   fontWeight: typography.weight.bold,
+  transition: "all 200ms cubic-bezier(0.4, 0, 0.2, 1)",
+  "&:hover": {
+    background: "#c5181e",
+    transform: "translateY(-1px)",
+  },
 });
 
 export const ReadMoreArrow = styled("span")({
@@ -149,6 +227,7 @@ export const ReadMoreArrow = styled("span")({
   height: 16,
   borderRadius: 999,
   position: "relative",
+  transition: "transform 200ms ease",
   "&::after": {
     content: '"→"',
     position: "absolute",
@@ -159,6 +238,9 @@ export const ReadMoreArrow = styled("span")({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+  },
+  "&:hover": {
+    transform: "translateX(2px)",
   },
 });
 

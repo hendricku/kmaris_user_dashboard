@@ -1,10 +1,9 @@
 export const palette = {
   navy: "#002542",
   white: "#FFFFFF",
-  textDark: "#0B1B28",
-  muted: "#5D6B76",
-  accent: "#E7A39B",
   primary: "#DD1C23",
+  textDark: "#1A1A1A",
+  border: "#E5E5E5",
 } as const;
 
 export type Palette = typeof palette;

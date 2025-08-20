@@ -12,18 +12,19 @@ export const HeadingRoot = styled("h1")<{
   $align?: "left" | "center" | "right";
   $maxWidth?: number | string;
   $marginBottom?: number;
-}>(({ $variant, $color, $uppercase, $align, $maxWidth, $marginBottom }) => {
+}>({
+  margin: 0,
+  fontFamily: typography.fontFamily,
+}, props => {
   const base = {
-    margin: 0,
-    color: $color || palette.textDark,
-    textTransform: $uppercase ? "uppercase" : "none",
-    textAlign: $align || "left",
-    fontFamily: typography.fontFamily,
-    marginBottom: $marginBottom ?? 0,
-    maxWidth: $maxWidth ?? "none",
-  } as const;
+    color: props.$color || palette.textDark,
+    textTransform: props.$uppercase ? "uppercase" : "none",
+    textAlign: props.$align || "left",
+    marginBottom: props.$marginBottom ?? 0,
+    maxWidth: props.$maxWidth ?? "none",
+  };
 
-  const variants: Record<string, object> = {
+  const variants = {
     hero: {
       fontWeight: typography.weight.extrabold,
       lineHeight: 1.1,
@@ -56,12 +57,11 @@ export const HeadingRoot = styled("h1")<{
     },
   };
 
-  // Ensure the explicit color prop always wins over variant defaults
-  const style = { ...base, ...(variants[$variant] || {}) } as object;
-  if ($color) {
-    (style as any).color = $color;
-  }
-  return style;
+  return {
+    ...base,
+    ...variants[props.$variant],
+    ...(props.$color ? { color: props.$color } : {}),
+  };
 });
 
 

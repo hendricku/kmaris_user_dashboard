@@ -2,7 +2,17 @@
 
 import React from "react";
 import { FooterProps } from "./interface";
-import * as S from "./elements";
+
+import { FooterRoot, Top, Bottom, BottomInner, BottomLinks } from "./base";
+import { Brand, Logo, Divider, Address, Socials, SocialLinkItem } from "./brand";
+import { Group, GroupTitle, LinkList, LinkItem } from "./navigation";
+import {
+  Newsletter,
+  NewsletterDescription,
+  NewsletterForm,
+  NewsletterInput,
+  NewsletterButton
+} from "./newsletter";
 
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -15,20 +25,20 @@ export function Footer({
   addressLines = [
     "5900 Balcones Dr, Austin",
     "Texas 78731, United States",
-  ],
+  ], 
   socials = [
     { icon: <FacebookIcon />, href: "#", name: "Facebook" },
     { icon: <InstagramIcon />, href: "#", name: "Instagram" },
     { icon: <TwitterIcon />, href: "#", name: "Twitter" },
     { icon: <LinkedInIcon />, href: "#", name: "LinkedIn" },
   ],
-  groups = [
+  groups = [ 
     {
       title: "Links",
       links: [
         { label: "Home", href: "#" },
         { label: "About Us", href: "#" },
-        { label: "All Forms", href: "#" },
+        { label: "All Forms", href: "/All_forms" },
         { label: "Filing Services", href: "#" },
         { label: "Immigration News", href: "#" },
         { label: "Contact", href: "#" },
@@ -43,7 +53,7 @@ export function Footer({
   },
   bottomNote = (
     <>
-      Designed & Developed by {" "}
+      Designed & Developed by{" "}
       <a href="http://bynddigital.co/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline" }}>
         BYND Digital
       </a>
@@ -55,72 +65,74 @@ export function Footer({
   ],
 }: FooterProps) {
   return (
-    <S.FooterRoot>
-      <S.Top>
-        {/* Column 1: Brand Info */}
-        <S.Brand>
-          <S.Logo src={logoSrc} alt="KMARIS" />
-          <S.Divider />
-          <S.Address>
-            {addressLines.map((line) => (
-              <div key={line}>{line}</div>
+    <FooterRoot>
+      <Top>
+        <Brand>
+          <Logo src={logoSrc} alt="KMARIS" />
+          <Divider />
+          <Address>
+            {addressLines.map((line, i) => (
+              <div key={`${line}-${i}`}>{line}</div>
             ))}
-          </S.Address>
-          <S.Socials>
-            {socials.map((s) => (
-              <S.SocialLinkItem
-                key={s.href}
+          </Address>
+          <Socials>
+            {socials.map((s, i) => (
+              <SocialLinkItem
+                key={`${s.name}-${i}`}
                 href={s.href}
                 className={s.name}
                 aria-label={`Follow us on ${s.name}`}
               >
-                  {s.icon}
-              </S.SocialLinkItem>
+                {s.icon}
+              </SocialLinkItem>
             ))}
-          </S.Socials>
-        </S.Brand>
+          </Socials>
+        </Brand>
 
-
-        {groups.map((g) => (
-          <S.Group key={g.title}>
-            <S.GroupTitle>{g.title}</S.GroupTitle>
-            <S.LinkList>
-              {g.links.map((l) => (
-                <li key={l.label}>
-                  <S.LinkItem href={l.href}>{l.label}</S.LinkItem>
+      
+        {groups.map((g, gi) => (
+          //  Added index to group key
+          <Group key={`${g.title}-${gi}`}>
+            <GroupTitle>{g.title}</GroupTitle>
+            <LinkList>
+              {g.links.map((l, li) => (
+                //  Added index to link key
+                <li key={`${l.label}-${li}`}>
+                  <LinkItem href={l.href}>{l.label}</LinkItem>
                 </li>
               ))}
-            </S.LinkList>
-          </S.Group>
+            </LinkList>
+          </Group>
         ))}
 
-     
-        <S.Newsletter>
-          <S.GroupTitle>{newsletter.title}</S.GroupTitle>
-          <S.NewsletterDescription>
+       
+        <Newsletter>
+          <GroupTitle>{newsletter.title}</GroupTitle>
+          <NewsletterDescription>
             {newsletter.description}
-          </S.NewsletterDescription>
-          <S.NewsletterForm onSubmit={(e) => e.preventDefault()}>
-            <S.NewsletterInput placeholder={newsletter.placeholder} />
-            <S.NewsletterButton aria-label="Subscribe">
+          </NewsletterDescription>
+          <NewsletterForm onSubmit={(e) => e.preventDefault()}>
+            <NewsletterInput placeholder={newsletter.placeholder} />
+            <NewsletterButton aria-label="Subscribe">
               <SendIcon />
-            </S.NewsletterButton>
-          </S.NewsletterForm>
-        </S.Newsletter>
-      </S.Top>
-      <S.Bottom>
-        <S.BottomInner>
+            </NewsletterButton>
+          </NewsletterForm>
+        </Newsletter>
+      </Top>
+      <Bottom>
+        <BottomInner>
           <div>{bottomNote}</div>
-          <S.BottomLinks>
-            {bottomLinks.map((b) => (
-              <a key={b.label} href={b.href}>
+          <BottomLinks>
+            {bottomLinks.map((b, i) => (
+              //  Added index to bottom link key
+              <a key={`${b.label}-${i}`} href={b.href}>
                 {b.label}
               </a>
             ))}
-          </S.BottomLinks>
-        </S.BottomInner>
-      </S.Bottom>
-    </S.FooterRoot>
+          </BottomLinks>
+        </BottomInner>
+      </Bottom>
+    </FooterRoot>
   );
 }
 
