@@ -91,16 +91,6 @@ export function Header({
   const dropdownRef = React.useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  if (pathname === '/Login' || pathname === '/signup' || pathname ==='/admin') return null;
-  
-  const toggleDrawer = () => {
-    setDrawerOpen((v) => !v);
-  };
-  
-  const closeDrawer = () => {
-    setDrawerOpen(false);
-  };
-
   React.useEffect(() => {
     if (drawerOpen) {
       document.body.classList.add('mobile-menu-open');
@@ -123,6 +113,16 @@ export function Header({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  if (pathname === '/Login' || pathname === '/signup' || pathname ==='/admin') return null;
+  
+  const toggleDrawer = () => {
+    setDrawerOpen((v) => !v);
+  };
+  
+  const closeDrawer = () => {
+    setDrawerOpen(false);
+  };
 
   const handleProfileClick = () => {
     setDropdownOpen(!dropdownOpen);
