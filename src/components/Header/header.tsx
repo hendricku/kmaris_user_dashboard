@@ -110,7 +110,7 @@ export function Header({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  if (pathname === '/Login' || pathname === '/signup' || pathname ==='/admin') return null;
+  if (pathname === '/Login' || pathname === '/signup' || pathname ==='/admin'  || pathname === '/admin/clients') return null;
   
   const toggleDrawer = () => {
     setDrawerOpen((v) => !v);

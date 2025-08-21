@@ -13,9 +13,10 @@ import { useRouter } from 'next/navigation';
 
 interface AdminHeaderProps {
   onMenuToggle: () => void;
+  sidebarOpen: boolean;
 }
 
-export default function AdminHeader({ onMenuToggle }: AdminHeaderProps) {
+export default function AdminHeader({ onMenuToggle, sidebarOpen }: AdminHeaderProps) {
   const router = useRouter();
 
   const handleLogout = () => {
@@ -34,27 +35,30 @@ export default function AdminHeader({ onMenuToggle }: AdminHeaderProps) {
           'You have been successfully logged out.',
           'success'
         ).then(() => {
-          router.push('/login');
+          router.push('/Login');
         });
       }
     });
   };
 
   return (
-    <S.Header>
+      <S.Header sidebarOpen={sidebarOpen}>
       <S.HeaderLeft>
         <S.MenuButton onClick={onMenuToggle}>
           <MenuIcon />
         </S.MenuButton>
-        <Image 
-          src="/whitelogo.png" 
-          alt="Logo" 
-          width={180} 
-          height={50} 
-          style={{ objectFit: 'contain' }} 
-        />
-        <S.DashboardTitle>Dashboard</S.DashboardTitle>
-      </S.HeaderLeft>
+        <Image
+                  src="/whitelogo.png"
+                  alt="Logo"
+                  width={140}
+                  height={40}
+                  style={{ objectFit: 'contain' }}
+                />
+        </S.HeaderLeft>
+              
+              <S.HeaderCenter>
+                <S.WelcomeText>Welcome Admin</S.WelcomeText>
+              </S.HeaderCenter>
       
       <S.HeaderRight>
         <S.IconButton>

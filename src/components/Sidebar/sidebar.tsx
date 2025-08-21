@@ -34,13 +34,18 @@ const SidebarContainer = styled('div', {
   height: 100vh;
   background-color: ${palette.navy};
   color: ${palette.white};
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, transform 0.3s ease;
   position: fixed;
   left: 0;
   top: 0;
   z-index: 900;
   padding-top: 60px; /* Space for the header */
   overflow-x: hidden;
+  
+  @media (max-width: 768px) {
+    transform: ${props => props.isOpen ? "translateX(0)" : "translateX(-100%)"};
+    width: 250px;
+  }
 `;
 
 const Logo = styled.div`
@@ -99,7 +104,9 @@ const NavLinkStyled = styled(Link, {
   }
 `;
 
-const ToggleButton = styled.button`
+const ToggleButton = styled('button', {
+  shouldForwardProp: (prop) => prop !== 'isOpen',
+})<{ isOpen: boolean }>`
   position: absolute;
   top: 70px;
   right: -12px;
@@ -113,6 +120,13 @@ const ToggleButton = styled.button`
   justify-content: center;
   cursor: pointer;
   z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
   
   &::before {
     content: "";
@@ -121,7 +135,8 @@ const ToggleButton = styled.button`
     border-top: 5px solid transparent;
     border-bottom: 5px solid transparent;
     border-right: 5px solid ${palette.navy};
-    transform: rotate(180deg);
+    transform: ${props => props.isOpen ? "rotate(180deg)" : "rotate(0deg)"};
+    transition: transform 0.3s ease;
   }
 `;
 
@@ -152,11 +167,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => 
   const router = useRouter();
   
   const navItems = [
-    { icon: <DashboardIcon />, label: "Dashboard", href: "/admin" },
-    { icon: <PeopleIcon />, label: "Clients", href: "/admin/clients" },
-    { icon: <DescriptionIcon />, label: "Forms", href: "/admin/forms" },
-    { icon: <SettingsIcon />, label: "Settings", href: "/admin/settings" },
-  ];
+      { icon: <DashboardIcon />, label: "Dashboard", href: "/admin" },
+      { icon: <PeopleIcon />, label: "Clients", href: "/admin/clients" },
+      { icon: <DescriptionIcon />, label: "Forms", href: "/admin/forms" },
+    ];
   
   const handleLogout = () => {
     // Implement logout functionality here
@@ -166,8 +180,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => 
   return (
     <SidebarContainer isOpen={isOpen}>
       {onToggle && (
-        <ToggleButton onClick={onToggle} />
-      )}
+              <ToggleButton onClick={onToggle} isOpen={isOpen} />
+            )}
       
       {isOpen && (
         <Logo>
@@ -189,13 +203,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => 
       </NavList>
       
       <Footer isOpen={isOpen}>
-        <NavItemStyled isActive={false}>
-          <NavLinkStyled href="#" isOpen={isOpen} onClick={(e) => { e.preventDefault(); handleLogout(); }}>
-            <span className="icon"><LogoutIcon /></span>
-            {/* <span className="label">Logout</span> */}
-          </NavLinkStyled>
-        </NavItemStyled>
-      </Footer>
+            </Footer>
     </SidebarContainer>
   );
 };

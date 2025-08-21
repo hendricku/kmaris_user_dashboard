@@ -8,7 +8,7 @@ import { typography } from "@/theme/typography";
 export const Section = styled("section")({
   width: "100%",
   background: palette.white,
-  padding: "48px 16px",
+  padding: "24px 16px",
   position: "relative",
 });
 
@@ -22,17 +22,17 @@ export const HeaderRow = styled("div")({
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-start",
-  gap: 20,
-  marginBottom: 32,
-  [`@media (min-width:${breakpoints.md}px)`]: { 
+  gap: 16,
+  marginBottom: 24,
+  [`@media (min-width:${breakpoints.md}px)`]: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 40,
-    gap: 24,
+    marginBottom: 32,
+    gap: 20,
   },
-  [`@media (min-width:${breakpoints.lg}px)`]: { 
-    marginBottom: 48,
+  [`@media (min-width:${breakpoints.lg}px)`]: {
+    marginBottom: 40,
   },
 });
 
@@ -54,21 +54,21 @@ export const Title = styled("h2")({
 export const Grid = styled("div")({
   display: "grid",
   gridTemplateColumns: "1fr",
-  gap: 20,
+  gap: 12,
   alignItems: "stretch",
   [`@media (min-width:${breakpoints.sm}px)`]: {
     gridTemplateColumns: "repeat(2, 1fr)",
-    gap: 24,
+    gap: 16,
   },
   [`@media (min-width:${breakpoints.md}px)`]: {
-    gap: 28,
+    gap: 20,
   },
   [`@media (min-width:${breakpoints.lg}px)`]: {
     gridTemplateColumns: "repeat(4, 1fr)",
-    gap: 32,
+    gap: 24,
   },
   [`@media (min-width:${breakpoints.xl}px)`]: {
-    gap: 36,
+    gap: 28,
   },
 });
 
@@ -95,14 +95,14 @@ export const Card = styled("a")({
 });
 
 export const ThumbWrap = styled("div")({
-  padding: "20px 20px 0 20px",
+  padding: "12px 12px 0 12px",
   position: "relative",
   overflow: "hidden",
   // [`@media (min-width:${breakpoints.md}px)`]: {
-  //   padding: "24px 24px 0 24px",
+  //   padding: "16px 16px 0 16px",
   // },
   // [`@media (min-width:${breakpoints.lg}px)`]: {
-  //   padding: "28px 28px 0 28px",
+  //   padding: "20px 20px 0 20px",
   // },
 });
 
@@ -128,18 +128,18 @@ export const Thumb = styled("img")({
 });
 
 export const CardBody = styled("div")({
-  padding: "20px 20px 24px 20px",
+  padding: "12px 12px 16px 12px",
   display: "flex",
   flexDirection: "column",
-  gap: 16,
+  gap: 8,
   flex: 1,
   [`@media (min-width:${breakpoints.md}px)`]: {
-    padding: "24px 24px 28px 24px",
-    gap: 18,
+    padding: "16px 16px 20px 16px",
+    gap: 10,
   },
   [`@media (min-width:${breakpoints.lg}px)`]: {
-    padding: "28px 28px 32px 28px",
-    gap: 20,
+    padding: "20px 20px 24px 20px",
+    gap: 12,
   },
 });
 

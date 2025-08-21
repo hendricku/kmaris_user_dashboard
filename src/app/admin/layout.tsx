@@ -2,19 +2,9 @@
 
 import React from "react";
 import { Inter } from "next/font/google";
-import styled from "@emotion/styled";
+import AdminLayout from "@/components/AdminLayout/adminLayout";
 
 const inter = Inter({ subsets: ["latin"] });
-
-const LayoutWrapper = styled.div({
-  display: "flex",
-  minHeight: "100vh",
-});
-
-const MainContent = styled.main({
-  flex: 1,
-  padding: "20px",
-});
 
 export default function Layout({
   children,
@@ -23,9 +13,9 @@ export default function Layout({
 }) {
   return (
     <div className={inter.className} suppressHydrationWarning>
-      <LayoutWrapper>
-        <MainContent>{children}</MainContent>
-      </LayoutWrapper>
+      <AdminLayout>
+        {children}
+      </AdminLayout>
     </div>
   );
 }

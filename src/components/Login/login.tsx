@@ -7,7 +7,7 @@ import * as S from "./elements";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-export function Login({ onSubmit, onSignUp, onForgotPassword }: LoginProps) {
+export function Login({ onSubmit, onSignUp, onForgotPassword, error, isLoading }: LoginProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -16,7 +16,6 @@ export function Login({ onSubmit, onSignUp, onForgotPassword }: LoginProps) {
     e.preventDefault();
     onSubmit?.(email, password);
   };
-
   return (
     <S.PageWrapper>
       <S.Container>
@@ -85,13 +84,17 @@ export function Login({ onSubmit, onSignUp, onForgotPassword }: LoginProps) {
               </S.InputWrapper>
             </S.InputGroup>
 
-            <S.ForgotPassword href="#" onClick={onForgotPassword}>
-              Forgot Password?
-            </S.ForgotPassword>
-
-            <S.SubmitButton type="submit">
-              Login now
-            </S.SubmitButton>
+            {error && (
+                          <S.ErrorMessage>{error}</S.ErrorMessage>
+                        )}
+            
+                        <S.ForgotPassword href="#" onClick={onForgotPassword}>
+                          Forgot Password?
+                        </S.ForgotPassword>
+            
+                        <S.SubmitButton type="submit" disabled={isLoading}>
+                          {isLoading ? "Logging in..." : "Login now"}
+                        </S.SubmitButton>
 
             <S.Divider>OR</S.Divider>
 

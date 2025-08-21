@@ -21,11 +21,13 @@ export const MenuButton = styled.button`
   }
 `;
 
-export const Header = styled.header`
+export const Header = styled('header', {
+  shouldForwardProp: (prop) => prop !== 'sidebarOpen',
+})<{ sidebarOpen: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 32px;
+  padding: 12px 24px;
   background: white;
   border-bottom: 1px solid #e9ecef;
   position: fixed;
@@ -33,20 +35,22 @@ export const Header = styled.header`
   right: 0;
   left: 0;
   z-index: 1000;
-  margin-left: 250px;
+  margin-left: ${props => props.sidebarOpen ? "250px" : "70px"};
   transition: margin-left 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  height: 60px;
 `;
 
 export const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
 `;
 
 export const HeaderRight = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
 `;
 
 export const IconButton = styled.button`
@@ -94,9 +98,23 @@ export const AvatarButton = styled(IconButton)`
 
 export const DashboardTitle = styled.h1`
   margin: 0;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
   color: ${palette.navy};
+`;
+
+export const HeaderCenter = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: ${palette.navy};
+  font-weight: 600;
+  font-size: 18px;
+`;
+
+export const WelcomeText = styled.div`
+  margin: 0;
+  padding: 0;
 `;
 
 export const LogoutButton = styled.button`

@@ -13,7 +13,7 @@ export const AdminLayout = styled.div`
 export const MainContent = styled.div`
   flex: 1;
   margin-left: 250px;
-  padding: 88px 24px 24px; 
+  padding: 24px;
   transition: margin-left 0.3s ease;
 `;
 
@@ -21,13 +21,14 @@ export const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 32px;
+  padding: 16px 24px;
   background: white;
   border-bottom: 1px solid #e9ecef;
   position: sticky;
   top: 0;
   z-index: 100;
   margin: -24px -24px 24px -24px;
+  border-radius: 12px 12px 0 0;
 `;
 
 export const HeaderLeft = styled.div`
@@ -40,6 +41,13 @@ export const HeaderRight = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
+`;
+
+export const Title = styled.h1`
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: ${palette.navy};
 `;
 
 export const SearchBar = styled.div`
@@ -68,27 +76,48 @@ export const UserSection = styled.div`
 
 export const DashboardGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  margin-bottom: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
 `;
 
 export const StatCard = styled.div`
   background: white;
-  padding: 24px;
+  padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e9ecef;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
 
   .stat-title {
     font-size: 14px;
     color: #6c757d;
     margin-bottom: 8px;
+    font-weight: ${typography.weight.medium};
   }
 
   .stat-value {
-    font-size: 24px;
-    font-weight: ${typography.weight.bold};
+    font-size: 28px;
+    font-weight: ${typography.weight.extrabold};
     color: ${palette.navy};
+    line-height: 1.2;
   }
 `;
 
@@ -102,33 +131,57 @@ export const TableContainer = styled.div`
 
 export const Table = styled.table`
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
 `;
 
 export const TableHead = styled.thead`
   background: #f8f9fa;
+  
+  th:first-of-type {
+    border-top-left-radius: 12px;
+  }
+  
+  th:last-of-type {
+    border-top-right-radius: 12px;
+  }
 `;
 
 export const TableHeader = styled.th`
-  padding: 16px 24px;
+  padding: 16px 20px;
   text-align: left;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: ${typography.weight.bold};
+  font-size: 13px;
   color: #495057;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 `;
 
 export const TableRow = styled.tr`
-  border-bottom: 1px solid #e9ecef;
-
-  &:last-child {
-    border-bottom: none;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background-color: #f8f9fa;
+  }
+  
+  &:last-child td:first-of-type {
+    border-bottom-left-radius: 12px;
+  }
+  
+  &:last-child td:last-of-type {
+    border-bottom-right-radius: 12px;
   }
 `;
 
 export const TableCell = styled.td`
-  padding: 16px 24px;
+  padding: 14px 20px;
   font-size: 14px;
   color: #495057;
+  border-bottom: 1px solid #e9ecef;
+  
+  &:last-child {
+    border-bottom: none;
+  }
 `;
 
 export const StatusBadge = styled.span<{ status: string }>`
@@ -138,17 +191,17 @@ export const StatusBadge = styled.span<{ status: string }>`
   font-weight: 500;
 
   ${({ status }) => {
-    switch (status.toLowerCase()) {
-      case "active":
-        return "background: #e6f7ed; color: #027a48;";
-      case "pending":
-        return "background: #fff3e0; color: #b76e00;";
-      case "inactive":
-        return "background: #ffebee; color: #c62828;";
-      default:
-        return "background: #e9ecef; color: #495057;";
-    }
-  }}
+      switch (status.toLowerCase()) {
+        case "approved":
+          return "background: #e6f7ed; color: #027a48;";
+        case "pending":
+          return "background: #fff3e0; color: #b76e00;";
+        case "rejected":
+          return "background: #ffebee; color: #c62828;";
+        default:
+          return "background: #e9ecef; color: #495057;";
+      }
+    }}
 `;
 
 export const ActionButton = styled.button`

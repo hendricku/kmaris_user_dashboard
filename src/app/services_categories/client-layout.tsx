@@ -2,6 +2,7 @@
 
 import React from "react";
 import styled from "@emotion/styled";
+import Footer from "@/components/Footer/Footer";
 
 interface ClientServicesLayoutProps {
   children: React.ReactNode;
@@ -18,6 +19,7 @@ export default function ClientServicesLayout({ children }: ClientServicesLayoutP
   return (
     <LayoutWrapper>
       {children}
+      <Footer />
     </LayoutWrapper>
   );
 }

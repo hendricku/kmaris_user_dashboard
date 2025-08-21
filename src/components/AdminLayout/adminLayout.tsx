@@ -14,15 +14,15 @@ const LayoutContainer = styled.div`
   min-height: 100vh;
 `;
 
-const MainContent = styled('main', {
-  shouldForwardProp: (prop) => prop !== 'sidebarOpen',
-})<{ sidebarOpen: boolean }>`
+const MainContent = styled('main')`
   flex: 1;
-  margin-left: ${props => props.sidebarOpen ? "250px" : "70px"};
-  padding: 84px 24px 24px;
-  transition: all 0.3s ease;
+  padding: 72px 24px 24px;
   background-color: #f8f9fa;
   min-height: 100vh;
+  
+  @media (max-width: 768px) {
+    padding: 72px 16px 24px;
+  }
 `;
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
@@ -33,14 +33,14 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   };
   
   return (
-    <LayoutContainer>
-      <Sidebar isOpen={sidebarOpen} onToggle={toggleSidebar} />
-      <AdminHeader onMenuToggle={toggleSidebar} />
-      <MainContent sidebarOpen={sidebarOpen}>
-        {children}
-      </MainContent>
-    </LayoutContainer>
-  );
+      <LayoutContainer>
+        <Sidebar isOpen={sidebarOpen} onToggle={toggleSidebar} />
+        <AdminHeader onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
+        <MainContent>
+                {children}
+              </MainContent>
+      </LayoutContainer>
+    );
 };
 
 export default AdminLayout;
