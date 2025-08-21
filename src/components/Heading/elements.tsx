@@ -6,7 +6,7 @@ import { palette } from "@/theme/palette";
 import { typography } from "@/theme/typography";
 import { HeadingVariant, HeadingAlign } from "./interface";
 
-// Interface for the props that style the component
+
 interface StyledHeadingProps {
   $variant: HeadingVariant;
   $color?: string;
@@ -16,26 +16,20 @@ interface StyledHeadingProps {
   $marginBottom?: number;
 }
 
-// A single, clean definition for the HeadingRoot styled component
+
 export const HeadingRoot = styled.div<StyledHeadingProps>`
-  /* --- BASE STYLES --- */
+
   margin: 0;
   font-family: ${typography.fontFamily};
-  /* Correct syntax: Arrow function returning a value */
   color: ${({ $color }) => $color || palette.textDark};
   text-align: ${({ $align }) => $align || 'left'};
   text-transform: ${({ $uppercase }) => ($uppercase ? 'uppercase' : 'none')};
-
-  /* --- DYNAMIC STYLES BASED ON PROPS --- */
-  /* Correct syntax: Function that returns a complete CSS property as a string */
   max-width: ${({ $maxWidth }) =>
     typeof $maxWidth === 'number' ? `${$maxWidth}px` : $maxWidth || 'none'};
 
   margin-bottom: ${({ $marginBottom }) =>
     $marginBottom ? `${$marginBottom}px` : '0'};
 
-  /* --- VARIANT-SPECIFIC STYLES --- */
-  /* Correct syntax: A function that returns a multi-line string of CSS rules */
   ${({ $variant }) => {
     const styles = {
       hero: `
@@ -50,7 +44,6 @@ export const HeadingRoot = styled.div<StyledHeadingProps>`
         font-size: 36px;
         font-weight: ${typography.weight.extrabold};
         line-height: 1.15;
-        color: ${palette.navy};
         @media (min-width: ${breakpoints.md}px) { font-size: 40px; }
       `,
       card: `

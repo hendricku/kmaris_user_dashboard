@@ -18,15 +18,6 @@ const flexCenter = css`
   align-items: center;
 `;
 
-const responsiveSpacing = css`
-  @media (max-width: ${breakpoints.md - 1}px) {
-    gap: 16px;
-  }
-  @media (max-width: ${breakpoints.sm - 1}px) {
-    gap: 6px;
-  }
-`;
-
 export const HeaderRoot = styled("header")(`
   width: 100%;
   background-color: ${NAVY};
@@ -93,11 +84,11 @@ export const Bar = styled("div")(`
   background-color: ${WHITE};
   border-radius: 12px;
   height: 76px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   padding-inline: 6px;
-  gap: 8px;
+  gap: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   transition: box-shadow 0.2s ease, transform 0.2s ease;
   
@@ -105,21 +96,21 @@ export const Bar = styled("div")(`
     box-shadow: 0 6px 20px rgba(0,0,0,0.12);
   }
   
-  @media (min-width: ${breakpoints.sm}px) { 
-    padding-inline: 12px; 
-    gap: 10px;
+  @media (min-width: ${breakpoints.sm}px) {
+    padding-inline: 12px;
+    gap: 20px;
     border-radius: 14px;
   }
   
-  @media (min-width: ${breakpoints.md}px) { 
-    padding-inline: 16px; 
-    gap: 14px;
+  @media (min-width: ${breakpoints.md}px) {
+    padding-inline: 16px;
+    gap: 24px;
     height: 80px;
   }
   
-  @media (min-width: ${breakpoints.lg}px) { 
-    padding-inline: 20px; 
-    gap: 16px;
+  @media (min-width: ${breakpoints.lg}px) {
+    padding-inline: 20px;
+    gap: 32px;
     height: 84px;
   }
 `);
@@ -134,41 +125,27 @@ export const Nav = styled("nav")(`
   }
 `);
 
-export const RightContent = styled("div")(`
+export const RightSection = styled("div")(`
   display: flex;
-  justify-content: flex-end;
   align-items: center;
   gap: 20px;
-  min-width: 0;
-  flex-wrap: nowrap;
-  ${responsiveSpacing};
+  
+  @media (max-width: ${breakpoints.md - 1}px) {
+    gap: 16px;
+  }
+  @media (max-width: ${breakpoints.sm - 1}px) {
+    gap: 6px;
+  }
 `);
+
 
 export const LogoWrap = styled("div")(`
   padding-inline: 0;
-  justify-self: center;
   ${flexCenter};
   transition: transform 0.2s ease;
   
   &:hover {
     transform: scale(1.02);
-  }
-`);
-
-export const LogoImg = styled("img")(`
-  height: 56px;
-  width: auto;
-  display: block;
-  object-fit: contain;
-  
-  @media (max-width: ${breakpoints.md - 1}px) {
-    height: 48px;
-    max-width: 200px;
-  }
-  
-  @media (max-width: ${breakpoints.sm - 1}px) {
-    height: 44px;
-    max-width: 180px;
   }
 `);
 

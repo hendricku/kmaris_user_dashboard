@@ -28,6 +28,15 @@ export function Login({ onSubmit, onSignUp, onForgotPassword }: LoginProps) {
             style={{ objectFit: "cover" }}
           />
           <S.ImageContent>
+            <S.LogoWrap>
+              <Image 
+                src="/whitelogo.png" 
+                alt="KMARIS LLC" 
+                width={180} 
+                height={100}
+                priority
+              />
+            </S.LogoWrap>
             <S.ImageTitle>Welcome to KMARIS LLC</S.ImageTitle>
             <S.ImageText>
               Your trusted partner for professional immigration services
@@ -42,15 +51,6 @@ export function Login({ onSubmit, onSignUp, onForgotPassword }: LoginProps) {
         </S.ImageSection>
         
         <S.FormSection>
-          <S.LogoWrap>
-            <Image 
-              src="/logo.png" 
-              alt="KMARIS LLC" 
-              width={180} 
-              height={48}
-              priority
-            />
-          </S.LogoWrap>
           <S.Title>Welcome Back</S.Title>
           <S.Subtitle>Login into your account</S.Subtitle>
           

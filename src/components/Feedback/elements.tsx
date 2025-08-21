@@ -64,6 +64,7 @@ export const CardInner = styled("div")({
   height: "100%",
   [`@media (min-width:${breakpoints.sm}px)`]: {
     rowGap: 18,
+    
   },
   [`@media (min-width:${breakpoints.md}px)`]: {
     gridTemplateColumns: "auto 1fr",

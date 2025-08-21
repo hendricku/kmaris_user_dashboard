@@ -28,30 +28,23 @@ export const Container = styled("div")({
 
   [`@media (min-width: ${breakpoints.md}px)`]: {
     flexDirection: "row",
-    height: "600px",
+    height: "640px",
     maxHeight: "85vh",
   },
 });
 
 export const FormSection = styled("div")({
   width: "100%",
-  padding: "40px 30px",
+  padding: "30px",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
   background: "#ffffff",
   position: "relative",
-  overflow: "auto",
-  
-  "&::-webkit-scrollbar": {
-    display: "none",
-  },
-  scrollbarWidth: "none",
-  msOverflowStyle: "none",
 
   [`@media (min-width: ${breakpoints.md}px)`]: {
     width: "50%",
-    padding: "50px",
+    padding: "0 50px",
   },
 });
 
@@ -133,7 +126,7 @@ export const FeatureItem = styled("li")({
 
 export const LogoWrap = styled("div")({
   textAlign: "center",
-  marginBottom: "36px",
+  marginBottom: "30px", // Adjusted for spacing inside ImageContent
   position: "relative",
   display: "flex",
   justifyContent: "center",
@@ -142,6 +135,7 @@ export const LogoWrap = styled("div")({
     objectFit: "contain",
   },
   
+  // This is the style for the logo when it's in the form section.
   "&::after": {
     content: '""',
     position: "absolute",
@@ -152,15 +146,23 @@ export const LogoWrap = styled("div")({
     height: "3px",
     background: palette.primary,
     borderRadius: "2px",
+  },
+  
+  // When the logo is in the ImageSection, we don't want the underline.
+  [`${ImageSection} &`]: {
+    marginBottom: 0, 
+    "&::after": {
+      display: "none",
+    }
   }
 });
 
 export const Title = styled("h1")({
-  fontSize: "32px",
+  fontSize: "30px",
   fontWeight: typography.weight.bold,
   color: palette.navy,
   textAlign: "center",
-  marginBottom: "12px",
+  marginBottom: "10px",
   letterSpacing: "-0.5px",
 });
 
@@ -168,34 +170,32 @@ export const Subtitle = styled("p")({
   fontSize: "16px",
   color: palette.textDark,
   textAlign: "center",
-  marginBottom: "40px",
+  marginBottom: "30px",
   opacity: 0.7,
   maxWidth: "320px",
-  margin: "0 auto 40px",
+  margin: "0 auto 30px",
   lineHeight: "1.5",
 });
 
 export const Form = styled("form")({
-  maxWidth: "440px",
+  maxWidth: "400px",
   width: "100%",
   margin: "0 auto",
   display: "flex",
   flexDirection: "column",
-  gap: "24px",
-  padding: "10px 0",
+  gap: "20px",
 });
 
 export const InputGroup = styled("div")({
   display: "flex",
   flexDirection: "column",
-  gap: "8px",
+  gap: "6px",
 });
 
 export const Label = styled("label")({
   fontSize: "14px",
   fontWeight: typography.weight.medium,
   color: palette.navy,
-  marginBottom: "4px",
 });
 
 export const InputWrapper = styled("div")({
@@ -204,7 +204,7 @@ export const InputWrapper = styled("div")({
 
 export const Input = styled("input")({
   width: "100%",
-  padding: "16px 18px",
+  padding: "14px 18px",
   fontSize: 15,
   border: `1px solid ${palette.border}`,
   borderRadius: "8px",
@@ -245,7 +245,7 @@ export const IconButton = styled("button")({
 
 export const SubmitButton = styled("button")({
   width: "100%",
-  padding: "16px",
+  padding: "14px",
   fontSize: "16px",
   fontWeight: typography.weight.semibold,
   color: palette.white,
@@ -258,26 +258,10 @@ export const SubmitButton = styled("button")({
   position: "relative",
   overflow: "hidden",
   
-  "&::before": {
-    content: '""',
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    background: "linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent)",
-    transform: "translateX(-100%)",
-    transition: "transform 650ms ease-in-out",
-  },
-  
   "&:hover": {
     backgroundColor: "#c5181e",
     transform: "translateY(-2px)",
     boxShadow: "0 6px 16px rgba(221, 28, 35, 0.3)",
-    
-    "&::before": {
-      transform: "translateX(100%)",
-    }
   },
   
   "&:active": {
@@ -291,35 +275,18 @@ export const ForgotPassword = styled("a")({
   color: palette.navy,
   textAlign: "right",
   fontWeight: typography.weight.medium,
-  position: "relative",
-  display: "inline-block",
-  
-  "&::after": {
-    content: '""',
-    position: "absolute",
-    bottom: "-2px",
-    left: 0,
-    width: 0,
-    height: "1px",
-    background: palette.navy,
-    transition: "width 200ms ease",
-  },
   textDecoration: "none",
-  marginTop: "-8px",
+  marginTop: "-12px",
 
   "&:hover": {
-    textDecoration: "none",
-    
-    "&::after": {
-      width: "100%",
-    }
+    textDecoration: "underline",
   },
 });
 
 export const Divider = styled("div")({
   display: "flex",
   alignItems: "center",
-  margin: "30px 0",
+  margin: "15px 0",
   gap: "16px",
   color: palette.textDark,
   opacity: 0.6,
@@ -336,40 +303,19 @@ export const Divider = styled("div")({
 
 export const SignUpButton = styled("button")({
   width: "100%",
-  padding: "15px",
+  padding: "14px",
   fontSize: "16px",
   fontWeight: typography.weight.medium,
   color: palette.navy,
   backgroundColor: "rgba(0, 37, 66, 0.03)",
-  border: `2px solid ${palette.navy}`,
+  border: `1px solid ${palette.border}`,
   cursor: "pointer",
   transition: "all 200ms ease",
   borderRadius: "8px",
-  position: "relative",
-  overflow: "hidden",
-  zIndex: 1,
-  
-  "&::before": {
-    content: '""',
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    background: palette.navy,
-    opacity: 0,
-    transform: "scale(0.8)",
-    zIndex: -1,
-    transition: "all 200ms ease",
-  },
 
   "&:hover": {
-    color: palette.white,
-    borderColor: palette.navy,
-    
-    "&::before": {
-      opacity: 1,
-      transform: "scale(1)",
-    }
+    color: palette.primary,
+    borderColor: palette.primary,
+    backgroundColor: "rgba(221, 28, 35, 0.05)",
   },
 });

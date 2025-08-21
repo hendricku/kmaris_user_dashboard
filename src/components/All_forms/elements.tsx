@@ -8,7 +8,7 @@ import { Card } from "../Card/Card";
 
 export const Container = styled("div")({
   padding: "40px 24px",
-  maxWidth: 1200,
+  maxWidth: 1440,
   margin: "0 auto",
   backgroundColor: "#FFFFFF",
   minHeight: "100vh",

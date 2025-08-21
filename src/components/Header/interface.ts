@@ -4,8 +4,7 @@ export type NavLinkItem = {
 };
 
 export interface HeaderProps {
-  leftLinks?: NavLinkItem[];
-  rightLinks?: NavLinkItem[];
+  navLinks?: NavLinkItem[];
   logoSrc?: string;
   cartCount?: number;
   onSearchClick?: () => void;
@@ -13,5 +12,3 @@ export interface HeaderProps {
   onProfileClick?: () => void;
   onMenuClick?: () => void;
 }
-
-

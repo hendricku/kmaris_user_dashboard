@@ -18,13 +18,14 @@ import {
 } from "./elements";
 import { Heading } from "@/components/Heading/Heading";
 import { Card } from "@/components/Card/Card";
+import { palette } from "@/theme/palette";
 
 export function Feedback({ items }: FeedbackProps) {
   return (
     <Section>
       <Container>
         <Subheading>CUSTOMER FEEDBACKS</Subheading>
-        <Heading level={3} variant="section" color="#ffffff" align="center" marginBottom={56}>
+        <Heading level={3} variant="section" color={palette.white} align="center" marginBottom={56}>
           SEE WHAT OUR CLIENTS HAVE TO SAY
         </Heading>
         <Grid>

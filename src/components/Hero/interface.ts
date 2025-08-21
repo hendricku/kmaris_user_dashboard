@@ -5,5 +5,3 @@ export interface HeroProps {
   ctaHref?: string;
   backgroundSrc?: string;
 }
-
-

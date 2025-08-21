@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import CloseIcon from '@mui/icons-material/Close';
 import { palette } from "@/theme/palette";
 import { typography } from "@/theme/typography";
+import { breakpoints } from "@/theme/breakpoints";
 
 
 export const MobileDrawerOverlay = styled("div", {
@@ -18,7 +19,11 @@ export const MobileDrawerOverlay = styled("div", {
   opacity: open ? 1 : 0,
   visibility: open ? "visible" : "hidden",
   transition: "all 300ms ease",
-  // zIndex: 999,
+  zIndex: 1000,
+  
+  [`@media (min-width: ${breakpoints.md}px)`]: {
+    display: 'none',
+  },
 }));
 
 export const MobileDrawerPanel = styled("div", {
@@ -26,17 +31,21 @@ export const MobileDrawerPanel = styled("div", {
 })<{ open: boolean }>(({ open }) => ({
   position: "fixed",
   top: 0,
-  left: 0,
+  right: 0, // Changed from left to right
   height: "100vh",
   width: "100%",
   maxWidth: 360,
   background: palette.navy,
-  transform: open ? "translateX(0)" : "translateX(-100%)",
+  transform: open ? "translateX(0)" : "translateX(100%)", // Updated transform
   transition: "transform 500ms cubic-bezier(0.16, 1, 0.3, 1)",
-  zIndex: 1000,
+  zIndex: 1001, // Increased z-index to be above the overlay
   display: "flex",
   flexDirection: "column",
   overflowY: "auto",
+
+  [`@media (min-width: ${breakpoints.md}px)`]: {
+    display: 'none',
+  },
 }));
 
 export const MobileDrawerHeader = styled("div")({
@@ -46,7 +55,7 @@ export const MobileDrawerHeader = styled("div")({
 });
 
 export const DrawerLogo = styled("img")({
-  height: 80, 
+  height: 100, 
   width: "auto",
 });
 
@@ -93,7 +102,7 @@ export const DrawerLink = styled("a")({
   transition: "all 200ms ease",
   "&:hover": {
     color: palette.primary,
-    transform: "translateX(4px)",
+    transform: "translateX(-4px)", // Nudge left on hover
   }
 });
 

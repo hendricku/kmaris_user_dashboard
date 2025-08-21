@@ -13,7 +13,8 @@ export const HeroSection = styled("section")({
 
 export const HeroInner = styled("div")({
   width: "100%",
-  margin: 0,
+  maxWidth: 1440,
+  margin: "0 auto",
   position: "relative",
 });
 
@@ -21,7 +22,7 @@ export const HeroImageWrap = styled("div")({
   position: "relative",
   minHeight: "clamp(500px, 85vh, 800px)",
   overflow: "hidden",
-  borderRadius: 0,
+
   display: "flex",
   alignItems: "center",
 });
@@ -36,11 +37,11 @@ export const BgImage = styled("div")<{
   backgroundPosition: "center",
   backgroundRepeat: "no-repeat",
   // filter: "brightness(0.5) contrast(1.1)",
-  transform: "scale(1.05)",
-  transition: "transform 0.3s ease-out",
-  "&:hover": {
-    transform: "scale(1.02)",
-  },
+  // transform: "scale(1.05)",
+  // transition: "transform 0.3s ease-out",
+  // "&:hover": {
+  //   transform: "scale(1.02)",
+  // },
 }));
 
 export const Overlay = styled("div")({
@@ -50,19 +51,16 @@ export const Overlay = styled("div")({
   "&::before": {
     content: '""',
     position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    // top: 0,
+    // left: 0,
+    // right: 0,
+    // bottom: 0,
     background: "radial-gradient(circle at 30% 50%, rgba(221,28,35,0.1) 0%, transparent 50%)",
   },
 });
 
 export const Content = styled("div")({
   position: "absolute",
-  top: 0,
-  left: 0,
-  right: 0,
   height: "100%",
   display: "flex",
   alignItems: "center",

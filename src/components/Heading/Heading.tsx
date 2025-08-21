@@ -14,7 +14,6 @@ export function Heading({
   marginBottom,
   children,
 }: HeadingProps) {
-  // Ensure the level is within the valid range of 1-6 for h1-h6 tags.
   const sanitizedLevel = Math.min(Math.max(level, 1), 6);
   const Tag = `h${sanitizedLevel}` as HeadingTag;
 

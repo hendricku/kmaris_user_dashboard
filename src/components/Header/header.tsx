@@ -4,7 +4,7 @@ import React from "react";
 import { HeaderProps } from "./interface";
 import { usePathname } from 'next/navigation';
 
-import { HeaderRoot, Bar, Nav, LogoWrap, LinkItem, AddressBar, RightContent } from "./base";
+import { HeaderRoot, Bar, Nav, LogoWrap, LinkItem, AddressBar, RightSection } from "./base";
 import { MobileOnly, DesktopOnly } from "./responsive";
 import { IconRow, IconButton, StyledSearchIcon, StyledCartIcon, StyledAccountIcon, CartBadge } from './icons';
 import { 
@@ -27,13 +27,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { styled } from '@mui/system';
 
-const defaultLeft = [
+const defaultLinks = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "#" },
   { label: "All Forms", href: "/All_forms" },
-];
-
-const defaultRight = [
   { label: "Filling Services", href: "#" },
   { label: "Immigration News", href: "#" },
   { label: "Videos", href: "#" },
@@ -78,8 +75,7 @@ const MenuItem = styled("a")({
 });
 
 export function Header({
-  leftLinks = defaultLeft,
-  rightLinks = defaultRight,
+  navLinks = defaultLinks,
   cartCount = 2,
   onSearchClick,
   onCartClick,
@@ -145,45 +141,29 @@ export function Header({
       </AddressBar>
 
       <Bar>
-    
-        <DesktopOnly>
-          <Nav aria-label="Primary">
-            {leftLinks.map((item) => (
-              <LinkItem key={item.label} href={item.href}>
-                {item.label}
-              </LinkItem>
-            ))}
-          </Nav>
-        </DesktopOnly>
-        <MobileOnly>
-          <IconButton aria-label={drawerOpen ? "Close menu" : "Open menu"} onClick={() => { toggleDrawer(); onMenuClick?.(); }}>
-            {drawerOpen ? <CloseRoundedIcon /> : <MenuIcon />}
-          </IconButton>
-        </MobileOnly>
-
- 
         <LogoWrap>
-                    <Link href="/" aria-label="KMARIS Home">
+          <Link href="/" aria-label="KMARIS Home">
             <Image
               src="/Logo.png"
               alt="KMARIS Logo"
-              width={100}
-              height={50}
+              width={150}
+              height={80}
               priority
             />
           </Link>
         </LogoWrap>
-
-        <RightContent>
+        
+        <RightSection>
           <DesktopOnly>
-            <Nav aria-label="Secondary">
-              {rightLinks.map((item) => (
+            <Nav aria-label="Primary Navigation">
+              {navLinks.map((item) => (
                 <LinkItem key={item.label} href={item.href}>
                   {item.label}
                 </LinkItem>
               ))}
             </Nav>
           </DesktopOnly>
+          
           <IconRow>
             <IconButton onClick={onSearchClick}>
               <StyledSearchIcon />
@@ -202,9 +182,15 @@ export function Header({
               </DropdownContent>
             </ProfileMenu>
           </IconRow>
-        </RightContent>
-      </Bar>
 
+          <MobileOnly>
+            <IconButton aria-label={drawerOpen ? "Close menu" : "Open menu"} onClick={() => { toggleDrawer(); onMenuClick?.(); }}>
+              {drawerOpen ? <CloseRoundedIcon /> : <MenuIcon />}
+            </IconButton>
+          </MobileOnly>
+
+        </RightSection>
+      </Bar>
 
       <MobileDrawerOverlay open={drawerOpen} onClick={closeDrawer} />
       <MobileDrawerPanel open={drawerOpen}>
@@ -216,14 +202,8 @@ export function Header({
         </MobileDrawerHeader>
         
         <DrawerNav>
-          {leftLinks.map((item) => (
-            <DrawerLink key={`m-left-${item.label}`} href={item.href} onClick={closeDrawer}>
-              {item.label}
-            </DrawerLink>
-          ))}
-          <DrawerDivider />
-          {rightLinks.map((item) => (
-            <DrawerLink key={`m-right-${item.label}`} href={item.href} onClick={closeDrawer}>
+          {navLinks.map((item) => (
+            <DrawerLink key={`m-${item.label}`} href={item.href} onClick={closeDrawer}>
               {item.label}
             </DrawerLink>
           ))}

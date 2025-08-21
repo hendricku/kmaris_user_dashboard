@@ -58,32 +58,34 @@ export function Signup({ onSubmit, onLogin }: SignupProps) {
             style={{ objectFit: "cover" }}
           />
           <S.Overlay />
-          <S.ImageContent>
-            <S.ImageTitle>Join KMARIS LLC</S.ImageTitle>
-            <S.ImageText>
-              We provide comprehensive immigration services to help you navigate the complex immigration process.
-            </S.ImageText>
-            <S.FeatureList>
-              <S.FeatureItem>Expert immigration consultants</S.FeatureItem>
-              <S.FeatureItem>Personalized service</S.FeatureItem>
-              <S.FeatureItem>Secure document handling</S.FeatureItem>
-              <S.FeatureItem>Regular status updates</S.FeatureItem>
-              <S.FeatureItem>Affordable service packages</S.FeatureItem>
-            </S.FeatureList>
-          </S.ImageContent>
+          <S.LeftContentWrapper>
+            <S.LogoWrap>
+              <Image
+                src="/whitelogo.png"
+                alt="KMARIS LLC"
+                width={180}
+                height={48}
+                priority
+                style={{ maxWidth: "100%", height: "auto" }}
+              />
+            </S.LogoWrap>
+            <S.ImageContent>
+              <S.ImageTitle>Join KMARIS LLC</S.ImageTitle>
+              <S.ImageText>
+                We provide comprehensive immigration services to help you navigate the complex immigration process.
+              </S.ImageText>
+              <S.FeatureList>
+                <S.FeatureItem>Expert immigration consultants</S.FeatureItem>
+                <S.FeatureItem>Personalized service</S.FeatureItem>
+                <S.FeatureItem>Secure document handling</S.FeatureItem>
+                <S.FeatureItem>Regular status updates</S.FeatureItem>
+                <S.FeatureItem>Affordable service packages</S.FeatureItem>
+              </S.FeatureList>
+            </S.ImageContent>
+          </S.LeftContentWrapper>
         </S.LeftSection>
 
         <S.FormSection>
-          <S.LogoWrap>
-            <Image
-              src="/Logo.png"
-              alt="KMARIS LLC"
-              width={180}
-              height={48}
-              priority
-              style={{ maxWidth: "100%", height: "auto" }}
-            />
-          </S.LogoWrap>
           <S.Title>Create Your Account</S.Title>
           <S.Subtitle>
             Join us to access premium immigration services and stay updated on your application status
