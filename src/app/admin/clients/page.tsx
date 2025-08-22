@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import * as S from "../elements";
 import { AppButton } from "@/components/Button/Button";
+import Swal from "sweetalert2";
 
 interface Client {
   id: number;
@@ -52,21 +53,42 @@ export default function ClientsApproval() {
   ]);
 
   const handleApprove = (id: number) => {
-    setClients(clients.map(client => 
+    setClients(clients.map(client =>
       client.id === id ? { ...client, status: "approved" } : client
     ));
   };
 
   const handleReject = (id: number) => {
-    setClients(clients.map(client => 
+    setClients(clients.map(client =>
       client.id === id ? { ...client, status: "rejected" } : client
     ));
+  };
+
+  const handleArchive = (id: number) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, archive it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setClients(clients.filter(client => client.id !== id));
+        Swal.fire({
+          title: "Archived!",
+          text: "The client has been archived.",
+          icon: "success"
+        });
+      }
+    });
   };
 
   return (
       <S.MainContent>
         <S.Title>Clients Approval</S.Title>
-  
+
         <S.TableContainer>
         <S.Table>
           <S.TableHead>
@@ -92,26 +114,38 @@ export default function ClientsApproval() {
                 </S.TableCell>
                 <S.TableCell>{client.date}</S.TableCell>
                 <S.TableCell>
-                  {client.status === "pending" ? (
-                    <>
-                      <S.ActionButton 
-                        onClick={() => handleApprove(client.id)}
-                        style={{ backgroundColor: "#e6f7ed", color: "#027a48", marginRight: "8px" }}
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    {client.status === "pending" ? (
+                      <>
+                        <S.ActionButton
+                          onClick={() => handleApprove(client.id)}
+                          style={{ backgroundColor: "#e6f7ed", color: "#027a48", marginRight: "8px" }}
+                        >
+                          Approve
+                        </S.ActionButton>
+                        <S.ActionButton
+                          onClick={() => handleReject(client.id)}
+                          style={{ backgroundColor: "#ffebee", color: "#c62828", marginRight: "8px" }}
+                        >
+                          Reject
+                        </S.ActionButton>
+                      </>
+                    ) : (
+                      <span style={{
+                        color: client.status === "approved" ? "#027a48" : "#c62828",
+                        marginRight: "8px",
+                        minWidth: "150px" // To align with pending actions
+                      }}>
+                        {client.status === "approved" ? "Approved" : "Rejected"}
+                      </span>
+                    )}
+                    <S.ActionButton
+                        onClick={() => handleArchive(client.id)}
+                        style={{ backgroundColor: "#fbeeebee", color: "#c62828" }}
                       >
-                        Approve
+                        Archive
                       </S.ActionButton>
-                      <S.ActionButton 
-                        onClick={() => handleReject(client.id)}
-                        style={{ backgroundColor: "#ffebee", color: "#c62828" }}
-                      >
-                        Reject
-                      </S.ActionButton>
-                    </>
-                  ) : (
-                    <span style={{ color: client.status === "approved" ? "#027a48" : "#c62828" }}>
-                                          {client.status === "approved" ? "Approved" : "Rejected"}
-                                        </span>
-                  )}
+                  </div>
                 </S.TableCell>
               </S.TableRow>
             ))}

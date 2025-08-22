@@ -13,12 +13,9 @@ export const Logo = styled("img")({
   height: 150, 
   width: "auto",
   alignSelf: "flex-start",
-  // [`@media (max-width:${breakpoints.md}px)`]: {
-  //   height: 150,
-  // },
-  // [`@media (max-width:${breakpoints.sm}px)`]: {
-  //   height: 130, 
-  // },
+  marginTop: "-2rem", 
+  marginLeft: "1rem", 
+
 });
 
 export const Address = styled("div")({

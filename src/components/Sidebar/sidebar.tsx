@@ -185,7 +185,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => 
       
       {isOpen && (
         <Logo>
-          <Image src="/whitelogo.png" alt="KMARIS" width={120} height={40} />
+          <Image src="/whitelogo.png" alt="KMARIS" width={120} height={50} />
         </Logo>
       )}
       

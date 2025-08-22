@@ -51,15 +51,32 @@ export const BottomInner = styled("div")({
   fontSize: 14,
 
   [`@media (min-width:${breakpoints.md}px)`]: {
+    display: "grid",
+    alignItems: "center",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gap: 64,
     padding: "24px 32px",
-    flexDirection: "row",
-    justifyContent: "space-between",
+  },
+
+  [`@media (min-width:${breakpoints.lg}px)`]: {
+    gridTemplateColumns: "2fr 1fr 2fr",
+    gap: 80,
+    padding: "24px 64px",
   },
 });
 
 export const BottomLinks = styled("div")({
   display: "flex",
   gap: 24,
+
+  [`@media (min-width:${breakpoints.md}px)`]: {
+    gridColumn: "2 / 3",
+    justifyContent: "flex-end",
+  },
+
+  [`@media (min-width:${breakpoints.lg}px)`]: {
+    gridColumn: "3 / 4",
+  },
 
   "a": {
     color: palette.white,
