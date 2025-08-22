@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useMemo } from "react";
 import {
   PageWrapper,
   Container,
@@ -40,6 +40,32 @@ interface AllFormsProps {
 }
 
 export function AllForms({ items = [] }: AllFormsProps) {
+  const [activeTab, setActiveTab] = useState("ALL FORMS");
+
+  const formsToDisplay = items.length > 0 ? items : formsData.forms;
+
+  const filteredForms = useMemo(() => {
+    switch (activeTab) {
+      case "FILING SERVICES":
+        return formsToDisplay.filter(
+          (form) =>
+            form.package === "FILING SERVICES" ||
+            form.type === "FILING SERVICES"
+        );
+      case "FORM I130":
+        return formsToDisplay.filter((form) => form.title === "I-130");
+      case "FORM N400":
+        return formsToDisplay.filter((form) => form.title === "N-400");
+      case "ALL EBOOK":
+        // Assuming no ebooks in the current data, returns an empty array.
+        // The filter can be adjusted if ebook data is added.
+        return formsToDisplay.filter((form) => form.type === "EBOOK");
+      case "ALL FORMS":
+      default:
+        return formsToDisplay;
+    }
+  }, [activeTab, formsToDisplay]);
+
   return (
     <>
       <PageWrapper>
@@ -47,42 +73,31 @@ export function AllForms({ items = [] }: AllFormsProps) {
           <TabsWrapper>
             <Tabs>
               {tabs.map((tab) => (
-                <Tab key={tab} $active={tab === "ALL FORMS"}>
+                <Tab
+                  key={tab}
+                  $active={tab === activeTab}
+                  onClick={() => setActiveTab(tab)}
+                >
                   {tab}
                 </Tab>
               ))}
             </Tabs>
           </TabsWrapper>
           <Grid>
-            {items.length > 0
-              ? items.map((form) => (
-                  <FormCard key={form.id}>
-                    <FormHeader>
-                      <FormId>{form.title}</FormId>
-                      <StatusBadge>
-                        <StatusText>{form.type}</StatusText>
-                      </StatusBadge>
-                      {form.package && <PackageText>{form.package}</PackageText>}
-                    </FormHeader>
-                    <FormContent>
-                      <FormTitle>{form.subtitle}</FormTitle>
-                    </FormContent>
-                  </FormCard>
-                ))
-              : formsData.forms.map((form) => (
-                  <FormCard key={form.id}>
-                    <FormHeader>
-                      <FormId>{form.title}</FormId>
-                      <StatusBadge>
-                        <StatusText>{form.type}</StatusText>
-                      </StatusBadge>
-                      {form.package && <PackageText>{form.package}</PackageText>}
-                    </FormHeader>
-                    <FormContent>
-                      <FormTitle>{form.subtitle}</FormTitle>
-                    </FormContent>
-                  </FormCard>
-                ))}
+            {filteredForms.map((form) => (
+              <FormCard key={form.id}>
+                <FormHeader>
+                  <FormId>{form.title}</FormId>
+                  <StatusBadge>
+                    <StatusText>{form.type}</StatusText>
+                  </StatusBadge>
+                  {form.package && <PackageText>{form.package}</PackageText>}
+                </FormHeader>
+                <FormContent>
+                  <FormTitle>{form.subtitle}</FormTitle>
+                </FormContent>
+              </FormCard>
+            ))}
           </Grid>
         </Container>
       </PageWrapper>

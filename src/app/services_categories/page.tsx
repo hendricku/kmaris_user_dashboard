@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Services } from "@/components/Services/Services";
 import { Section, Container, HeaderRow } from "@/components/Services/elements";
@@ -18,7 +17,12 @@ const allServiceItems = [
 export default function ServicesCategories() {
   return (
     <main className="animate-fade-in">
-      <Section>
+      {/* 
+        The paddingBottom has been changed to 0.
+        This will remove the extra space below the "All Service Categories" title,
+        moving it much closer to the cards.
+      */}
+      <Section style={{ paddingTop: '60px', paddingBottom: 1 }}>
         <Container>
           <HeaderRow className="animate-fade-in-up">
             <Heading level={2} variant="section" maxWidth={560}>

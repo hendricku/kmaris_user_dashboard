@@ -44,9 +44,7 @@ export default function AdminHeader({ onMenuToggle, sidebarOpen }: AdminHeaderPr
   return (
       <S.Header sidebarOpen={sidebarOpen}>
       <S.HeaderLeft>
-        <S.MenuButton onClick={onMenuToggle}>
-          <MenuIcon />
-        </S.MenuButton>
+     
         <Image
                   src="/whitelogo.png"
                   alt="Logo"

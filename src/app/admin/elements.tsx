@@ -12,7 +12,7 @@ export const AdminLayout = styled.div`
 
 export const MainContent = styled.div`
   flex: 1;
-  margin-left: 250px;
+  margin-left: 250px; /* Adjust if your sidebar width is different */
   padding: 24px;
   transition: margin-left 0.3s ease;
 `;
@@ -104,6 +104,7 @@ export const StatCard = styled.div`
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
   }
 
   .stat-title {
@@ -179,7 +180,7 @@ export const TableCell = styled.td`
   color: #495057;
   border-bottom: 1px solid #e9ecef;
   
-  &:last-child {
+  tr:last-child & {
     border-bottom: none;
   }
 `;
@@ -189,13 +190,16 @@ export const StatusBadge = styled.span<{ status: string }>`
   border-radius: 50px;
   font-size: 13px;
   font-weight: 500;
+  text-transform: capitalize;
 
   ${({ status }) => {
       switch (status.toLowerCase()) {
+        case "active":
         case "approved":
           return "background: #e6f7ed; color: #027a48;";
         case "pending":
           return "background: #fff3e0; color: #b76e00;";
+        case "delayed":
         case "rejected":
           return "background: #ffebee; color: #c62828;";
         default:
