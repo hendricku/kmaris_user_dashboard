@@ -2,6 +2,7 @@
 
 import React, { useState, ChangeEvent } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import * as S from "./elements";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -21,6 +22,7 @@ export interface SignupProps {
 }
 
 export function Signup({ onSubmit, onLogin }: SignupProps) {
+  const router = useRouter();
   const [formData, setFormData] = useState<SignupFormData>({
     firstName: "",
     lastName: "",
@@ -46,6 +48,10 @@ export function Signup({ onSubmit, onLogin }: SignupProps) {
     onSubmit(formData);
   };
 
+  const handleGoToHomepage = () => {
+    router.push("/");
+  };
+
   return (
     <S.PageWrapper>
       <S.Container>
@@ -59,7 +65,7 @@ export function Signup({ onSubmit, onLogin }: SignupProps) {
           />
           <S.Overlay />
           <S.LeftContentWrapper>
-            <S.LogoWrap>
+            <S.LogoWrap onClick={handleGoToHomepage}>
               <Image
                 src="/whitelogo.png"
                 alt="KMARIS LLC"
@@ -191,6 +197,10 @@ export function Signup({ onSubmit, onLogin }: SignupProps) {
             <S.LoginButton type="button" onClick={onLogin}>
               Login now
             </S.LoginButton>
+
+            <S.GoBackButton type="button" onClick={handleGoToHomepage}>
+              Return to Homepage
+            </S.GoBackButton>
           </S.Form>
         </S.FormSection>
       </S.Container>

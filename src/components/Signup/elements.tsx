@@ -22,14 +22,14 @@ export const Container = styled("div")({
   flexDirection: "column",
   boxShadow: "0 15px 50px rgba(0,0,0,0.15)",
   margin: "auto",
-  maxWidth: "1000px",
+  maxWidth: "980px", // Further reduced for a compact appearance
   borderRadius: "16px",
   overflow: "hidden",
   backgroundColor: "#fff",
 
   [`@media (min-width: ${breakpoints.md}px)`]: {
     flexDirection: "row",
-    height: "680px",
+    height: "auto",
     maxHeight: "90vh",
   },
 });
@@ -71,11 +71,12 @@ export const LeftContentWrapper = styled("div")({
 
 export const LogoWrap = styled("div")({
   width: "100%",
-  marginBottom: "80px",
+  marginBottom: "70px", // Reduced
+  cursor: "pointer",
   
   "& img": {
     objectFit: "contain",
-    maxWidth: "180px",
+    maxWidth: "170px", // Reduced
     height: "auto",
   },
 });
@@ -88,17 +89,17 @@ export const ImageContent = styled("div")({
 });
 
 export const ImageTitle = styled("h2")({
-  fontSize: "30px",
+  fontSize: "28px", // Reduced
   fontWeight: typography.weight.bold,
-  marginBottom: "16px",
+  marginBottom: "14px", // Reduced
   textShadow: "0 2px 4px rgba(0,0,0,0.2)",
 });
 
 export const ImageText = styled("p")({
-  fontSize: "15px",
+  fontSize: "14px", // Reduced
   lineHeight: 1.6,
-  maxWidth: "380px",
-  marginBottom: "24px",
+  maxWidth: "360px",
+  marginBottom: "22px", // Reduced
   opacity: 0.9,
 });
 
@@ -111,8 +112,8 @@ export const FeatureList = styled("ul")({
 export const FeatureItem = styled("li")({
   display: "flex",
   alignItems: "center",
-  marginBottom: "12px",
-  fontSize: "15px",
+  marginBottom: "10px", // Reduced
+  fontSize: "14px", // Reduced
   
   "&:before": {
     content: '"✓"',
@@ -124,7 +125,7 @@ export const FeatureItem = styled("li")({
 
 export const FormSection = styled("div")({
   width: "100%",
-  padding: "20px 25px",
+  padding: "25px 20px", // Reduced
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -132,12 +133,12 @@ export const FormSection = styled("div")({
 
   [`@media (min-width: ${breakpoints.md}px)`]: {
     width: "55%",
-    padding: "0 50px",
+    padding: "0 45px", // Reduced
   },
 });
 
 export const Title = styled("h1")({
-  fontSize: "28px",
+  fontSize: "26px", // Reduced
   position: "relative",
   fontWeight: typography.weight.bold,
   color: palette.navy,
@@ -159,12 +160,12 @@ export const Title = styled("h1")({
 });
 
 export const Subtitle = styled("p")({
-  fontSize: "15px",
+  fontSize: "14px", // Reduced
   color: palette.textDark,
   textAlign: "center",
   opacity: 0.85,
   maxWidth: "380px",
-  margin: "20px auto 20px",
+  margin: "18px auto 22px", // Reduced
   lineHeight: "1.5",
   fontWeight: typography.weight.medium,
 });
@@ -172,7 +173,7 @@ export const Subtitle = styled("p")({
 export const Form = styled("form")({
   display: "flex",
   flexDirection: "column",
-  gap: "14px",
+  gap: "14px", // Reduced
   width: "100%",
   maxWidth: "420px",
   margin: "0 auto",
@@ -180,7 +181,7 @@ export const Form = styled("form")({
 
 export const Row = styled("div")({
   display: "grid",
-  gap: "14px",
+  gap: "14px", // Reduced
   gridTemplateColumns: "1fr",
 
   [`@media (min-width: ${breakpoints.sm}px)`]: {
@@ -191,19 +192,19 @@ export const Row = styled("div")({
 export const InputGroup = styled("div")({
   display: "flex",
   flexDirection: "column",
-  gap: "6px",
+  gap: "5px", // Reduced
 });
 
 export const Label = styled("label")({
-  fontSize: "14px",
+  fontSize: "13px", // Reduced
   fontWeight: typography.weight.medium,
   color: palette.navy,
 });
 
 export const Input = styled("input")({
   width: "100%",
-  padding: "11px 16px",
-  fontSize: "15px",
+  padding: "10px 15px", // Reduced
+  fontSize: "14px", // Reduced
   border: `1px solid ${palette.border}`,
   borderRadius: "8px",
   backgroundColor: palette.white,
@@ -224,8 +225,8 @@ export const Input = styled("input")({
 
 export const SubmitButton = styled("button")({
   width: "100%",
-  padding: "12px",
-  fontSize: "16px",
+  padding: "11px", // Reduced
+  fontSize: "15px", // Reduced
   fontWeight: typography.weight.semibold,
   color: palette.white,
   backgroundColor: palette.primary,
@@ -250,11 +251,11 @@ export const SubmitButton = styled("button")({
 export const Divider = styled("div")({
   display: "flex",
   alignItems: "center",
-  margin: "10px 0",
+  margin: "8px 0", // Reduced
   gap: "16px",
   color: palette.textDark,
   opacity: 0.6,
-  fontSize: "14px",
+  fontSize: "13px", // Reduced
   fontWeight: typography.weight.medium,
 
   "&::before, &::after": {
@@ -267,8 +268,8 @@ export const Divider = styled("div")({
 
 export const LoginButton = styled("button")({
   width: "100%",
-  padding: "11px",
-  fontSize: "16px",
+  padding: "10px", // Reduced
+  fontSize: "15px", // Reduced
   fontWeight: typography.weight.medium,
   color: palette.navy,
   backgroundColor: "rgba(0, 37, 66, 0.03)",
@@ -291,12 +292,12 @@ export const InputWrapper = styled("div")({
 
 export const IconButton = styled("button")({
   position: "absolute",
-  right: "14px",
+  right: "12px", // Adjusted
   top: "50%",
   transform: "translateY(-50%)",
   background: "none",
   border: "none",
-  padding: "8px",
+  padding: "6px", // Reduced
   cursor: "pointer",
   color: palette.textDark,
   opacity: 0.6,
@@ -308,5 +309,25 @@ export const IconButton = styled("button")({
 
   "&:hover": {
     opacity: 1,
+  },
+});
+
+export const GoBackButton = styled("button")({
+  width: "100%",
+  padding: "8px", // Reduced
+  fontSize: "13px", // Reduced
+  fontWeight: typography.weight.medium,
+  color: palette.textDark,
+  backgroundColor: "transparent",
+  border: "none",
+  cursor: "pointer",
+  transition: "all 200ms ease",
+  marginTop: "5px", // Reduced
+  opacity: 0.7,
+
+  "&:hover": {
+    color: palette.navy,
+    opacity: 1,
+    textDecoration: "underline",
   },
 });

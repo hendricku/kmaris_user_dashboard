@@ -2,12 +2,14 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { LoginProps } from "./interface";
 import * as S from "./elements";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export function Login({ onSubmit, onSignUp, onForgotPassword, error, isLoading }: LoginProps) {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -16,6 +18,11 @@ export function Login({ onSubmit, onSignUp, onForgotPassword, error, isLoading }
     e.preventDefault();
     onSubmit?.(email, password);
   };
+
+  const handleGoToHomepage = () => {
+    router.push("/");
+  };
+
   return (
     <S.PageWrapper>
       <S.Container>
@@ -27,7 +34,7 @@ export function Login({ onSubmit, onSignUp, onForgotPassword, error, isLoading }
             style={{ objectFit: "cover" }}
           />
           <S.ImageContent>
-            <S.LogoWrap>
+            <S.LogoWrap onClick={handleGoToHomepage}>
               <Image 
                 src="/whitelogo.png" 
                 alt="KMARIS LLC" 
@@ -101,6 +108,10 @@ export function Login({ onSubmit, onSignUp, onForgotPassword, error, isLoading }
             <S.SignUpButton type="button" onClick={onSignUp}>
               Sign up now
             </S.SignUpButton>
+
+            <S.GoBackButton type="button" onClick={handleGoToHomepage}>
+              Return to Homepage
+            </S.GoBackButton>
           </S.Form>
         </S.FormSection>
       </S.Container>

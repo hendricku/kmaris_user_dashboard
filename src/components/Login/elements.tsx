@@ -148,7 +148,8 @@
       },
 
       [`${ImageSection} &`]: {
-         marginBottom: 0, 
+         marginBottom: 0,
+         cursor: "pointer", 
          "&::after": {
             display: "none",
          }
@@ -327,4 +328,24 @@
          borderColor: palette.primary,
          backgroundColor: "rgba(221, 28, 35, 0.05)",
       },
+      });
+      
+      export const GoBackButton = styled("button")({
+        width: "100%",
+        padding: "10px",
+        fontSize: "14px",
+        fontWeight: typography.weight.medium,
+        color: palette.textDark,
+        backgroundColor: "transparent",
+        border: "none",
+        cursor: "pointer",
+        transition: "all 200ms ease",
+        marginTop: "12px",
+        opacity: 0.7,
+      
+        "&:hover": {
+          color: palette.navy,
+          opacity: 1,
+          textDecoration: "underline",
+        },
       });
