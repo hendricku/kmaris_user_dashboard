@@ -16,7 +16,7 @@ export const Top = styled("div")({
   width: "100%",
   maxWidth: breakpoints.containerMaxWidth,
   margin: "0 auto",
-  padding: "64px 16px",
+  padding: "32px 8px", // Reduce padding for mobile
   display: "grid",
   gap: 48,
   gridTemplateColumns: "1fr",

@@ -84,6 +84,7 @@ export function Header({
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const [userInfo, setUserInfo] = React.useState<{ name: string; role: string; email: string } | null>(null);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -110,7 +111,15 @@ export function Header({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  if (pathname === '/Login' || pathname === '/signup' || pathname ==='/admin'  || pathname === '/admin/clients') return null;
+  // Check for user info on mount and route changes
+  React.useEffect(() => {
+    const storedUserInfo = localStorage.getItem('userInfo');
+    if (storedUserInfo) {
+      setUserInfo(JSON.parse(storedUserInfo));
+    }
+  }, [pathname]);
+
+  if (pathname === '/Login' || pathname === '/signup' || pathname ==='/admin'  || pathname === '/admin/clients' || pathname === 'admin/archived') return null;
   
   const toggleDrawer = () => {
     setDrawerOpen((v) => !v);
@@ -127,6 +136,13 @@ export function Header({
   const navigateToLogin = () => {
     router.push('/Login'); 
     setDropdownOpen(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('userInfo');
+    setUserInfo(null);
+    setDropdownOpen(false);
+    router.push('/');
   };
 
   return (
@@ -177,8 +193,24 @@ export function Header({
                 <StyledAccountIcon />
               </IconButton>
               <DropdownContent isOpen={dropdownOpen}>
-                <MenuItem onClick={navigateToLogin}>Sign In</MenuItem>
-                <MenuItem onClick={() => router.push('/signup')}>Create Account</MenuItem>
+                {userInfo ? (
+                  <>
+                    <MenuItem style={{ pointerEvents: 'none', color: '#666' }}>
+                      {userInfo.name}
+                    </MenuItem>
+                    {userInfo.role === 'admin' && (
+                      <MenuItem onClick={() => router.push('/admin')}>
+                        Admin Dashboard
+                      </MenuItem>
+                    )}
+                    <MenuItem onClick={handleLogout}>Sign Out</MenuItem>
+                  </>
+                ) : (
+                  <>
+                    <MenuItem onClick={navigateToLogin}>Sign In</MenuItem>
+                    <MenuItem onClick={() => router.push('/signup')}>Create Account</MenuItem>
+                  </>
+                )}
               </DropdownContent>
             </ProfileMenu>
           </IconRow>

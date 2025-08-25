@@ -19,6 +19,11 @@ interface AdminHeaderProps {
 export default function AdminHeader({ onMenuToggle, sidebarOpen }: AdminHeaderProps) {
   const router = useRouter();
 
+  const handleMenuToggle = () => {
+    onMenuToggle();
+    document.body.classList.toggle('mobile-menu-open', sidebarOpen);
+  };
+
   const handleLogout = () => {
     Swal.fire({
       title: 'Are you sure?',

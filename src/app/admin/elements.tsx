@@ -50,6 +50,40 @@ export const Title = styled.h1`
   color: ${palette.navy};
 `;
 
+export const SearchContainer = styled.div`
+  position: relative;
+  max-width: 400px;
+  margin-bottom: 20px;
+`;
+
+export const SearchInput = styled.input`
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+
+  &:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+`;
+
+export const SearchIcon = styled.div`
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  pointer-events: none;
+`;
+
 export const SearchBar = styled.div`
   position: relative;
   width: 300px;

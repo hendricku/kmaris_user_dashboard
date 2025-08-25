@@ -35,7 +35,8 @@ export const Header = styled('header', {
   right: 0;
   left: 0;
   z-index: 1000;
-  margin-left: ${props => props.sidebarOpen ? "250px" : "70px"};
+  margin-left: ${props => props.sidebarOpen ? "0px" : "0px"}; /* Ensure no margin for mobile */
+  padding: 0; /* Ensure no padding for mobile */
   transition: margin-left 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   height: 60px;

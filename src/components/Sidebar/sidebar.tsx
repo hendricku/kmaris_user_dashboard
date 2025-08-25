@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import { palette } from "@/theme/palette";
 import { typography } from "@/theme/typography";
@@ -41,10 +41,13 @@ const SidebarContainer = styled('div', {
   z-index: 900;
   padding-top: 60px; /* Space for the header */
   overflow-x: hidden;
+  &.open {
+    overflow: hidden; /* Prevent body scrolling when sidebar is open */
+  }
   
   @media (max-width: 768px) {
     transform: ${props => props.isOpen ? "translateX(0)" : "translateX(-100%)"};
-    width: 250px;
+  width: 100%; /* Change to 100% for mobile */
   }
 `;
 
@@ -169,6 +172,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => 
   const navItems = [
       { icon: <DashboardIcon />, label: "Dashboard", href: "/admin" },
       { icon: <PeopleIcon />, label: "Clients", href: "/admin/clients" },
+      { icon: <PeopleIcon />, label: "Archived", href: "/admin/archived" },
       { icon: <DescriptionIcon />, label: "Forms", href: "/admin/forms" },
     ];
   

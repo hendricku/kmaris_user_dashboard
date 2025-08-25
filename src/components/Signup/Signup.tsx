@@ -2,6 +2,7 @@
 
 import React, { useState, ChangeEvent } from "react";
 import Image from "next/image";
+import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import * as S from "./elements";
 import Visibility from "@mui/icons-material/Visibility";
@@ -43,9 +44,41 @@ export function Signup({ onSubmit, onLogin }: SignupProps) {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(formData);
+    try {
+      const response = await fetch('/api/auth/signup/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Signup failed');
+      }
+
+      // Show success message using a more user-friendly alert
+      Swal.fire({
+        title: 'Registration Successful!',
+        text: 'Your account is pending approval. You will be able to login once an admin approves your account.',
+        icon: 'success',
+        confirmButtonText: 'Go to Login'
+      }).then((result) => {
+        if (result.isConfirmed && onLogin) {
+          onLogin();
+        }
+      });
+    } catch (error) {
+      console.error('Signup error:', error);
+      // You can handle the error here, perhaps by showing it to the user
+      if (onSubmit) {
+        onSubmit(formData);
+      }
+    }
   };
 
   const handleGoToHomepage = () => {

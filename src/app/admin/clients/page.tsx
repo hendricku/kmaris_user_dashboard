@@ -6,88 +6,194 @@ import { AppButton } from "@/components/Button/Button";
 import Swal from "sweetalert2";
 
 interface Client {
-  id: number;
+  id: string;
   name: string;
   email: string;
-  status: "pending" | "approved" | "rejected";
+  status: "pending" | "approved" | "rejected" | "archived";
   date: string;
 }
 
 export default function ClientsApproval() {
-  const [clients, setClients] = useState<Client[]>([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@example.com",
-      status: "pending",
-      date: "08/20/2025"
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane@example.com",
-      status: "pending",
-      date: "08/19/2025"
-    },
-    {
-      id: 3,
-      name: "Robert Johnson",
-      email: "robert@example.com",
-      status: "pending",
-      date: "08/18/2025"
-    },
-    {
-      id: 4,
-      name: "Emily Davis",
-      email: "emily@example.com",
-      status: "approved",
-      date: "08/17/2025"
-    },
-    {
-      id: 5,
-      name: "Michael Wilson",
-      email: "michael@example.com",
-      status: "rejected",
-      date: "08/16/2025"
+  const [clients, setClients] = useState<Client[]>([]);
+
+  // Fetch clients on component mount
+  const fetchClients = async () => {
+    try {
+      console.log('Fetching clients...');
+      const response = await fetch('/api/clients/');
+      console.log('Response status:', response.status);
+      
+      const data = await response.json();
+      console.log('Response data:', data);
+      
+      if (!response.ok) {
+        throw new Error(data.details || data.error || 'Failed to fetch clients');
+      }
+      
+      if (!Array.isArray(data)) {
+        console.error('Unexpected data format:', data);
+        throw new Error('Received invalid data format from server');
+      }
+      
+      // Transform the data to match our Client interface
+      const formattedClients = data.map((client: any) => ({
+        id: client._id.toString(), // Convert MongoDB ObjectId to string
+        name: `${client.firstName || ''} ${client.lastName || ''}`.trim() || 'Unknown',
+        email: client.email || 'No email',
+        status: (client.status || 'pending') as Client['status'],
+        date: client.createdAt ? new Date(client.createdAt).toLocaleDateString() : 'Unknown date'
+      }));
+      
+      console.log('Formatted clients:', formattedClients);
+      setClients(formattedClients);
+    } catch (error) {
+      console.error('Error fetching clients:', error);
+      Swal.fire({
+        title: 'Error',
+        text: error instanceof Error ? error.message : 'Failed to fetch clients',
+        icon: 'error'
+      });
     }
-  ]);
-
-  const handleApprove = (id: number) => {
-    setClients(clients.map(client =>
-      client.id === id ? { ...client, status: "approved" } : client
-    ));
   };
 
-  const handleReject = (id: number) => {
-    setClients(clients.map(client =>
-      client.id === id ? { ...client, status: "rejected" } : client
-    ));
+  // Fetch clients on component mount and after status updates
+  React.useEffect(() => {
+    fetchClients();
+  }, []);
+
+  const updateClientStatus = async (id: string, newStatus: string) => {
+    try {
+      const response = await fetch('/api/clients/update-status/', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          clientId: id, 
+          status: newStatus 
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update client status');
+      }
+
+      // Refresh the client list after update
+      await fetchClients();
+
+      // Show success message
+      Swal.fire({
+        title: 'Success!',
+        text: `Client ${newStatus} successfully`,
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false
+      });
+    } catch (error) {
+      console.error('Error updating client status:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Failed to update client status',
+        icon: 'error'
+      });
+    }
   };
 
-  const handleArchive = (id: number) => {
+  const handleApprove = (id: string) => {
+    updateClientStatus(id, 'approved');
+  };
+
+  const handleReject = (id: string) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: 'Confirm Rejection',
+      text: 'Are you sure you want to reject this client?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, reject'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        updateClientStatus(id, 'rejected');
+      }
+    });
+  };
+
+  const handleArchive = (id: string) => {
+    Swal.fire({
+      title: "Archive Client",
+      text: "The client will be moved to the archive. You can restore them from the Archive page.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, archive it!"
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        setClients(clients.filter(client => client.id !== id));
-        Swal.fire({
-          title: "Archived!",
-          text: "The client has been archived.",
-          icon: "success"
-        });
+        try {
+          const response = await fetch('/api/clients/update-status/', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              clientId: id,
+              status: 'archived'
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to archive client');
+          }
+
+          // Remove the archived client from the current list
+          setClients(clients.filter(client => client.id !== id));
+
+          Swal.fire({
+            title: 'Archived!',
+            text: 'The client has been moved to the Archive page',
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false
+          });
+        } catch (error) {
+          console.error('Error archiving client:', error);
+          Swal.fire({
+            title: 'Error',
+            text: 'Failed to archive client',
+            icon: 'error'
+          });
+        }
       }
     });
   };
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredClients = clients.filter(client => 
+    client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    client.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
       <S.MainContent>
-        <S.Title>Clients Approval</S.Title>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+          <S.Title>Clients Approval</S.Title>
+          
+          <S.SearchContainer>
+            <S.SearchInput
+              type="text"
+              placeholder="Search by name or email..."
+              value={searchTerm}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
+            />
+            <S.SearchIcon>
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </S.SearchIcon>
+          </S.SearchContainer>
+        </div>
 
         <S.TableContainer>
         <S.Table>
@@ -101,7 +207,7 @@ export default function ClientsApproval() {
             </tr>
           </S.TableHead>
           <tbody>
-            {clients.map(client => (
+            {filteredClients.map(client => (
               <S.TableRow key={client.id}>
                 <S.TableCell>
                   <div style={{ fontWeight: 500 }}>{client.name}</div>

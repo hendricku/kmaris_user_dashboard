@@ -314,15 +314,15 @@ export const IconButton = styled("button")({
 
 export const GoBackButton = styled("button")({
   width: "100%",
-  padding: "8px", // Reduced
-  fontSize: "13px", // Reduced
+  padding: "8px", 
+  fontSize: "13px", 
   fontWeight: typography.weight.medium,
   color: palette.textDark,
   backgroundColor: "transparent",
   border: "none",
   cursor: "pointer",
   transition: "all 200ms ease",
-  marginTop: "5px", // Reduced
+  marginTop: "5px", 
   opacity: 0.7,
 
   "&:hover": {

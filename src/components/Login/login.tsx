@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 import { LoginProps } from "./interface";
 import * as S from "./elements";
 import Visibility from "@mui/icons-material/Visibility";
@@ -14,9 +15,60 @@ export function Login({ onSubmit, onSignUp, onForgotPassword, error, isLoading }
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [loginError, setLoginError] = useState<string>("");
+  
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit?.(email, password);
+    setLoginError(""); // Clear any previous errors
+    
+    try {
+      const response = await fetch('/api/auth/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setLoginError(data.error || 'Login failed');
+        return;
+      }
+
+      // Store user info in localStorage
+      const userInfo = {
+        name: `${data.user.firstName} ${data.user.lastName}`.trim(),
+        role: data.user.role,
+        email: data.user.email
+      };
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+      // Show welcome notification
+      Swal.fire({
+        title: `Welcome back, ${data.user.firstName}!`,
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false,
+        position: 'top-end',
+        toast: true,
+        customClass: {
+          popup: 'welcome-toast'
+        }
+      });
+
+      // If user is admin, redirect to admin dashboard
+      if (data.user.role === 'admin') {
+        router.push('/admin');
+      } else {
+        // For regular clients, redirect to client dashboard or home
+        router.push('/');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setLoginError('An unexpected error occurred. Please try again.');
+    }
   };
 
   const handleGoToHomepage = () => {
@@ -91,9 +143,9 @@ export function Login({ onSubmit, onSignUp, onForgotPassword, error, isLoading }
               </S.InputWrapper>
             </S.InputGroup>
 
-            {error && (
-                          <S.ErrorMessage>{error}</S.ErrorMessage>
-                        )}
+            {loginError && (
+              <S.ErrorMessage>{loginError}</S.ErrorMessage>
+            )}
             
                         <S.ForgotPassword href="#" onClick={onForgotPassword}>
                           Forgot Password?
