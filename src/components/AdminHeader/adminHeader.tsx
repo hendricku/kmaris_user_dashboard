@@ -6,17 +6,16 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
-import MenuIcon from '@mui/icons-material/Menu';
+// Removed unused import
 import Image from "next/image";
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 
 interface AdminHeaderProps {
-  onMenuToggle: () => void;
   sidebarOpen: boolean;
 }
 
-export default function AdminHeader({ onMenuToggle, sidebarOpen }: AdminHeaderProps) {
+export default function AdminHeader({ sidebarOpen }: AdminHeaderProps) {
   const router = useRouter();
 
   // Removed unused function

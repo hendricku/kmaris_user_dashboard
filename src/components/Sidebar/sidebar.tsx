@@ -165,7 +165,6 @@ const NavItem: React.FC<NavItemProps & { isOpen: boolean }> = ({ icon, label, hr
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => {
   const pathname = usePathname();
-  const router = useRouter();
   
   const navItems = [
       { icon: <DashboardIcon />, label: "Dashboard", href: "/admin" },
