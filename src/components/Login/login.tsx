@@ -9,7 +9,7 @@ import * as S from "./elements";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-export function Login({ onSubmit, onSignUp, onForgotPassword, error, isLoading }: LoginProps) {
+export function Login({ onSignUp, onForgotPassword, isLoading }: LoginProps) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import * as S from "../elements";
-import { AppButton } from "@/components/Button/Button";
+// Removed unused import
 import Swal from "sweetalert2";
 
 interface Client {
@@ -36,7 +36,16 @@ export default function ClientsApproval() {
       }
       
       // Transform the data to match our Client interface
-      const formattedClients = data.map((client: any) => ({
+      interface ClientData {
+        _id: { toString(): string };
+        firstName: string;
+        lastName: string;
+        email: string;
+        status: string;
+        createdAt: string;
+      }
+      
+      const formattedClients = data.map((client: ClientData) => ({
         id: client._id.toString(), // Convert MongoDB ObjectId to string
         name: `${client.firstName || ''} ${client.lastName || ''}`.trim() || 'Unknown',
         email: client.email || 'No email',

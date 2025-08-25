@@ -23,7 +23,16 @@ export default function ArchivedClients() {
       }
       const data = await response.json();
       
-      const formattedClients = data.map((client: any) => ({
+      interface ClientData {
+        _id: { toString(): string };
+        firstName: string;
+        lastName: string;
+        email: string;
+        status: string;
+        updatedAt: string;
+      }
+      
+      const formattedClients = data.map((client: ClientData) => ({
         id: client._id.toString(),
         name: `${client.firstName || ''} ${client.lastName || ''}`.trim() || 'Unknown',
         email: client.email || 'No email',

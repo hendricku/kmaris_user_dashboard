@@ -1,4 +1,4 @@
-"use client";
+"use cli// Removed unused importnt";
 
 import React from "react";
 import * as S from "./elements";
@@ -19,10 +19,7 @@ interface AdminHeaderProps {
 export default function AdminHeader({ onMenuToggle, sidebarOpen }: AdminHeaderProps) {
   const router = useRouter();
 
-  const handleMenuToggle = () => {
-    onMenuToggle();
-    document.body.classList.toggle('mobile-menu-open', sidebarOpen);
-  };
+  // Removed unused function
 
   const handleLogout = () => {
     Swal.fire({

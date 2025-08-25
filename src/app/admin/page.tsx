@@ -1,9 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import * as S from "./elements";
-import Sidebar from "@/components/Sidebar/sidebar";
-import AdminHeader from "@/components/AdminHeader/adminHeader";
 
 const clients = [
   {

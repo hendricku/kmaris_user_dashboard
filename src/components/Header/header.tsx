@@ -16,7 +16,7 @@ import {
   DrawerLogo,
   DrawerNav,
   DrawerLink,
-  DrawerDivider
+  // DrawerDivider removed
 } from './drawer';
 
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";

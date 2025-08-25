@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import { palette } from "@/theme/palette";
 import { typography } from "@/theme/typography";
@@ -12,8 +12,6 @@ import Image from "next/image";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
 import DescriptionIcon from "@mui/icons-material/Description";
-import SettingsIcon from "@mui/icons-material/Settings";
-import LogoutIcon from "@mui/icons-material/Logout";
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -176,10 +174,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => 
       { icon: <DescriptionIcon />, label: "Forms", href: "/admin/forms" },
     ];
   
-  const handleLogout = () => {
-    // Implement logout functionality here
-    router.push("/");
-  };
+  // Removed unused function
   
   return (
     <SidebarContainer isOpen={isOpen}>
