@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { connectToDatabase } from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 import { hash } from "bcryptjs";
 
 export async function POST(request: Request) {
@@ -15,7 +15,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const db = await connectToDatabase();
+    const client = await clientPromise;
+    const db = client.db("kmaris");
     
     // Check if user already exists
     const existingUser = await db.collection("users").findOne({ email });

@@ -15,13 +15,32 @@ interface Client {
 
 export default function ClientsApproval() {
   const [clients, setClients] = useState<Client[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  React.useEffect(() => {
+    fetchClients().finally(() => setIsLoading(false));
+  }, []);
 
   // Fetch clients on component mount
   const fetchClients = async () => {
     try {
       console.log('Fetching clients...');
-      const response = await fetch('/api/clients/');
+      const response = await fetch('/api/clients', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        cache: 'no-store'
+      });
+      
       console.log('Response status:', response.status);
+      
+      // Check if the response is JSON
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error(`Expected JSON response but got ${contentType}`);
+      }
       
       const data = await response.json();
       console.log('Response data:', data);

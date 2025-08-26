@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { connectToDatabase } from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 import { compare } from "bcryptjs";
 
 export async function POST(request: Request) {
@@ -15,14 +15,15 @@ export async function POST(request: Request) {
       );
     }
 
-    const db = await connectToDatabase();
+    const client = await clientPromise;
+    const db = client.db("kmaris");
     
     // Find user
     const user = await db.collection("users").findOne({ email });
     
     if (!user) {
       return NextResponse.json(
-        { error: "Email not found" },
+        { error: "Invalid email or password" },
         { status: 401 }
       );
     }
@@ -31,22 +32,13 @@ export async function POST(request: Request) {
     const isValid = await compare(password, user.password);
     if (!isValid) {
       return NextResponse.json(
-        { error: "Wrong password, please try again" },
+        { error: "Invalid email or password" },
         { status: 401 }
       );
     }
 
-    // Check if user is approved (for clients only)
-    if (user.role === "client" && user.status !== "approved") {
-      return NextResponse.json(
-        { error: "Your account is pending approval. Please wait for admin approval." },
-        { status: 403 }
-      );
-    }
-
     // Don't send password in response
-    // Remove password from user object before sending response
-    const { password, ...userWithoutPassword } = user;
+    const { password: _, ...userWithoutPassword } = user;
 
     return NextResponse.json({ 
       user: userWithoutPassword,

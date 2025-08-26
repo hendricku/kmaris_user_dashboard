@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { connectToDatabase } from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 import { ObjectId } from 'mongodb';
 
 export async function PUT(request: Request) {
@@ -14,7 +14,8 @@ export async function PUT(request: Request) {
       );
     }
 
-    const db = await connectToDatabase();
+    const client = await clientPromise;
+    const db = client.db("kmaris");
     
    
     const result = await db.collection("users").updateOne(

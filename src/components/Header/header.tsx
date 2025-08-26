@@ -119,7 +119,7 @@ export function Header({
     }
   }, [pathname]);
 
-  if (pathname === '/Login' || pathname === '/signup' || pathname ==='/admin'  || pathname === '/admin/clients' || pathname === 'admin/archived') return null;
+  if (pathname === '/Login' || pathname === '/signup' || pathname ==='/admin'  || pathname === '/admin/clients' || pathname === '/admin/archived') return null;
   
   const toggleDrawer = () => {
     setDrawerOpen((v) => !v);
