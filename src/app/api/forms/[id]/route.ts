@@ -13,12 +13,18 @@ interface Form {
   status?: 'active' | 'locked';
 }
 
+interface contextProps {
+  params: {
+    id: string
+  }
+}
+
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: contextProps
 ) {
   try {
-    const formId = params.id;
+    const formId = context.params.id;
     const body = await request.json();
     const { title, type, subtitle, package: formPackage } = body;
 
@@ -50,10 +56,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: contextProps
 ) {
   try {
-    const formId = params.id;
+    const formId = context.params.id;
 
     const formsData = fs.readFileSync(formsFilePath, 'utf8');
     const forms = JSON.parse(formsData);
