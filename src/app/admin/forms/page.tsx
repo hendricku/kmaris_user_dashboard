@@ -249,9 +249,13 @@ const FormsPage = () => {
   );
 };
 
+import { Form } from '@/components/All_forms/interface';
+
+// ... existing code ...
+
 interface FormModalProps {
   onClose: () => void;
-  onSave: (data: any) => void;
+  onSave: (data: Form) => void;
   form?: Form | null;
 }
 
