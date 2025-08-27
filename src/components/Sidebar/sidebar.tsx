@@ -170,7 +170,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => 
       { icon: <DashboardIcon />, label: "Dashboard", href: "/admin" },
       { icon: <PeopleIcon />, label: "Clients", href: "/admin/clients" },
       { icon: <PeopleIcon />, label: "Archived", href: "/admin/archived" },
-      { icon: <DescriptionIcon />, label: "Forms", href: "/admin/forms" },
+      { icon: <DescriptionIcon />, label: "All Forms", href: "/admin/forms" },
     ];
   
   // Removed unused function

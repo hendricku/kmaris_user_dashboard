@@ -18,7 +18,6 @@ import {
   FormTitle,
 } from "./elements";
 import { Footer } from "@/components/Footer/Footer";
-
 import formsData from "@/json/allforms.json";
 
 const tabs = [
@@ -29,20 +28,30 @@ const tabs = [
   "ALL EBOOK",
 ];
 
+
+interface Form {
+  id: number;
+  title: string;
+  type: string;
+  package?: string;
+  subtitle: string;
+  status: 'active' | 'pending'; 
+}
+
 interface AllFormsProps {
-  items?: Array<{
-    id: number;
-    title: string;
-    type: string;
-    package?: string;
-    subtitle: string;
-  }>;
+  items?: Form[];
 }
 
 export function AllForms({ items = [] }: AllFormsProps) {
   const [activeTab, setActiveTab] = useState("ALL FORMS");
 
-  const formsToDisplay = items.length > 0 ? items : formsData.forms;
+  const activeFormsFromJSON = useMemo(() => {
+
+    return (formsData.forms as Form[]).filter((form: Form) => form.status === 'active');
+  }, []);
+
+  const formsToDisplay = items.length > 0 ? items.filter(form => form.status === 'active') : activeFormsFromJSON;
+
 
   const filteredForms = useMemo(() => {
     switch (activeTab) {
@@ -57,12 +66,10 @@ export function AllForms({ items = [] }: AllFormsProps) {
       case "FORM N400":
         return formsToDisplay.filter((form) => form.title === "N-400");
       case "ALL EBOOK":
-        // Assuming no ebooks in the current data, returns an empty array.
-        // The filter can be adjusted if ebook data is added.
         return formsToDisplay.filter((form) => form.type === "EBOOK");
       case "ALL FORMS":
       default:
-        return formsToDisplay;
+        return formsToDisplay; 
     }
   }, [activeTab, formsToDisplay]);
 

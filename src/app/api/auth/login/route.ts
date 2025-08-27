@@ -28,12 +28,20 @@ export async function POST(request: Request) {
       );
     }
 
-    // Verify password
+  
     const isValid = await compare(password, user.password);
     if (!isValid) {
       return NextResponse.json(
         { error: "Invalid email or password" },
         { status: 401 }
+      );
+    }
+
+    
+    if (user.status === 'rejected' || user.status === 'archived') {
+      return NextResponse.json(
+        { error: "Your account has been deactivated. Please contact support." },
+        { status: 403 }
       );
     }
 

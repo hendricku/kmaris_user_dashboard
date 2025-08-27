@@ -5,6 +5,7 @@ export interface Form {
   subtitle: string;
   package?: string;
   price?: string;
+  status?: 'active' | 'locked';
 }
 
 export interface AllFormsProps {

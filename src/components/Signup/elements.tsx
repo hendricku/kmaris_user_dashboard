@@ -138,12 +138,13 @@ export const FormSection = styled("div")({
 });
 
 export const Title = styled("h1")({
-  fontSize: "26px", // Reduced
+  fontSize: "26px", 
   position: "relative",
   fontWeight: typography.weight.bold,
   color: palette.navy,
   textAlign: "center",
-  marginBottom: "10px",
+  marginBottom: "1rem",
+  marginTop:"2rem", 
   letterSpacing: "-0.5px",
 
   "&::after": {
@@ -324,6 +325,7 @@ export const GoBackButton = styled("button")({
   transition: "all 200ms ease",
   marginTop: "5px", 
   opacity: 0.7,
+  marginBottom:"20px",
 
   "&:hover": {
     color: palette.navy,

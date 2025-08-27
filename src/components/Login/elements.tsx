@@ -161,8 +161,9 @@
       fontWeight: typography.weight.bold,
       color: palette.navy,
       textAlign: "center",
-      marginBottom: "10px",
+      // marginBottom: "1rem",
       letterSpacing: "-0.5px",
+      marginTop:"4rem",
       });
 
       export const Subtitle = styled("p")({
@@ -286,7 +287,7 @@
         display: "flex",
         alignItems: "center",
         margin: "15px 0",
-        gap: "16px",
+        gap: "10px",
         color: palette.textDark,
         opacity: 0.6,
         fontSize: "14px",
@@ -306,8 +307,8 @@
         border: "1px solid #f5c6cb",
         borderRadius: "8px",
         padding: "12px 16px",
-        margin: "0 0 20px 0",
-        fontSize: "14px",
+      //   margin: "0 0 2px 0",
+        fontSize: "10px",
         fontWeight: typography.weight.medium,
       });
       
@@ -341,6 +342,7 @@
         cursor: "pointer",
         transition: "all 200ms ease",
         marginTop: "12px",
+        marginBottom:"4rem",
         opacity: 0.7,
       
         "&:hover": {
