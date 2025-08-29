@@ -146,3 +146,65 @@ export const LogoutButton = styled.button`
     opacity: 1;
   }
 `;
+
+export const NotificationDropdown = styled.div`
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  width: 300px;
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 1000;
+  max-height: 400px;
+  overflow-y: auto;
+`;
+
+export const NotificationItem = styled.div<{ read: boolean }>`
+  padding: 12px 16px;
+  border-bottom: 1px solid #e9ecef;
+  cursor: pointer;
+  background: ${props => props.read ? 'white' : '#f8f9fa'};
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: #e9ecef;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  small {
+    font-size: 12px;
+    color: #6c757d;
+  }
+`;
+
+export const ActionButtons = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+`;
+
+export const ActionButton = styled.button<{ approve?: boolean }>`
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background-color: ${(props) => (props.approve ? '#28a745' : '#dc3545')};
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: ${(props) => (props.approve ? '#218838' : '#c82333')};
+  }
+`;

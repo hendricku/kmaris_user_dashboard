@@ -6,14 +6,14 @@
       "type": "ADJUST STATUS",
       "subtitle": "Form I-485 Adjustment Package 1",
       "package": "PACKAGE 1",
-      "status": "active"
+      "status": "pending"
     },
     {
       "id": "filing",
       "title": "OTHER",
       "type": "FILING SERVICES",
       "subtitle": "Consular Processing Service Fee",
-      "status": "active"
+      "status": "pending"
     },
     {
       "id": "i485-2",
@@ -21,7 +21,7 @@
       "type": "ADJUST STATUS",
       "subtitle": "Form I-485 Adjustment Package 2",
       "package": "PACKAGE 2",
-      "status": "active"
+      "status": "pending"
     },
     {
       "id": "i485-gc",
@@ -103,18 +103,10 @@
       "status": "active"
     },
     {
-      "id": "a-1756271030637",
-      "title": "a",
-      "type": "a",
-      "subtitle": "a",
-      "package": "a",
-      "status": "pending"
-    },
-    {
       "id": "hendrick's-form-1756273518244",
       "title": "MANPREET",
       "type": "Gusto mo Yumaman?",
-      "subtitle": "Yaman ba sa pera o yaman sa buhay?",
+      "subtitle": "Yaman ba sa pera o yaman sa buhay??",
       "package": "PACKAGE 10",
       "status": "active"
     },

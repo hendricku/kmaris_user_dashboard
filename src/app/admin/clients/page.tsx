@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import * as S from "../elements";
-// Removed unused import
+import * as C from "./styles";
 import Swal from "sweetalert2";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface Client {
   id: string;
@@ -13,9 +14,27 @@ interface Client {
   date: string;
 }
 
+interface NewClient {
+  firstName: string;
+  lastName: string;
+  email: string;
+  mobileNumber: string;
+  password?: string;
+}
+
 export default function ClientsApproval() {
   const [clients, setClients] = useState<Client[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [newClient, setNewClient] = useState<NewClient>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobileNumber: "",
+    password: "",
+  });
 
   React.useEffect(() => {
     fetchClients().finally(() => setIsLoading(false));
@@ -203,89 +222,184 @@ export default function ClientsApproval() {
     client.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  return (
-      <S.MainContent>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-          <S.Title>Clients Approval</S.Title>
-          
-          <S.SearchContainer>
-            <S.SearchInput
-              type="text"
-              placeholder="Search by name or email..."
-              value={searchTerm}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
-            />
-            <S.SearchIcon>
-              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </S.SearchIcon>
-          </S.SearchContainer>
-        </div>
+  const handleAddClient = () => {
+    setIsModalOpen(true);
+  };
 
-        <S.TableContainer>
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setNewClient({
+      firstName: "",
+      lastName: "",
+      email: "",
+      mobileNumber: "",
+      password: "",
+    });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewClient((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const generatePassword = () => {
+    const randomPassword = Math.random().toString(36).slice(-8);
+    setNewClient((prev) => ({ ...prev, password: randomPassword }));
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/clients/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newClient),
+      });
+      //failed to add client nag add lang nito just to notify if it failed testing only
+
+      if (!response.ok) {
+        throw new Error('Failed to add client');
+      }
+
+      await fetchClients();
+      handleCloseModal();
+
+      Swal.fire({
+        title: 'Success!',
+        text: 'Client added successfully',
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false
+      });
+    } catch (error) {
+      console.error('Error adding client:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Failed to add client',
+        icon: 'error'
+      });
+    }
+  };
+
+  const handleConfirm = () => {
+    // Logic to add the new client
+    console.log("New client data:", newClient);
+    // Close the modal
+    setIsModalOpen(false);
+  };
+
+  const clientsPerPage = 10;
+  const totalPages = Math.ceil(clients.length / clientsPerPage);
+
+  const paginatedClients = clients.slice(
+    (currentPage - 1) * clientsPerPage,
+    currentPage * clientsPerPage
+  );
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  return (
+    <>
+      <S.Header>
+        <S.Title>Clients</S.Title>
+        <S.HeaderRight>
+          <S.Button
+            className="primary"
+            onClick={() => setIsModalOpen(true)}
+            style={{ width: "200px" }}
+          >
+            Add New Client
+          </S.Button>
+        </S.HeaderRight>
+      </S.Header>
+
+      <S.TableContainer>
         <S.Table>
           <S.TableHead>
-            <tr>
-              <S.TableHeader>NAME</S.TableHeader>
-              <S.TableHeader>EMAIL</S.TableHeader>
-              <S.TableHeader>STATUS</S.TableHeader>
-              <S.TableHeader>DATE</S.TableHeader>
-              <S.TableHeader>ACTION</S.TableHeader>
-            </tr>
+            <S.TableRow>
+              <S.TableHeader>Name</S.TableHeader>
+              <S.TableHeader>Email</S.TableHeader>
+              <S.TableHeader>Date</S.TableHeader>
+              <S.TableHeader>Status</S.TableHeader>
+              <S.TableHeader>Actions</S.TableHeader>
+            </S.TableRow>
           </S.TableHead>
           <tbody>
-            {filteredClients.map(client => (
-              <S.TableRow key={client.id}>
-                <S.TableCell>
-                  <div style={{ fontWeight: 500 }}>{client.name}</div>
-                </S.TableCell>
-                <S.TableCell>{client.email}</S.TableCell>
-                <S.TableCell>
-                  <S.StatusBadge status={client.status}>
-                    {client.status.charAt(0).toUpperCase() + client.status.slice(1)}
-                  </S.StatusBadge>
-                </S.TableCell>
-                <S.TableCell>{client.date}</S.TableCell>
-                <S.TableCell>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    {client.status === "pending" ? (
-                      <>
-                        <S.ActionButton
-                          onClick={() => handleApprove(client.id)}
-                          style={{ backgroundColor: "#e6f7ed", color: "#027a48", marginRight: "8px" }}
-                        >
-                          Approve
-                        </S.ActionButton>
-                        <S.ActionButton
-                          onClick={() => handleReject(client.id)}
-                          style={{ backgroundColor: "#ffebee", color: "#c62828", marginRight: "8px" }}
-                        >
-                          Reject
-                        </S.ActionButton>
-                      </>
-                    ) : (
-                      <span style={{
-                        color: client.status === "approved" ? "#027a48" : "#c62828",
-                        marginRight: "8px",
-                        minWidth: "150px" // To align with pending actions
-                      }}>
-                        {client.status === "approved" ? "Approved" : "Rejected"}
-                      </span>
-                    )}
-                    <S.ActionButton
-                        onClick={() => handleArchive(client.id)}
-                        style={{ backgroundColor: "#fbeeebee", color: "#c62828" }}
-                      >
-                        Archive
-                      </S.ActionButton>
-                  </div>
+            {isLoading ? (
+              <S.TableRow>
+                <S.TableCell colSpan={5} style={{ textAlign: "center" }}>
+                  Loading...
                 </S.TableCell>
               </S.TableRow>
-            ))}
+            ) : (
+              paginatedClients.map((client) => (
+                <S.TableRow key={client.id}>
+                  <S.TableCell>{client.name}</S.TableCell>
+                  <S.TableCell>{client.email}</S.TableCell>
+                  <S.TableCell>{client.date}</S.TableCell>
+                  <S.TableCell>
+                    <C.StatusBadge status={client.status}>
+                      {client.status}
+                    </C.StatusBadge>
+                  </S.TableCell>
+                  <S.TableCell>
+                    <div style={{ display: "flex", gap: "10px" }}>
+                      {client.status === "pending" && (
+                        <S.Button
+                          className="primary"
+                          onClick={() => handleApprove(client.id)}
+                        >
+                          Approve
+                        </S.Button>
+                      )}
+                      {client.status === "pending" && (
+                        <S.Button
+                          className="secondary"
+                          onClick={() => handleReject(client.id)}
+                        >
+                          Reject
+                        </S.Button>
+                      )}
+                      {client.status !== "pending" && (
+                        <S.Button
+                          className="secondary"
+                          onClick={() => handleArchive(client.id)}
+                        >
+                          Archive
+                        </S.Button>
+                      )}
+                    </div>
+                  </S.TableCell>
+                </S.TableRow>
+              ))
+            )}
           </tbody>
         </S.Table>
       </S.TableContainer>
-    </S.MainContent>
+
+      {totalPages > 1 && (
+        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: '1rem' }}>
+          <span>Page {currentPage} of {totalPages}</span>
+          <S.ActionButton onClick={handlePrevPage} disabled={currentPage === 1} style={{ marginLeft: '1rem' }}>
+            Previous
+          </S.ActionButton>
+          <S.ActionButton onClick={handleNextPage} disabled={currentPage === totalPages} style={{ marginLeft: '0.5rem' }}>
+            Next
+          </S.ActionButton>
+        </div>
+      )}
+    </>
   );
 }

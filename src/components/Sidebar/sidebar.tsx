@@ -38,7 +38,7 @@ const SidebarContainer = styled('div', {
   top: 0;
   z-index: 900;
   padding-top: 60px; /* Space for the header */
-  overflow-x: hidden;
+  // overflow-x: hidden;
   &.open {
     overflow: hidden; /* Prevent body scrolling when sidebar is open */
   }
@@ -145,11 +145,15 @@ const Footer = styled('div', {
   shouldForwardProp: (prop) => prop !== 'isOpen',
 })<{ isOpen: boolean }>`
   position: absolute;
-  bottom: 20px;
+  bottom: 0;
   width: 100%;
-  padding: 0 10px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: ${props => props.isOpen ? 1 : 0};
   transition: opacity 0.2s;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const NavItem: React.FC<NavItemProps & { isOpen: boolean }> = ({ icon, label, href, isActive = false, isOpen }) => {
@@ -181,12 +185,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => 
               <ToggleButton onClick={onToggle} isOpen={isOpen} />
             )}
       
-      {isOpen && (
-        <Logo>
-          <Image src="/whitelogo.png" alt="KMARIS" width={120} height={50} />
-        </Logo>
-      )}
-      
       <NavList>
         {navItems.map((item, index) => (
           <NavItem
@@ -201,7 +199,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => 
       </NavList>
       
       <Footer isOpen={isOpen}>
-            </Footer>
+        <Image src="/whitelogo.png" alt="KMARIS" width={120} height={50} />
+      </Footer>
     </SidebarContainer>
   );
 };

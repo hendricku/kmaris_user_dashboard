@@ -10,15 +10,95 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Image from "next/image";
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
 
 interface AdminHeaderProps {
   sidebarOpen: boolean;
 }
 
+interface Notification {
+  _id: string;
+  message: string;
+  read: boolean;
+  createdAt: string;
+  userId: string;
+  formId?: string;
+  userName?: string;
+  formName?: string;
+}
+
 export default function AdminHeader({ sidebarOpen }: AdminHeaderProps) {
   const router = useRouter();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [showNotifications, setShowNotifications] = useState(false);
 
-  // Removed unused function
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch('/api/notifications');
+        if (response.ok) {
+          const data = await response.json();
+          setNotifications(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch notifications:", error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
+  const unreadNotificationsCount = notifications.filter(n => !n.read).length;
+
+  const handleAction = async (notificationId: string, userId: string, formId: string, action: 'grant' | 'reject') => {
+    try {
+      const response = await fetch('/api/form-access', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          formId,
+          action,
+        }),
+      });
+
+      if (response.ok) {
+        // Remove the notification from the list
+        setNotifications(notifications.filter(n => n._id !== notificationId));
+        Swal.fire('Success', `Form access has been ${action}ed.`, 'success');
+      } else {
+        const errorData = await response.json();
+        Swal.fire('Error', errorData.message || 'An error occurred.', 'error');
+      }
+    } catch (error) {
+      console.error('Failed to handle action:', error);
+      Swal.fire('Error', 'An unexpected error occurred.', 'error');
+    }
+  };
+
+  const handleNotificationClick = async (notification: Notification) => {
+    // This function can be expanded if clicking the notification body should do something
+    // For now, we just mark it as read if it's not already
+    if (!notification.read) {
+      try {
+        const response = await fetch(`/api/notifications`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: notification._id, read: true }),
+        });
+
+        if (response.ok) {
+          setNotifications(notifications.map(n => n._id === notification._id ? { ...n, read: true } : n));
+        }
+      } catch (error) {
+        console.error("Failed to mark notification as read:", error);
+      }
+    }
+  };
 
   const handleLogout = () => {
     Swal.fire({
@@ -60,10 +140,38 @@ export default function AdminHeader({ sidebarOpen }: AdminHeaderProps) {
               </S.HeaderCenter>
       
       <S.HeaderRight>
-        <S.IconButton>
+        <S.IconButton onClick={() => setShowNotifications(!showNotifications)}>
           <NotificationsIcon sx={{ fontSize: 24 }} />
-          <S.Badge>3</S.Badge>
+          {unreadNotificationsCount > 0 && <S.Badge>{unreadNotificationsCount}</S.Badge>}
         </S.IconButton>
+        {showNotifications && (
+          <S.NotificationDropdown>
+            {notifications.length > 0 ? (
+              notifications.map(notification => (
+                <S.NotificationItem key={notification._id} onClick={() => handleNotificationClick(notification)} read={notification.read}>
+                  {notification.userName && notification.formName ? (
+                    <p><b>{notification.userName}</b> requested <b>{notification.formName}</b></p>
+                  ) : (
+                    <p>{notification.message}</p>
+                  )}
+                  <small>{new Date(notification.createdAt).toLocaleString()}</small>
+                  {notification.formId && !notification.read && (
+                    <S.ActionButtons>
+                      <S.ActionButton approve onClick={(e) => { e.stopPropagation(); handleAction(notification._id, notification.userId, notification.formId!, 'grant'); }}>
+                        Grant Access
+                      </S.ActionButton>
+                      <S.ActionButton onClick={(e) => { e.stopPropagation(); handleAction(notification._id, notification.userId, notification.formId!, 'reject'); }}>
+                        Reject
+                      </S.ActionButton>
+                    </S.ActionButtons>
+                  )}
+                </S.NotificationItem>
+              ))
+            ) : (
+              <S.NotificationItem read>No new notifications</S.NotificationItem>
+            )}
+          </S.NotificationDropdown>
+        )}
         <S.IconButton>
           <SettingsIcon sx={{ fontSize: 24 }} />
         </S.IconButton>

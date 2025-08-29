@@ -1,0 +1,12 @@
+[
+    {
+      "id": 1,
+      "name": "Web Development",
+      "description": "Creating and maintaining websites."
+    },
+    {
+      "id": 2,
+      "name": "Mobile Development",
+      "description": "Creating applications for mobile devices."
+    }
+  ]

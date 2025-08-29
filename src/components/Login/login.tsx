@@ -8,6 +8,7 @@ import { LoginProps } from "./interface";
 import * as S from "./elements";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { signIn } from "next-auth/react";
 
 export function Login({ onSignUp, onForgotPassword, isLoading }: LoginProps) {
   const router = useRouter();
@@ -22,52 +23,42 @@ export function Login({ onSignUp, onForgotPassword, isLoading }: LoginProps) {
     setLoginError(""); // Clear any previous errors
     
     try {
-      const response = await fetch('/api/auth/login/', {
-        method: 'POST',
+      const response = await fetch("/api/auth/login/", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('user', JSON.stringify(data.user));
 
-      if (!response.ok) {
-        setLoginError(data.error || 'Login failed');
-        return;
-      }
-
-      // Store user info in localStorage
-      const userInfo = {
-        name: `${data.user.firstName} ${data.user.lastName}`.trim(),
-        role: data.user.role,
-        email: data.user.email
-      };
-      localStorage.setItem('userInfo', JSON.stringify(userInfo));
-
-      // Show welcome notification
-      Swal.fire({
-        title: `Welcome back, ${data.user.firstName}!`,
-        icon: 'success',
-        timer: 2000,
-        showConfirmButton: false,
-        position: 'top-end',
-        toast: true,
-        customClass: {
-          popup: 'welcome-toast'
-        }
-      });
-
-      // If user is admin, redirect to admin dashboard
-      if (data.user.role === 'admin') {
-        router.push('/admin');
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful',
+          text: 'Redirecting...',
+          timer: 2000,
+          showConfirmButton: false
+        }).then(() => {
+          window.location.href = 'https://kmaris.netlify.app/';
+        });
       } else {
-        // For regular clients, redirect to client dashboard or home
-        router.push('/');
+        const errorData = await response.json();
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Failed',
+          text: errorData.message || 'An unknown error occurred.',
+        });
       }
     } catch (error) {
-      console.error('Login error:', error);
-      setLoginError('An unexpected error occurred. Please try again.');
+      console.error("Login error:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong! Please try again later.',
+      });
     }
   };
 

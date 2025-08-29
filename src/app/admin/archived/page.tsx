@@ -14,6 +14,7 @@ interface ArchivedClient {
 
 export default function ArchivedClients() {
   const [clients, setClients] = useState<ArchivedClient[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchArchivedClients = async () => {
     try {
@@ -121,6 +122,24 @@ export default function ArchivedClients() {
     }
   };
 
+  const clientsPerPage = 10;
+  const indexOfLastClient = currentPage * clientsPerPage;
+  const indexOfFirstClient = indexOfLastClient - clientsPerPage;
+  const currentClients = clients.slice(indexOfFirstClient, indexOfLastClient);
+  const totalPages = Math.ceil(clients.length / clientsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <S.MainContent>
       <S.Title>Archived Clients</S.Title>
@@ -136,7 +155,7 @@ export default function ArchivedClients() {
             </tr>
           </S.TableHead>
           <tbody>
-            {clients.map(client => (
+            {currentClients.map(client => (
               <S.TableRow key={client.id}>
                 <S.TableCell>
                   <div style={{ fontWeight: 500 }}>{client.name}</div>
@@ -173,6 +192,15 @@ export default function ArchivedClients() {
           </tbody>
         </S.Table>
       </S.TableContainer>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: '1rem' }}>
+        <span>Page {currentPage} of {totalPages}</span>
+        <S.ActionButton onClick={handlePrevPage} disabled={currentPage === 1} style={{ marginLeft: '1rem' }}>
+          Previous
+        </S.ActionButton>
+        <S.ActionButton onClick={handleNextPage} disabled={currentPage === totalPages} style={{ marginLeft: '0.5rem' }}>
+          Next
+        </S.ActionButton>
+      </div>
     </S.MainContent>
   );
 }

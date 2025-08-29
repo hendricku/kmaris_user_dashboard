@@ -1,39 +1,60 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import * as S from "./elements";
 
-const clients = [
-  {
-    id: 1,
-    name: "Ninong",
-    position: "CEO A.K.A The Boss",
-    status: "Active",
-    date: "08/20/2025"
-  },
-  {
-    id: 2,
-    name: "Sir Nacho Spadiccini",
-    position: "The Big Boss",
-    status: "Delayed",
-    date: "08/10/2025"
-  },
-  {
-    id: 3,
-    name: "Lorem Ipsum",
-    position: "Lorem Ipsum",
-    status: "Pending",
-    date: "08/20/2025"
-  },
+// const clients = [
+//   {
+//     id: 1,
+//     name: "Ninong",
+//     position: "CEO A.K.A The Boss",
+//     status: "Active",
+//     date: "08/20/2025"
+//   },
+//   {
+//     id: 2,
+//     name: "Sir Nacho Spadiccini",
+//     position: "The Big Boss",
+//     status: "Delayed",
+//     date: "08/10/2025"
+//   },
+//   {
+//     id: 3,
+//     name: "Lorem Ipsum",
+//     position: "Lorem Ipsum",
+//     status: "Pending",
+//     date: "08/20/2025"
+//   },
 
-];
+// ];
 
 export default function AdminDashboard() {
 
-  const stats = [
-    { title: "Total Clients", value: "12" },
-    { title: "New Sales", value: "8" },
-  ];
+  const [stats, setStats] = useState([
+    { title: "Approved Clients", value: "0" },
+    { title: "Total Forms", value: "0" },
+    { title: "Pending Forms", value: "0" },
+    { title: "Pending Clients", value: "0" },
+  ]);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch('/api/dashboard-stats');
+        const data = await response.json();
+        setStats([
+          { title: "Approved Clients", value: data.approvedClients.toString() },
+          { title: "Total Forms", value: data.totalForms.toString() },
+          { title: "Pending Forms", value: data.pendingForms.toString() },
+          { title: "Pending Clients", value: data.pendingClients.toString() },
+        ]);
+      } catch (error) {
+        console.error("Failed to fetch dashboard stats:", error);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   return (
       <S.AdminLayout>
@@ -48,7 +69,7 @@ export default function AdminDashboard() {
             ))}
           </S.DashboardGrid>
   
-          <S.TableContainer>
+          {/* <S.TableContainer>
             <S.Table>
               <S.TableHead>
                 <tr>
@@ -79,7 +100,7 @@ export default function AdminDashboard() {
                 ))}
               </tbody>
             </S.Table>
-          </S.TableContainer>
+          </S.TableContainer> */}
         </S.MainContent>
       </S.AdminLayout>
     );

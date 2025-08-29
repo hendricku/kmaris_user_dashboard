@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Providers from "./providers";
 import "./globals.css";
-import Header from "@/components/Header/header";
-import EmotionRegistry from "./emotion";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -66,10 +65,8 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
       </head>
       <body>
-        <EmotionRegistry>
-          <Header />
-          {children}
-        </EmotionRegistry>
+        
+        {children}
       </body>
     </html>
   );

@@ -40,10 +40,8 @@ export async function POST(request: Request) {
       status: "pending",
       createdAt: new Date(),
     };
-
-    console.log("Creating new user:", { ...newUser, password: '[HIDDEN]' });
     
-    // Create user
+    // Create user in MongoDB
     const result = await db.collection("users").insertOne(newUser);
 
     return NextResponse.json(

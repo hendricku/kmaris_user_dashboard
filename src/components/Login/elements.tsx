@@ -24,7 +24,7 @@
       maxWidth: "1100px",
       borderRadius: "16px",
       overflow: "hidden",
-      backgroundColor: "#fff",
+      backgroundColor: palette.white,
 
       [`@media (min-width: ${breakpoints.md}px)`]: {
          flexDirection: "row",
@@ -39,7 +39,7 @@
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      background: "#ffffff",
+      background: palette.white,
       position: "relative",
 
       [`@media (min-width: ${breakpoints.md}px)`]: {
@@ -83,7 +83,7 @@
       right: 0,
       bottom: 0,
       padding: "40px",
-      color: "#fff",
+      color: palette.white,
       });
 
       export const ImageTitle = styled("h2")({
@@ -126,7 +126,7 @@
 
       export const LogoWrap = styled("div")({
       textAlign: "center",
-      marginBottom: "30px", // Adjusted for spacing inside ImageContent
+      marginBottom: "30px", 
       position: "relative",
       display: "flex",
       justifyContent: "center",
@@ -161,7 +161,6 @@
       fontWeight: typography.weight.bold,
       color: palette.navy,
       textAlign: "center",
-      // marginBottom: "1rem",
       letterSpacing: "-0.5px",
       marginTop:"4rem",
       });
@@ -216,7 +215,7 @@
       "&:focus": {
          outline: "none",
          borderColor: palette.navy,
-         boxShadow: "0 0 0 3px rgba(0,37,66,0.1)",
+         boxShadow: `0 0 0 3px rgba(0,37,66,0.1)`,
       },
 
       "&::placeholder": {
@@ -226,48 +225,34 @@
 
       export const IconButton = styled("button")({
       position: "absolute",
-      right: "16px",
+      right: "12px",
       top: "50%",
       transform: "translateY(-50%)",
       background: "none",
       border: "none",
+      padding: "8px",
       cursor: "pointer",
-      padding: "4px",
       color: palette.textDark,
       opacity: 0.6,
-      transition: "opacity 200ms ease",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
       zIndex: 2,
+      transition: "opacity 200ms ease",
 
       "&:hover": {
          opacity: 1,
       },
       });
 
-      export const SubmitButton = styled("button")({
-      width: "100%",
-      padding: "14px",
-      fontSize: "16px",
-      fontWeight: typography.weight.semibold,
-      color: palette.white,
-      backgroundColor: palette.primary,
-      border: "none",
-      cursor: "pointer",
-      transition: "all 200ms ease",
+      export const ErrorMessage = styled("div")({
+      color: "#dc3545",
+      backgroundColor: "#f8d7da",
+      border: "1px solid #f5c6cb",
       borderRadius: "8px",
-      boxShadow: "0 4px 12px rgba(221, 28, 35, 0.2)",
-      position: "relative",
-      overflow: "hidden",
-      
-      "&:hover": {
-         backgroundColor: "#c5181e",
-         transform: "translateY(-2px)",
-         boxShadow: "0 6px 16px rgba(221, 28, 35, 0.3)",
-      },
-      
-      "&:active": {
-         transform: "translateY(0)",
-         boxShadow: "0 2px 8px rgba(221, 28, 35, 0.2)",
-      }
+      padding: "12px 16px",
+      fontSize: "14px",
+      fontWeight: typography.weight.medium,
       });
 
       export const ForgotPassword = styled("a")({
@@ -301,34 +286,55 @@
         },
       });
       
-      export const ErrorMessage = styled("div")({
-        color: "#dc3545",
-        backgroundColor: "#f8d7da",
-        border: "1px solid #f5c6cb",
+      export const SubmitButton = styled("button")({
+        width: "100%",
+        padding: "14px",
+        fontSize: "16px",
+        fontWeight: typography.weight.semibold,
+        color: palette.white,
+        backgroundColor: palette.primary,
+        border: "none",
+        cursor: "pointer",
+        transition: "all 200ms ease",
         borderRadius: "8px",
-        padding: "12px 16px",
-      //   margin: "0 0 2px 0",
-        fontSize: "10px",
-        fontWeight: typography.weight.medium,
+        boxShadow: "0 4px 12px rgba(221, 28, 35, 0.2)",
+      
+        "&:hover": {
+          backgroundColor: "#c5181e",
+          transform: "translateY(-2px)",
+          boxShadow: "0 6px 16px rgba(221, 28, 35, 0.3)",
+        },
+      
+        "&:active": {
+          transform: "translateY(0)",
+          boxShadow: "0 2px 8px rgba(221, 28, 35, 0.2)",
+        },
+      
+        "&:disabled": {
+          backgroundColor: "rgba(221, 28, 35, 0.6)",
+          cursor: "not-allowed",
+          transform: "none",
+          boxShadow: "none",
+        }
       });
       
       export const SignUpButton = styled("button")({
-      width: "100%",
-      padding: "14px",
-      fontSize: "16px",
-      fontWeight: typography.weight.medium,
-      color: palette.navy,
-      backgroundColor: "rgba(0, 37, 66, 0.03)",
-      border: `1px solid ${palette.border}`,
-      cursor: "pointer",
-      transition: "all 200ms ease",
-      borderRadius: "8px",
-
-      "&:hover": {
-         color: palette.primary,
-         borderColor: palette.primary,
-         backgroundColor: "rgba(221, 28, 35, 0.05)",
-      },
+        width: "100%",
+        padding: "14px",
+        fontSize: "16px",
+        fontWeight: typography.weight.medium,
+        color: palette.navy,
+        backgroundColor: "rgba(0, 37, 66, 0.03)",
+        border: `1px solid ${palette.border}`,
+        cursor: "pointer",
+        transition: "all 200ms ease",
+        borderRadius: "8px",
+      
+        "&:hover": {
+          color: palette.primary,
+          borderColor: palette.primary,
+          backgroundColor: "rgba(221, 28, 35, 0.05)",
+        },
       });
       
       export const GoBackButton = styled("button")({
@@ -341,8 +347,7 @@
         border: "none",
         cursor: "pointer",
         transition: "all 200ms ease",
-        marginTop: "12px",
-        marginBottom:"4rem",
+        marginTop: "10px",
         opacity: 0.7,
       
         "&:hover": {

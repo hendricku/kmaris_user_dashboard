@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import * as S from '../elements';
 import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
+import { StatusBadge } from './styles';
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -33,10 +34,27 @@ const ModalHeader = styled.h2`
     margin-bottom: 1.5rem;
 `;
 
+const FormGroup = styled.div`
+  position: relative;
+  margin-bottom: 1.5rem;
+`;
+
+const FormLabel = styled.label<{ hasValue: boolean }>`
+  position: absolute;
+  left: 16px;
+  color: #6b7280;
+  pointer-events: none;
+  transform: ${props => props.hasValue ? 'translateY(-20px) scale(0.75)' : 'translateY(12px)'};
+  transform-origin: left;
+  transition: all 0.2s ease-out;
+  background: white;
+  padding: 0 4px;
+  font-size: 14px;
+`;
+
 const Input = styled.input`
   width: 100%;
   padding: 12px 16px;
-  margin-bottom: 1rem;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   font-size: 14px;
@@ -48,6 +66,11 @@ const Input = styled.input`
     border-color: #2563eb;
     box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
     outline: none;
+  }
+
+  &:focus + ${FormLabel} {
+    transform: translateY(-20px) scale(0.75);
+    color: #2563eb;
   }
 `;
 
@@ -92,6 +115,7 @@ const FormsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentForm, setCurrentForm] = useState<Form | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchForms = useCallback(async () => {
     setIsLoading(true);
@@ -118,6 +142,24 @@ const FormsPage = () => {
     const filteredForms = forms.filter(form =>
       form.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const formsPerPage = 10;
+    const indexOfLastForm = currentPage * formsPerPage;
+    const indexOfFirstForm = indexOfLastForm - formsPerPage;
+    const currentForms = filteredForms.slice(indexOfFirstForm, indexOfLastForm);
+    const totalPages = Math.ceil(filteredForms.length / formsPerPage);
+
+    const handleNextPage = () => {
+      if (currentPage < totalPages) {
+        setCurrentPage(currentPage + 1);
+      }
+    };
+
+    const handlePrevPage = () => {
+      if (currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+    };
 
     const handleDelete = (id: string) => {
       Swal.fire({
@@ -216,7 +258,7 @@ const FormsPage = () => {
                 </tr>
                 </S.TableHead>
                 <tbody>
-                {filteredForms.map(form => {
+                {currentForms.map(form => {
                     const status = form.status || 'pending';
                     return (
                     <S.TableRow key={form.id}>
@@ -224,9 +266,9 @@ const FormsPage = () => {
                     <S.TableCell>{form.subtitle}</S.TableCell>
                     <S.TableCell>{form.type}</S.TableCell>
                     <S.TableCell>
-                        <S.StatusBadge status={status === 'active' ? 'approved' : 'pending'}>
+                        <StatusBadge status={status === 'active' ? 'approved' : 'pending'}>
                           {status.charAt(0).toUpperCase() + status.slice(1)}
-                        </S.StatusBadge>
+                        </StatusBadge>
                     </S.TableCell>
                     <S.TableCell>
                         <S.ActionButton onClick={() => openModal(form)}>Edit</S.ActionButton>
@@ -238,6 +280,15 @@ const FormsPage = () => {
             </S.Table>
         </S.TableContainer>
       )}
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: '1rem' }}>
+        <span>Page {currentPage} of {totalPages}</span>
+        <S.ActionButton onClick={handlePrevPage} disabled={currentPage === 1} style={{ marginLeft: '1rem' }}>
+          Previous
+        </S.ActionButton>
+        <S.ActionButton onClick={handleNextPage} disabled={currentPage === totalPages} style={{ marginLeft: '0.5rem' }}>
+          Next
+        </S.ActionButton>
+      </div>
       {isModalOpen && (
         <FormModal
           onClose={() => setIsModalOpen(false)}
@@ -249,15 +300,13 @@ const FormsPage = () => {
   );
 };
 
-import { Form } from '@/components/All_forms/interface';
-
-// ... existing code ...
-
 interface FormModalProps {
   onClose: () => void;
-  onSave: (data: Form) => void;
+  onSave: (data: Form | Omit<Form, 'id'>) => void;
   form?: Form | null;
 }
+
+
 
 const FormModal: React.FC<FormModalProps> = ({ onClose, onSave, form }) => {
   const [formData, setFormData] = useState({
@@ -283,14 +332,64 @@ const FormModal: React.FC<FormModalProps> = ({ onClose, onSave, form }) => {
       <ModalContent>
         <ModalHeader>{form ? 'Edit Form' : 'Add New Form'}</ModalHeader>
         <form onSubmit={handleSubmit}>
-          <Input name="title" value={formData.title} onChange={handleChange} placeholder="Title" required />
-          <Input name="subtitle" value={formData.subtitle} onChange={handleChange} placeholder="Subtitle" required />
-          <Input name="type" value={formData.type} onChange={handleChange} placeholder="Type" required />
-          <Input name="package" value={formData.package} onChange={handleChange} placeholder="Package (optional)" />
-          <Select name="status" value={formData.status} onChange={handleChange}>
-            <option value="active">Active</option>
-            <option value="pending">Pending</option>
-          </Select>
+          <FormGroup>
+            <Input 
+              name="title" 
+              value={formData.title} 
+              onChange={handleChange} 
+              required 
+              id="title"
+            />
+            <FormLabel htmlFor="title" hasValue={formData.title.length > 0}>
+              Title
+            </FormLabel>
+          </FormGroup>
+
+          <FormGroup>
+            <Input 
+              name="subtitle" 
+              value={formData.subtitle} 
+              onChange={handleChange} 
+              required 
+              id="subtitle"
+            />
+            <FormLabel htmlFor="subtitle" hasValue={formData.subtitle.length > 0}>
+              Subtitle
+            </FormLabel>
+          </FormGroup>
+
+          <FormGroup>
+            <Input 
+              name="type" 
+              value={formData.type} 
+              onChange={handleChange} 
+              required 
+              id="type"
+            />
+            <FormLabel htmlFor="type" hasValue={formData.type.length > 0}>
+              Type
+            </FormLabel>
+          </FormGroup>
+
+          <FormGroup>
+            <Input 
+              name="package" 
+              value={formData.package} 
+              onChange={handleChange} 
+              id="package"
+            />
+            <FormLabel htmlFor="package" hasValue={formData.package.length > 0}>
+              Package (optional)
+            </FormLabel>
+          </FormGroup>
+
+          <FormGroup>
+            <Select name="status" value={formData.status} onChange={handleChange}>
+              <option value="active">Active</option>
+              <option value="pending">Pending</option>
+            </Select>
+          </FormGroup>
+
           <ModalActions>
             <S.ActionButton type="button" onClick={onClose}>Cancel</S.ActionButton>
             <S.ActionButton type="submit" style={{ backgroundColor: "#e6f7ed", color: "#027a48" }}>Save</S.ActionButton>

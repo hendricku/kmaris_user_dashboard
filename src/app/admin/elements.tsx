@@ -12,7 +12,7 @@ export const AdminLayout = styled.div`
 
 export const MainContent = styled.div`
   flex: 1;
-  margin-left: 250px; /* Adjust if your sidebar width is different */
+  margin-left: 250px; 
   padding: 24px;
   transition: margin-left 0.3s ease;
 `;
@@ -22,8 +22,8 @@ export const Header = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 16px 24px;
-  background: white;
-  border-bottom: 1px solid #e9ecef;
+  background: ${palette.white};
+  border-bottom: 1px solid ${palette.border};
   position: sticky;
   top: 0;
   z-index: 100;
@@ -46,7 +46,7 @@ export const HeaderRight = styled.div`
 export const Title = styled.h1`
   margin: 0;
   font-size: 24px;
-  font-weight: 600;
+  font-weight: ${typography.weight.semibold};
   color: ${palette.navy};
 `;
 
@@ -54,19 +54,23 @@ export const SearchContainer = styled.div`
   position: relative;
   max-width: 400px;
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
 `;
 
 export const SearchInput = styled.input`
   width: 100%;
   padding: 12px 40px 12px 16px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid ${palette.border};
   border-radius: 8px;
   font-size: 14px;
   outline: none;
   transition: all 0.3s ease;
+  background-color: ${palette.white};
+  color: ${palette.textDark};
 
   &:focus {
-    border-color: #2563eb;
+    border-color: ${palette.primary};
     box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
   }
 
@@ -91,9 +95,11 @@ export const SearchBar = styled.div`
   input {
     width: 100%;
     padding: 8px 16px;
-    border: 1px solid #e9ecef;
+    border: 1px solid ${palette.border};
     border-radius: 6px;
     font-size: 14px;
+    background-color: ${palette.white};
+    color: ${palette.textDark};
 
     &:focus {
       outline: none;
@@ -128,12 +134,12 @@ export const DashboardGrid = styled.div`
 `;
 
 export const StatCard = styled.div`
-  background: white;
+  background: ${palette.white};
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid #e9ecef;
+  border: 1px solid ${palette.border};
 
   &:hover {
     transform: translateY(-2px);
@@ -157,7 +163,7 @@ export const StatCard = styled.div`
 `;
 
 export const TableContainer = styled.div`
-  background: white;
+  background: ${palette.white};
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   overflow: hidden;
@@ -193,53 +199,49 @@ export const TableHeader = styled.th`
 `;
 
 export const TableRow = styled.tr`
-  transition: background-color 0.2s ease;
-  
-  &:hover {
+  &:nth-of-type(even) {
     background-color: #f8f9fa;
   }
-  
-  &:last-child td:first-of-type {
-    border-bottom-left-radius: 12px;
-  }
-  
-  &:last-child td:last-of-type {
-    border-bottom-right-radius: 12px;
+
+  &:hover {
+    background-color: #f1f3f5;
   }
 `;
 
 export const TableCell = styled.td`
-  padding: 14px 20px;
+  padding: 16px 20px;
+  border-bottom: 1px solid ${palette.border};
+  color: ${palette.textDark};
   font-size: 14px;
-  color: #495057;
-  border-bottom: 1px solid #e9ecef;
-  
-  tr:last-child & {
-    border-bottom: none;
-  }
 `;
 
-export const StatusBadge = styled.span<{ status: string }>`
-  padding: 4px 12px;
-  border-radius: 50px;
-  font-size: 13px;
-  font-weight: 500;
-  text-transform: capitalize;
+export const Button = styled.button`
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: ${typography.weight.medium};
+  transition: all 0.2s ease;
 
-  ${({ status }) => {
-      switch (status.toLowerCase()) {
-        case "active":
-        case "approved":
-          return "background: #e6f7ed; color: #027a48;";
-        case "pending":
-          return "background: #fff3e0; color: #b76e00;";
-        case "delayed":
-        case "rejected":
-          return "background: #ffebee; color: #c62828;";
-        default:
-          return "background: #e9ecef; color: #495057;";
-      }
-    }}
+  &.primary {
+    background-color: ${palette.primary};
+    color: ${palette.white};
+
+    &:hover {
+      background-color: #c5181e;
+    }
+  }
+
+  &.secondary {
+    background-color: ${palette.white};
+    color: ${palette.navy};
+    border: 1px solid ${palette.border};
+
+    &:hover {
+      background-color: #f8f9fa;
+    }
+  }
 `;
 
 export const ActionButton = styled.button`
@@ -298,5 +300,6 @@ export const AvatarButton = styled(IconButton)`
 
   &:hover {
     background: #e9ecef;
+    
   }
 `;
