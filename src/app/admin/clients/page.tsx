@@ -25,14 +25,6 @@ interface NewClient {
 export default function ClientsApproval() {
   const [clients, setClients] = useState<Client[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newClient, setNewClient] = useState<NewClient>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    mobileNumber: "",
-    password: "",
-  });
   
   
   const [currentPage, setCurrentPage] = useState(1);
@@ -217,12 +209,7 @@ export default function ClientsApproval() {
     });
   };
 
-  const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredClients = clients.filter(client => 
-    client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    client.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
 
 
@@ -263,7 +250,6 @@ export default function ClientsApproval() {
         <S.HeaderRight>
           <S.Button
             className="primary"
-            onClick={() => setIsModalOpen(true)}
             style={{ width: "200px" }}
           >
             Add New Client
