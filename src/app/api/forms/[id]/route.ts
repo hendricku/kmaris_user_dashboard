@@ -31,6 +31,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Form not found' }, { status: 404 });
     }
 
+    // Update the form with new values, keeping existing ones if not provided
     forms.forms[formIndex] = {
       ...forms.forms[formIndex],
       title: title || forms.forms[formIndex].title,
