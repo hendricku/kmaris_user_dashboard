@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import * as S from "../elements";
 import * as C from "./styles";
 import Swal from "sweetalert2";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+
 
 interface Client {
   id: string;
@@ -26,8 +26,6 @@ export default function ClientsApproval() {
   const [clients, setClients] = useState<Client[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [newClient, setNewClient] = useState<NewClient>({
     firstName: "",
     lastName: "",
@@ -35,6 +33,10 @@ export default function ClientsApproval() {
     mobileNumber: "",
     password: "",
   });
+  
+  
+  const [currentPage, setCurrentPage] = useState(1);
+
 
   React.useEffect(() => {
     fetchClients().finally(() => setIsLoading(false));
@@ -222,73 +224,17 @@ export default function ClientsApproval() {
     client.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleAddClient = () => {
-    setIsModalOpen(true);
-  };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setNewClient({
-      firstName: "",
-      lastName: "",
-      email: "",
-      mobileNumber: "",
-      password: "",
-    });
-  };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setNewClient((prev) => ({ ...prev, [name]: value }));
-  };
 
-  const generatePassword = () => {
-    const randomPassword = Math.random().toString(36).slice(-8);
-    setNewClient((prev) => ({ ...prev, password: randomPassword }));
-  };
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('/api/clients/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newClient),
-      });
-      //failed to add client nag add lang nito just to notify if it failed testing only
 
-      if (!response.ok) {
-        throw new Error('Failed to add client');
-      }
 
-      await fetchClients();
-      handleCloseModal();
 
-      Swal.fire({
-        title: 'Success!',
-        text: 'Client added successfully',
-        icon: 'success',
-        timer: 2000,
-        showConfirmButton: false
-      });
-    } catch (error) {
-      console.error('Error adding client:', error);
-      Swal.fire({
-        title: 'Error',
-        text: 'Failed to add client',
-        icon: 'error'
-      });
-    }
-  };
 
-  const handleConfirm = () => {
-    // Logic to add the new client
-    console.log("New client data:", newClient);
-    // Close the modal
-    setIsModalOpen(false);
-  };
+  
+
+  
 
   const clientsPerPage = 10;
   const totalPages = Math.ceil(clients.length / clientsPerPage);

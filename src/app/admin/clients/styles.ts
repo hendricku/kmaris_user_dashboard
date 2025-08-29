@@ -44,7 +44,7 @@ export const CloseButton = styled.button`
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
-    color: ${palette.text};
+    color: ${palette.textDark};
 `;
 
 export const ModalBody = styled.div`
@@ -59,7 +59,7 @@ export const FormGroup = styled.div`
 export const FormLabel = styled.label<{ hasValue: boolean }>`
   position: absolute;
   left: 16px;
-  color: ${palette.text};
+  color: ${palette.textDark};
   pointer-events: none;
   transform: ${(props) =>
     props.hasValue

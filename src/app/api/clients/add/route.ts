@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import clientPromise from '../../../../lib/mongodb';
 import bcrypt from 'bcryptjs';
-import { ObjectId } from 'mongodb';
 
 export async function POST(request: Request) {
   try {

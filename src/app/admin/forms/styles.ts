@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { palette } from '@/theme/palette';
 import { typography } from '@/theme/typography';
 
 export const StatusBadge = styled.span<{ status: string }>`
