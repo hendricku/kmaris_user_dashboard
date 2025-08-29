@@ -13,9 +13,15 @@ interface Form {
   status?: 'active' | 'locked';
 }
 
+type RouteContext = {
+  params: {
+    id: string;
+  };
+};
+
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } }
+  context: RouteContext
 ) {
   try {
     const formId = context.params.id;
