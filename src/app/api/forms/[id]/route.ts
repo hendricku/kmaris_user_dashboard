@@ -13,18 +13,12 @@ interface Form {
   status?: 'active' | 'locked';
 }
 
-type RouteContext = {
-  params: {
-    id: string;
-  };
-};
-
 export async function PUT(
   request: NextRequest,
-  context: RouteContext
+  { params }: { params: { id: string } }
 ) {
   try {
-    const formId = context.params.id;
+    const formId = params.id;
     const body = await request.json();
     const { title, type, subtitle, package: formPackage } = body;
 
@@ -37,7 +31,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Form not found' }, { status: 404 });
     }
 
-    // Update the form with new values, keeping existing ones if not provided
+    // Update the form with new values
     forms.forms[formIndex] = {
       ...forms.forms[formIndex],
       title: title || forms.forms[formIndex].title,
@@ -57,10 +51,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const formId = context.params.id;
+    const formId = params.id;
 
     const formsData = fs.readFileSync(formsFilePath, 'utf8');
     const forms = JSON.parse(formsData);
@@ -80,4 +74,4 @@ export async function DELETE(
     console.error('Error deleting form:', error);
     return NextResponse.json({ error: 'Failed to delete form' }, { status: 500 });
   }
-}
+} 
