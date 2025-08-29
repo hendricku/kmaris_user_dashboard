@@ -44,8 +44,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Don't send password in response
-    const { password: _, ...userWithoutPassword } = user;
+    const userWithoutPassword = { ...user };
+    delete userWithoutPassword.password;
 
     return NextResponse.json({ 
       user: userWithoutPassword,
