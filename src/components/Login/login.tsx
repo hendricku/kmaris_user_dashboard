@@ -8,7 +8,7 @@ import { LoginProps } from "./interface";
 import * as S from "./elements";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { signIn } from "next-auth/react";
+
 
 export function Login({ onSignUp, onForgotPassword, isLoading }: LoginProps) {
   const router = useRouter();

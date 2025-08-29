@@ -4,7 +4,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { palette } from "@/theme/palette";
 import { typography } from "@/theme/typography";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -49,18 +49,7 @@ const SidebarContainer = styled('div', {
   }
 `;
 
-const Logo = styled.div`
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-`;
+
 
 const NavList = styled.ul`
   list-style: none;

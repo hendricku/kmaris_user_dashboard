@@ -15,10 +15,10 @@ interface Form {
 
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const formId = context.params.id;
+    const formId = params.id;
     const body = await request.json();
     const { title, type, subtitle, package: formPackage } = body;
 

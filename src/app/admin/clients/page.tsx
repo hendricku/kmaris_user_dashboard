@@ -14,13 +14,7 @@ interface Client {
   date: string;
 }
 
-interface NewClient {
-  firstName: string;
-  lastName: string;
-  email: string;
-  mobileNumber: string;
-  password?: string;
-}
+
 
 export default function ClientsApproval() {
   const [clients, setClients] = useState<Client[]>([]);
