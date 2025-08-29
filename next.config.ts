@@ -4,7 +4,6 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   poweredByHeader: false,
   reactStrictMode: true,
-  swcMinify: true,
   compiler: {
     emotion: true,
   }
