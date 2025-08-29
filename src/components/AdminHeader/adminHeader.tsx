@@ -29,7 +29,7 @@ interface Notification {
   formName?: string;
 }
 
-export default function AdminHeader({ sidebarOpen, onMenuToggle }: AdminHeaderProps) {
+export default function AdminHeader({ onMenuToggle }: AdminHeaderProps) {
   const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
