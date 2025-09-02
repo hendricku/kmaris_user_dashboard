@@ -13,6 +13,7 @@ interface Form {
   status?: 'active' | 'locked';
 }
 
+// The PUT function now correctly accepts the request and a context object containing the params.
 export async function PUT(
   request: Request,
   { params }: { params: { id: string } }
@@ -26,7 +27,7 @@ export async function PUT(
     const forms = JSON.parse(formsData);
 
     const formIndex = forms.forms.findIndex((form: Form) => form.id === formId);
-    
+
     if (formIndex === -1) {
       return NextResponse.json({ error: 'Form not found' }, { status: 404 });
     }
@@ -60,7 +61,7 @@ export async function DELETE(
     const forms = JSON.parse(formsData);
 
     const formIndex = forms.forms.findIndex((form: Form) => form.id === formId);
-    
+
     if (formIndex === -1) {
       return NextResponse.json({ error: 'Form not found' }, { status: 404 });
     }
