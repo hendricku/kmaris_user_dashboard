@@ -2,14 +2,6 @@ import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 import clientPromise from '@/lib/mongodb';
 
-interface FormUpdatePayload {
-  title?: string;
-  type?: string;
-  subtitle?: string;
-  package?: string;
-  status?: 'active' | 'locked';
-}
-
 export async function PUT(
   request: Request,
   { params }: { params: { id: string } }
@@ -25,7 +17,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Invalid form ID' }, { status: 400 });
     }
 
-    const updateData: FormUpdatePayload = {};
+    const updateData: { [key: string]: any } = {};
     if (title) updateData.title = title;
     if (type) updateData.type = type;
     if (subtitle) updateData.subtitle = subtitle;
