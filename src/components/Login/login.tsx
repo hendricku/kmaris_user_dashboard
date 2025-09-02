@@ -63,7 +63,7 @@ export function Login({ onSignUp, onForgotPassword, isLoading }: LoginProps) {
   };
 
   const handleGoToHomepage = () => {
-    router.push("/");
+    window.location.href = 'https://kmaris.netlify.app/';
   };
 
   return (

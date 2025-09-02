@@ -92,6 +92,7 @@ const NavLinkStyled = styled(Link, {
     transition: opacity 0.2s;
     font-weight: ${typography.weight.medium};
   }
+
 `;
 
 const ToggleButton = styled('button', {
@@ -166,7 +167,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => 
       { icon: <DescriptionIcon />, label: "All Forms", href: "/admin/forms" },
     ];
   
-  // Removed unused function
+  
   
   return (
     <SidebarContainer isOpen={isOpen}>
@@ -185,8 +186,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => 
             isOpen={isOpen}
           />
         ))}
+
       </NavList>
-      
       <Footer isOpen={isOpen}>
         <Image src="/whitelogo.png" alt="KMARIS" width={120} height={50} />
       </Footer>

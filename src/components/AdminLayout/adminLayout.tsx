@@ -35,7 +35,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   return (
       <LayoutContainer>
         <Sidebar isOpen={sidebarOpen} onToggle={toggleSidebar} />
-        <AdminHeader onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
+        <AdminHeader sidebarOpen={sidebarOpen} />
         <MainContent>
                 {children}
               </MainContent>

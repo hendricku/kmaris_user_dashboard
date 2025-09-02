@@ -15,7 +15,6 @@ import { useEffect, useState } from "react";
 
 interface AdminHeaderProps {
   sidebarOpen: boolean;
-  onMenuToggle: () => void;
 }
 
 interface Notification {
@@ -29,7 +28,7 @@ interface Notification {
   formName?: string;
 }
 
-export default function AdminHeader({ onMenuToggle }: AdminHeaderProps) {
+export default function AdminHeader({ sidebarOpen }: AdminHeaderProps) {
   const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -118,7 +117,7 @@ export default function AdminHeader({ onMenuToggle }: AdminHeaderProps) {
           'You have been successfully logged out.',
           'success'
         ).then(() => {
-          router.push('/Login');
+          router.push('/');
         });
       }
     });
@@ -127,19 +126,18 @@ export default function AdminHeader({ onMenuToggle }: AdminHeaderProps) {
   return (
       <S.Header sidebarOpen={sidebarOpen}>
       <S.HeaderLeft>
-        <S.MenuButton onClick={onMenuToggle}>
-          <MenuIcon />
-        </S.MenuButton>
-        <Image
-                  src="/whitelogo.png"
-                  alt="Logo"
-                  width={140}
-                  height={40}
-                  style={{ objectFit: 'contain' }}
-                />
-        </S.HeaderLeft>
+        <a href="https://kmaris.netlify.app/">
+          <Image
+            src="/whitelogo.png"
+            alt="Logo"
+            width={140}
+            height={40}
+            style={{ objectFit: 'contain' }}
+          />
+        </a>
+      </S.HeaderLeft>
               
-              <S.HeaderCenter>
+      <S.HeaderCenter>
                 <S.WelcomeText>Welcome Admin</S.WelcomeText>
               </S.HeaderCenter>
       

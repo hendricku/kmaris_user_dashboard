@@ -44,6 +44,10 @@ export function Signup({ onSubmit, onLogin }: SignupProps) {
     }));
   };
 
+  const handleGoToHomepage = () => {
+    window.location.href = "https://kmaris.netlify.app/";
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -79,10 +83,6 @@ export function Signup({ onSubmit, onLogin }: SignupProps) {
         onSubmit(formData);
       }
     }
-  };
-
-  const handleGoToHomepage = () => {
-    router.push("/");
   };
 
   return (

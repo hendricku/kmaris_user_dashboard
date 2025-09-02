@@ -44,8 +44,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const userWithoutPassword = { ...user };
-    delete userWithoutPassword.password;
+    const { password: _, ...userWithoutPassword } = user;
 
     return NextResponse.json({ 
       user: userWithoutPassword,
