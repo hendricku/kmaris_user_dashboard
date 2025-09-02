@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+
 import Swal from "sweetalert2";
 import { LoginProps } from "./interface";
 import * as S from "./elements";
@@ -11,7 +11,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 
 export function Login({ onSignUp, onForgotPassword, isLoading }: LoginProps) {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);

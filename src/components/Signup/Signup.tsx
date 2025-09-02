@@ -3,7 +3,6 @@
 import React, { useState, ChangeEvent } from "react";
 import Image from "next/image";
 import Swal from "sweetalert2";
-import { useRouter } from "next/navigation";
 import * as S from "./elements";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -23,7 +22,6 @@ export interface SignupProps {
 }
 
 export function Signup({ onSubmit, onLogin }: SignupProps) {
-  const router = useRouter();
   const [formData, setFormData] = useState<SignupFormData>({
     firstName: "",
     lastName: "",

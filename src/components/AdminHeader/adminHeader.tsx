@@ -7,7 +7,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 // Removed unused import
-import MenuIcon from '@mui/icons-material/Menu';
+
 import Image from "next/image";
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';

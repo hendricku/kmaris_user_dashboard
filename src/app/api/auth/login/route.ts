@@ -44,7 +44,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { password: _, ...userWithoutPassword } = user;
+        const { ...userWithoutPassword } = user;
 
     return NextResponse.json({ 
       user: userWithoutPassword,
