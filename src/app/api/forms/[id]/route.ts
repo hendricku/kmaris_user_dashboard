@@ -1,49 +1,41 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { ObjectId } from 'mongodb';
+import clientPromise from '@/lib/mongodb';
 
-const formsFilePath = path.join(process.cwd(), 'src', 'json', 'allforms.json');
-
-interface Form {
-  id: string;
-  title: string;
-  type: string;
-  subtitle: string;
-  package?: string;
-  status?: 'active' | 'locked';
-}
-
-// The PUT function now correctly accepts the request and a context object containing the params.
 export async function PUT(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
+    const client = await clientPromise;
+    const db = client.db('kmarisDB');
     const formId = params.id;
     const body = await request.json();
-    const { title, type, subtitle, package: formPackage } = body;
+    const { title, type, subtitle, package: formPackage, status } = body;
 
-    const formsData = fs.readFileSync(formsFilePath, 'utf8');
-    const forms = JSON.parse(formsData);
+    if (!ObjectId.isValid(formId)) {
+      return NextResponse.json({ error: 'Invalid form ID' }, { status: 400 });
+    }
 
-    const formIndex = forms.forms.findIndex((form: Form) => form.id === formId);
+    const updateData: { [key: string]: any } = {};
+    if (title) updateData.title = title;
+    if (type) updateData.type = type;
+    if (subtitle) updateData.subtitle = subtitle;
+    if (formPackage) updateData.package = formPackage;
+    if (status) updateData.status = status;
 
-    if (formIndex === -1) {
+
+    const result = await db.collection('forms').findOneAndUpdate(
+      { _id: new ObjectId(formId) },
+      { $set: updateData },
+      { returnDocument: 'after' }
+    );
+
+    if (!result) {
       return NextResponse.json({ error: 'Form not found' }, { status: 404 });
     }
 
-    // Update the form with new values
-    forms.forms[formIndex] = {
-      ...forms.forms[formIndex],
-      title: title || forms.forms[formIndex].title,
-      type: type || forms.forms[formIndex].type,
-      subtitle: subtitle || forms.forms[formIndex].subtitle,
-      package: formPackage !== undefined ? formPackage : forms.forms[formIndex].package
-    };
-
-    fs.writeFileSync(formsFilePath, JSON.stringify(forms, null, 2));
-
-    return NextResponse.json(forms.forms[formIndex]);
+    return NextResponse.json(result);
   } catch (error) {
     console.error('Error updating form:', error);
     return NextResponse.json({ error: 'Failed to update form' }, { status: 500 });
@@ -55,22 +47,21 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const client = await clientPromise;
+    const db = client.db('kmarisDB');
     const formId = params.id;
 
-    const formsData = fs.readFileSync(formsFilePath, 'utf8');
-    const forms = JSON.parse(formsData);
+    if (!ObjectId.isValid(formId)) {
+      return NextResponse.json({ error: 'Invalid form ID' }, { status: 400 });
+    }
 
-    const formIndex = forms.forms.findIndex((form: Form) => form.id === formId);
+    const result = await db.collection('forms').findOneAndDelete({ _id: new ObjectId(formId) });
 
-    if (formIndex === -1) {
+    if (!result) {
       return NextResponse.json({ error: 'Form not found' }, { status: 404 });
     }
 
-    const deletedForm = forms.forms.splice(formIndex, 1)[0];
-
-    fs.writeFileSync(formsFilePath, JSON.stringify(forms, null, 2));
-
-    return NextResponse.json({ message: 'Form deleted successfully', form: deletedForm });
+    return NextResponse.json({ message: 'Form deleted successfully', form: result });
   } catch (error) {
     console.error('Error deleting form:', error);
     return NextResponse.json({ error: 'Failed to delete form' }, { status: 500 });
