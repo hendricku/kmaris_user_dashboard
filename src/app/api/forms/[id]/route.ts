@@ -2,6 +2,25 @@ import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 import clientPromise from '@/lib/mongodb';
 
+// Define an interface for the form data
+interface Form {
+  _id: ObjectId;
+  title: string;
+  type: string;
+  subtitle: string;
+  package: string;
+  status: string;
+}
+
+// Define an interface for the update payload
+interface FormUpdatePayload {
+  title?: string;
+  type?: string;
+  subtitle?: string;
+  package?: string;
+  status?: string;
+}
+
 export async function PUT(
   request: Request,
   { params }: { params: { id: string } }
@@ -17,7 +36,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Invalid form ID' }, { status: 400 });
     }
 
-    const updateData: { [key: string]: any } = {};
+    const updateData: FormUpdatePayload = {};
     if (title) updateData.title = title;
     if (type) updateData.type = type;
     if (subtitle) updateData.subtitle = subtitle;
@@ -25,7 +44,7 @@ export async function PUT(
     if (status) updateData.status = status;
 
 
-    const result = await db.collection('forms').findOneAndUpdate(
+    const result = await db.collection<Form>('forms').findOneAndUpdate(
       { _id: new ObjectId(formId) },
       { $set: updateData },
       { returnDocument: 'after' }
@@ -55,7 +74,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Invalid form ID' }, { status: 400 });
     }
 
-    const result = await db.collection('forms').findOneAndDelete({ _id: new ObjectId(formId) });
+    const result = await db.collection<Form>('forms').findOneAndDelete({ _id: new ObjectId(formId) });
 
     if (!result) {
       return NextResponse.json({ error: 'Form not found' }, { status: 404 });
