@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { ObjectId } from 'mongodb';
 import clientPromise from '@/lib/mongodb';
 
@@ -21,80 +21,67 @@ interface FormUpdatePayload {
   status?: string;
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const client = await clientPromise;
-    const db = client.db('kmarisDB');
-    const formId = params.id;
-    const body = await request.json();
-    const { title, type, subtitle, package: formPackage, status } = body;
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { id } = req.query;
+  const formId = Array.isArray(id) ? id[0] : id;
 
-    if (!ObjectId.isValid(formId)) {
-      return NextResponse.json({ error: 'Invalid form ID' }, { status: 400 });
-    }
-
-    const updateData: FormUpdatePayload = {};
-    if (title) updateData.title = title;
-    if (type) updateData.type = type;
-    if (subtitle) updateData.subtitle = subtitle;
-    if (formPackage) updateData.package = formPackage;
-    if (status) updateData.status = status;
-
-    const result = await db
-      .collection<Form>('forms')
-      .findOneAndUpdate(
-        { _id: new ObjectId(formId) },
-        { $set: updateData },
-        { returnDocument: 'after' }
-      );
-
-    if (!result) {
-      return NextResponse.json({ error: 'Form not found' }, { status: 404 });
-    }
-
-    return NextResponse.json(result);
-  } catch (error) {
-    console.error('Error updating form:', error);
-    return NextResponse.json(
-      { error: 'Failed to update form' },
-      { status: 500 }
-    );
+  if (!formId || !ObjectId.isValid(formId)) {
+    return res.status(400).json({ error: 'Invalid form ID' });
   }
-}
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const client = await clientPromise;
-    const db = client.db('kmarisDB');
-    const formId = params.id;
+  if (req.method === 'PUT') {
+    try {
+      const client = await clientPromise;
+      const db = client.db('kmarisDB');
+      const { title, type, subtitle, package: formPackage, status } = req.body;
 
-    if (!ObjectId.isValid(formId)) {
-      return NextResponse.json({ error: 'Invalid form ID' }, { status: 400 });
+      const updateData: FormUpdatePayload = {};
+      if (title) updateData.title = title;
+      if (type) updateData.type = type;
+      if (subtitle) updateData.subtitle = subtitle;
+      if (formPackage) updateData.package = formPackage;
+      if (status) updateData.status = status;
+
+      const result = await db
+        .collection<Form>('forms')
+        .findOneAndUpdate(
+          { _id: new ObjectId(formId) },
+          { $set: updateData },
+          { returnDocument: 'after' }
+        );
+
+      if (!result) {
+        return res.status(404).json({ error: 'Form not found' });
+      }
+
+      return res.status(200).json(result);
+    } catch (error) {
+      console.error('Error updating form:', error);
+      return res.status(500).json({ error: 'Failed to update form' });
     }
+  } else if (req.method === 'DELETE') {
+    try {
+      const client = await clientPromise;
+      const db = client.db('kmarisDB');
 
-    const result = await db
-      .collection<Form>('forms')
-      .findOneAndDelete({ _id: new ObjectId(formId) });
+      const result = await db
+        .collection<Form>('forms')
+        .findOneAndDelete({ _id: new ObjectId(formId) });
 
-    if (!result) {
-      return NextResponse.json({ error: 'Form not found' }, { status: 404 });
+      if (!result) {
+        return res.status(404).json({ error: 'Form not found' });
+      }
+
+      return res.status(200).json({
+        message: 'Form deleted successfully',
+        form: result,
+      });
+    } catch (error) {
+      console.error('Error deleting form:', error);
+      return res.status(500).json({ error: 'Failed to delete form' });
     }
-
-    return NextResponse.json({
-      message: 'Form deleted successfully',
-      form: result,
-    });
-  } catch (error) {
-    console.error('Error deleting form:', error);
-    return NextResponse.json(
-      { error: 'Failed to delete form' },
-      { status: 500 }
-    );
+  } else {
+    res.setHeader('Allow', ['PUT', 'DELETE']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
