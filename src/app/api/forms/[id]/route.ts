@@ -21,13 +21,10 @@ interface FormUpdatePayload {
   status?: string;
 }
 
-interface Context {
-  params: {
-    id: string;
-  };
-}
-
-export async function PUT(request: NextRequest, { params }: Context) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     const client = await clientPromise;
     const db = client.db('kmarisDB');
@@ -68,7 +65,10 @@ export async function PUT(request: NextRequest, { params }: Context) {
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: Context) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     const client = await clientPromise;
     const db = client.db('kmarisDB');
