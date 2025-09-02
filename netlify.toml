@@ -1,2 +1,6 @@
 [build.environment]
+  [build]
+  command = "npm run build"
+
+[build.environment]
   NODE_VERSION = "18"
