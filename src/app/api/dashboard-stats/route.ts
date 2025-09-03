@@ -3,6 +3,8 @@ import clientPromise from "@/lib/mongodb";
 import fs from 'fs';
 import path from 'path';
 
+export const dynamic = 'force-dynamic';
+
 const formsFilePath = path.join(process.cwd(), 'src', 'json', 'allforms.json');
 
 interface Form {
