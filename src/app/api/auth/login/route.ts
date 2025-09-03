@@ -36,6 +36,13 @@ export async function POST(request: Request) {
       );
     }
 
+    if (user.status === 'pending') {
+      return NextResponse.json(
+        { error: "Your account is still pending approval." },
+        { status: 403 }
+      );
+    }
+
     
     if (user.status === 'rejected' || user.status === 'archived') {
       return NextResponse.json(
