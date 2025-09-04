@@ -162,8 +162,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => 
   
   const navItems = [
       { icon: <DashboardIcon />, label: "Dashboard", href: "/admin" },
-      { icon: <PeopleIcon />, label: "Clients", href: "/admin/clients" },
-      { icon: <PeopleIcon />, label: "Archived", href: "/admin/archived" },
+      // { icon: <PeopleIcon />, label: "Clients", href: "/admin/clients" },
+      // { icon: <PeopleIcon />, label: "Archived", href: "/admin/archived" },
       { icon: <DescriptionIcon />, label: "All Forms", href: "/admin/forms" },
     ];
   
