@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import * as S from "./elements";
+import AdminLayout from "@/components/AdminLayout/adminLayout";
 
 // const clients = [
 //   {
@@ -57,51 +58,49 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-      <S.AdminLayout>
-        <S.MainContent>
-                  <S.Title>Dashboard</S.Title>
-                  <S.DashboardGrid>
-            {stats.map((stat, index) => (
-              <S.StatCard key={index}>
-                <div className="stat-title">{stat.title}</div>
-                <div className="stat-value">{stat.value}</div>
-              </S.StatCard>
+    <S.MainContent>
+      <S.Title>Client Dashboard</S.Title>
+      <S.DashboardGrid>
+        {stats.map((stat, index) => (
+          <S.StatCard key={index}>
+            <div className="stat-title">{stat.title}</div>
+            <div className="stat-value">{stat.value}</div>
+          </S.StatCard>
+        ))}
+      </S.DashboardGrid>
+
+      {/* <S.TableContainer>
+        <S.Table>
+          <S.TableHead>
+            <tr>
+              <S.TableHeader>NAME</S.TableHeader>
+              <S.TableHeader>STATUS</S.TableHeader>
+              <S.TableHeader>DATE</S.TableHeader>
+              <S.TableHeader>ACTION</S.TableHeader>
+            </tr>
+          </S.TableHead>
+          <tbody>
+            {clients.map(client => (
+              <S.TableRow key={client.id}>
+                <S.TableCell>
+                  <div style={{ fontWeight: 500 }}>{client.name}</div>
+                  <div style={{ fontSize: '12px', color: '#6c757d' }}>{client.position}</div>
+                </S.TableCell>
+
+                <S.TableCell>
+                  <S.StatusBadge status={client.status}>
+                    {client.status}
+                  </S.StatusBadge>
+                </S.TableCell>
+                <S.TableCell>{client.date}</S.TableCell>
+                <S.TableCell>
+                  <S.ActionButton>View</S.ActionButton>
+                </S.TableCell>
+              </S.TableRow>
             ))}
-          </S.DashboardGrid>
-  
-          {/* <S.TableContainer>
-            <S.Table>
-              <S.TableHead>
-                <tr>
-                  <S.TableHeader>NAME</S.TableHeader>
-                  <S.TableHeader>STATUS</S.TableHeader>
-                  <S.TableHeader>DATE</S.TableHeader>
-                  <S.TableHeader>ACTION</S.TableHeader>
-                </tr>
-              </S.TableHead>
-              <tbody>
-                {clients.map(client => (
-                  <S.TableRow key={client.id}>
-                    <S.TableCell>
-                      <div style={{ fontWeight: 500 }}>{client.name}</div>
-                      <div style={{ fontSize: '12px', color: '#6c757d' }}>{client.position}</div>
-                    </S.TableCell>
-              
-                    <S.TableCell>
-                      <S.StatusBadge status={client.status}>
-                        {client.status}
-                      </S.StatusBadge>
-                    </S.TableCell>
-                    <S.TableCell>{client.date}</S.TableCell>
-                    <S.TableCell>
-                      <S.ActionButton>View</S.ActionButton>
-                    </S.TableCell>
-                  </S.TableRow>
-                ))}
-              </tbody>
-            </S.Table>
-          </S.TableContainer> */}
-        </S.MainContent>
-      </S.AdminLayout>
-    );
+          </tbody>
+        </S.Table>
+      </S.TableContainer> */}
+    </S.MainContent>
+  );
 }

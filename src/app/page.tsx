@@ -1,53 +1,46 @@
 "use client";
 
-import { Login } from "@/components/Login/login";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import * as S from "./admin/elements";
 
-export default function LoginPage() {
-  const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+export default function UserDashboard() {
+  const [stats, setStats] = useState([
+    { title: "Approved Clients", value: "0" },
+    { title: "Total Forms", value: "0" },
+    { title: "Pending Forms", value: "0" },
+    { title: "Pending Clients", value: "0" },
+  ]);
 
-  const handleLogin = async (email: string, password: string) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      console.log("Logging in:", email, password);
-      
-     
-      if (email === "ninong@gmail.com" && password === "admin123") {
-        router.push("/admin");
-      } else if (email && password) {
-       
-        router.push("/");
-      } else {
-        // Invalid credentials
-        setError("Invalid email or password");
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch('/api/dashboard-stats');
+        const data = await response.json();
+        setStats([
+          { title: "Approved Clients", value: data.approvedClients.toString() },
+          { title: "Total Forms", value: data.totalForms.toString() },
+          { title: "Pending Forms", value: data.pendingForms.toString() },
+          { title: "Pending Clients", value: data.pendingClients.toString() },
+        ]);
+      } catch (error) {
+        console.error("Failed to fetch dashboard stats:", error);
       }
-    } catch (error) {
-      console.error("Login failed:", error);
-      setError("Login failed. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    };
 
-  const handleSignUp = () => {
-    router.push("/signup");
-  };
-
-  const handleForgotPassword = () => {
-    router.push("/forgot-password");
-  };
+    fetchStats();
+  }, []);
 
   return (
-      <Login
-        onSubmit={handleLogin}
-        onSignUp={handleSignUp}
-        onForgotPassword={handleForgotPassword}
-        error={error}
-        isLoading={isLoading}
-      />
-    );
+    <div style={{ padding: '24px', backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
+      <S.Title>User Dashboard</S.Title>
+      <S.DashboardGrid>
+        {stats.map((stat, index) => (
+          <S.StatCard key={index}>
+            <div className="stat-title">{stat.title}</div>
+            <div className="stat-value">{stat.value}</div>
+          </S.StatCard>
+        ))}
+      </S.DashboardGrid>
+    </div>
+  );
 }
