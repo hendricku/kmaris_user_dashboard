@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import * as S from "./elements";
-import AdminLayout from "@/components/AdminLayout/adminLayout";
+
 
 // const clients = [
 //   {

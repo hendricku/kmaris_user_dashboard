@@ -9,7 +9,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import Image from "next/image";
 import Swal from 'sweetalert2';
-import { useRouter } from 'next/navigation';
+// --- 1. REMOVED UNUSED IMPORT ---
+// import { useRouter } from 'next/navigation'; 
 import { useEffect, useState } from "react";
 
 interface AdminHeaderProps {
@@ -29,7 +30,8 @@ interface Notification {
 }
 
 export default function AdminHeader({ sidebarOpen, welcomeText = "Welcome Admin" }: AdminHeaderProps) {
-  const router = useRouter();
+  // --- 2. REMOVED UNUSED VARIABLE ---
+  // const router = useRouter(); 
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
 
@@ -101,7 +103,6 @@ export default function AdminHeader({ sidebarOpen, welcomeText = "Welcome Admin"
     }
   };
 
-  // --- MODIFICATION STARTS HERE ---
   const handleLogout = () => {
     Swal.fire({
       title: 'Are you sure?',
@@ -113,22 +114,17 @@ export default function AdminHeader({ sidebarOpen, welcomeText = "Welcome Admin"
       confirmButtonText: 'Yes, logout!'
     }).then((result) => {
       if (result.isConfirmed) {
-        // 1. Clear the user's session data from this application's localStorage.
-        //    This is crucial for a complete logout.
         localStorage.removeItem('user');
-
         Swal.fire(
           'Logged Out!',
           'You have been successfully logged out.',
           'success'
         ).then(() => {
-          // 2. Redirect to the specified login page.
           window.location.href = 'https://accesskmaris.vercel.app/';
         });
       }
     });
   };
-  // --- MODIFICATION ENDS HERE ---
 
   return (
       <S.Header sidebarOpen={sidebarOpen}>
