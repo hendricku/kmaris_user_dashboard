@@ -7,6 +7,7 @@ import AdminHeader from "@/components/AdminHeader/adminHeader";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
+  welcomeText?: string;
 }
 
 const LayoutContainer = styled.div`
@@ -25,7 +26,7 @@ const MainContent = styled('main')`
   }
 `;
 // a
-const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
+const AdminLayout: React.FC<AdminLayoutProps> = ({ children, welcomeText = "Welcome Admin" }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   
   const toggleSidebar = () => {
@@ -35,7 +36,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   return (
       <LayoutContainer>
         <Sidebar isOpen={sidebarOpen} onToggle={toggleSidebar} />
-        <AdminHeader sidebarOpen={sidebarOpen} />
+        <AdminHeader sidebarOpen={sidebarOpen} welcomeText={welcomeText} />
         <MainContent>
                 {children}
               </MainContent>

@@ -1,4 +1,4 @@
-"use cli// Removed unused importnt";
+"use client";
 
 import React from "react";
 import * as S from "./elements";
@@ -6,7 +6,6 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
-// Removed unused import
 
 import Image from "next/image";
 import Swal from 'sweetalert2';
@@ -15,6 +14,7 @@ import { useEffect, useState } from "react";
 
 interface AdminHeaderProps {
   sidebarOpen: boolean;
+  welcomeText?: string;
 }
 
 interface Notification {
@@ -28,7 +28,7 @@ interface Notification {
   formName?: string;
 }
 
-export default function AdminHeader({ sidebarOpen }: AdminHeaderProps) {
+export default function AdminHeader({ sidebarOpen, welcomeText = "Welcome Admin" }: AdminHeaderProps) {
   const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -101,10 +101,11 @@ export default function AdminHeader({ sidebarOpen }: AdminHeaderProps) {
     }
   };
 
+  // --- MODIFICATION STARTS HERE ---
   const handleLogout = () => {
     Swal.fire({
       title: 'Are you sure?',
-      text: "You will be logged out from the dashboard",
+      text: "You will be logged out from your account.",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -112,16 +113,22 @@ export default function AdminHeader({ sidebarOpen }: AdminHeaderProps) {
       confirmButtonText: 'Yes, logout!'
     }).then((result) => {
       if (result.isConfirmed) {
+        // 1. Clear the user's session data from this application's localStorage.
+        //    This is crucial for a complete logout.
+        localStorage.removeItem('user');
+
         Swal.fire(
           'Logged Out!',
           'You have been successfully logged out.',
           'success'
         ).then(() => {
-          router.push('/');
+          // 2. Redirect to the specified login page.
+          window.location.href = 'https://accesskmaris.vercel.app/';
         });
       }
     });
   };
+  // --- MODIFICATION ENDS HERE ---
 
   return (
       <S.Header sidebarOpen={sidebarOpen}>
@@ -138,7 +145,7 @@ export default function AdminHeader({ sidebarOpen }: AdminHeaderProps) {
       </S.HeaderLeft>
               
       <S.HeaderCenter>
-                <S.WelcomeText>Welcome Admin</S.WelcomeText>
+                <S.WelcomeText>{welcomeText}</S.WelcomeText>
               </S.HeaderCenter>
       
       <S.HeaderRight>

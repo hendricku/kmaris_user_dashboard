@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import AdminLayout from "@/components/AdminLayout/adminLayout";
 import * as S from "./admin/elements";
 
 export default function UserDashboard() {
@@ -31,16 +32,18 @@ export default function UserDashboard() {
   }, []);
 
   return (
-    <div style={{ padding: '24px', backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
-      <S.Title>User Dashboard</S.Title>
-      <S.DashboardGrid>
-        {stats.map((stat, index) => (
-          <S.StatCard key={index}>
-            <div className="stat-title">{stat.title}</div>
-            <div className="stat-value">{stat.value}</div>
-          </S.StatCard>
-        ))}
-      </S.DashboardGrid>
-    </div>
+    <AdminLayout>
+      <S.MainContent>
+        <S.Title>User Dashboard</S.Title>
+        <S.DashboardGrid>
+          {stats.map((stat, index) => (
+            <S.StatCard key={index}>
+              <div className="stat-title">{stat.title}</div>
+              <div className="stat-value">{stat.value}</div>
+            </S.StatCard>
+          ))}
+        </S.DashboardGrid>
+      </S.MainContent>
+    </AdminLayout>
   );
 }
